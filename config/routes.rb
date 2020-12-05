@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :roles
+  resources :permissions
   root to: 'home#index'
 
   resources :sessions, only: [:new, :create, :destroy]
