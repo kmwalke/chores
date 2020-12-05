@@ -1,0 +1,22 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  host: localhost
+  pool: <%= ENV["RAILS_MAX_THREADS"] { 5 } %>
+  timeout: 5000
+
+development:
+  <<: *default
+  username: <%= ENV["DB_USERNAME"] %>
+  host: <%= ENV["DB_HOST"] %>
+  database: <%= ENV["DB_DEV"] %>
+
+test:
+  <<: *default
+  username: <%= ENV["DB_USERNAME"] %>
+  host: <%= ENV["DB_HOST"] %>
+  database: <%= ENV["DB_TEST"] %>
+
+production:
+  <<: *default
+  database: chores_prod

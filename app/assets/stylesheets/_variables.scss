@@ -1,0 +1,24 @@
+$black: black;
+$blue: #14323f;
+$brown: #8c5a4e;
+$tan: #f3f1df;
+
+@mixin rounded-corners($radius) {
+  border-radius: $radius;
+  -moz-border-radius: $radius;
+  -webkit-border-radius: $radius;
+}
+
+@mixin shadow($offset-x, $offset-y, $blur, $color) {
+  box-shadow: $offset-x $offset-y $blur $color;
+  -moz-box-shadow: $offset-x $offset-y $blur $color;
+  -webkit-box-shadow: $offset-x $offset-y $blur $color;
+}
+
+@mixin fade($time) {
+  -webkit-transition: all $time ease;
+  -moz-transition: all $time ease;
+  -o-transition: all $time ease;
+  -ms-transition: all $time ease;
+  transition: all $time ease;
+}

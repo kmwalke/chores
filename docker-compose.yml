@@ -1,0 +1,39 @@
+version: '3.4'
+
+services:
+  web:
+    build:
+      context: .
+      args:
+        USERNAME: $USER
+        UID: ${USER_ID:-0}
+        GID: ${GROUP_ID:-0}
+    command: "./script/start-dev.sh"
+    volumes:
+      - .:/app
+      - chores-gems:/gems
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+#    user: $USER
+    links:
+      - db
+    environment:
+      DB_DEV: chores-development
+      DB_HOST: db
+      DB_TEST: chores-test
+      DB_USERNAME: postgres
+
+  db:
+    image: postgres:11.5
+    volumes:
+      - chores-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+
+volumes:
+  chores-data:
+  chores-gems:
