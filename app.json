@@ -1,5 +1,5 @@
 {
-  "name": "slaymakercellars",
+  "name": "chores-app",
   "stack": "heroku-18",
   "buildpacks": [
     {
