@@ -1,5 +1,5 @@
 FROM ruby:2.7.2
-LABEL maintainer="kent@slaymakercellars.com"
+LABEL maintainer="kentslaymaker@gmail.com"
 
 ARG USERNAME
 ARG UID
