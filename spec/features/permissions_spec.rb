@@ -9,7 +9,7 @@ RSpec.feature 'Permissions', type: :feature do
   end
 
   describe 'logged in' do
-    let!(:permission) { Permission.create(name: 'permission1', description: 'Feature One') }
+    let!(:permission) { FactoryBot.create(:permission) }
 
     before :each, skip: 'not implemented' do
       login
@@ -21,7 +21,7 @@ RSpec.feature 'Permissions', type: :feature do
     end
 
     scenario 'create a permission' do
-      permission2 = Permission.new(name: 'permission2', description: 'Feature Two')
+      permission2 = FactoryBot.build(:permission)
       visit permissions_path
 
       click_link 'New Permission'

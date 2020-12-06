@@ -9,7 +9,7 @@ RSpec.feature 'Roles', type: :feature do
   end
 
   describe 'logged in' do
-    let!(:role) { Role.create(name: 'role1') }
+    let!(:role) { FactoryBot.create(:role) }
 
     before :each, skip: 'not implemented' do
       login
@@ -21,8 +21,8 @@ RSpec.feature 'Roles', type: :feature do
     end
 
     scenario 'show a role' do
-      role.permissions << Permission.create(name: 'feature1', description: 'Feature One')
-      role.permissions << Permission.create(name: 'feature2', description: 'Feature Two')
+      role.permissions << FactoryBot.create(:permission)
+      role.permissions << FactoryBot.create(:permission)
 
       visit role_path(role)
       expect(page).to have_content(role.name)
@@ -32,9 +32,7 @@ RSpec.feature 'Roles', type: :feature do
     end
 
     scenario 'create a role' do
-      role2 = Role.new(name: 'role2', description: 'Feature Two')
-      role2.permissions << Permission.create(name: 'feature1', description: 'Feature One')
-      role2.permissions << Permission.create(name: 'feature2', description: 'Feature Two')
+      role2 = FactoryBot.build(:role, permissions: role.permissions)
       visit roles_path
 
       click_link 'New Role'
