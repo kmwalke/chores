@@ -94,7 +94,7 @@ RSpec.configure do |config|
   #   Kernel.srand config.seed
 end
 
-def login(user)
+def login(user = nil)
   user ||= FactoryBot.create(:user)
   visit login_path
   fill_in 'Email', with: user.email

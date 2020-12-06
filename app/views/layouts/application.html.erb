@@ -12,6 +12,9 @@
 
   <body class="<%= controller.controller_name%>">
 
+    <% if current_user %>
+      <%= render partial: 'layouts/admin_links' %>
+    <% end %>
     <p id=”notice”><%= notice %></p>
 
     <div class="content">

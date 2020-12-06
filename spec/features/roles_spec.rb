@@ -1,18 +1,25 @@
 require 'rails_helper'
 
 RSpec.feature 'Roles', type: :feature do
-  describe 'logged out', skip: 'not implemented' do
+  describe 'logged out'  do
     scenario 'must be logged in to manage roles' do
       visit roles_path
       expect(current_path).to eq(login_path)
+    end
+
+    scenario 'must be admin to manage roles' do
+      login
+      visit roles_path
+      expect(current_path).to eq(root_path)
     end
   end
 
   describe 'logged in' do
     let!(:role) { FactoryBot.create(:role) }
+    let(:admin) { FactoryBot.create(:user) }
 
-    before :each, skip: 'not implemented' do
-      login(user)
+    before :each do
+      login(admin)
     end
 
     scenario 'list roles' do
