@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <h1>Users</h1>
 
 <table>
@@ -15,9 +13,10 @@
         <td><%= link_to user.name, edit_user_path(user) %></td>
         <td><%= link_to user.email, edit_user_path(user) %></td>
         <td>
-          <%= link_to 'X', user_path(user), method: :delete, id: "delete_#{user.id}", data: { confirm: 'Are you sure?' } %>
+          <%= link_to 'X', user, method: :delete, id: "delete_#{user.id}", data: { confirm: 'Are you sure?' } %>
           &nbsp;
         </td>
+        <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
