@@ -14,7 +14,11 @@ RSpec.describe Permission, type: :model do
     expect(Permission.create(description: '').errors).to have_key(:description)
   end
 
-  it 'should have permissions' do
+  it 'should require actions' do
+    expect(Permission.create(actions: []).errors).to have_key(:actions)
+  end
+
+  it 'should have roles' do
     p = FactoryBot.create(:permission)
     r = FactoryBot.create(:role)
     p.roles << r

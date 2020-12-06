@@ -6,6 +6,10 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+Action::ALL.each do |action|
+  Action.create(name: action)
+end
+
 p1 = Permission.create(name: 'feature_1', description: 'Feature One')
 p2 = Permission.create(name: 'feature_2', description: 'Feature Two')
 p3 = Permission.create(name: 'feature_3', description: 'Feature Three')
