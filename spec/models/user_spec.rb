@@ -51,7 +51,7 @@ RSpec.describe User, type: :model do
     end
 
     it 'should level up' do
-      user.add_xp(User::XP_PER_LEVEL+1)
+      user.add_xp(User::XP_PER_LEVEL + 1)
       expect(user.level).to eq(2)
     end
 

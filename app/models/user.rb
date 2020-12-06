@@ -16,10 +16,10 @@ class User < ApplicationRecord
   end
 
   def level_up
-    self.level = (xp/XP_PER_LEVEL).floor + 1
+    self.level = (xp / XP_PER_LEVEL).floor + 1
   end
 
   def progress_to_level
-    xp%XP_PER_LEVEL.to_f/100
+    xp % XP_PER_LEVEL.to_f / 100
   end
 end
