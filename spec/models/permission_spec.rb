@@ -6,8 +6,8 @@ RSpec.describe Permission, type: :model do
   end
 
   it 'should require a unique name' do
-    Permission.create(name: 'name', description: 'desc')
-    expect(Permission.create(name: 'name', description: 'desc').errors).to have_key(:name)
+    FactoryBot.create(:permission, name: 'name')
+    expect(Permission.create(name: 'name').errors).to have_key(:name)
   end
 
   it 'should require a description' do
@@ -15,8 +15,8 @@ RSpec.describe Permission, type: :model do
   end
 
   it 'should have permissions' do
-    p = Permission.create(name: 'name', description: 'desc')
-    r = Role.create(name: 'name', description: 'desc')
+    p = FactoryBot.create(:permission)
+    r = FactoryBot.create(:role)
     p.roles << r
 
     expect(p.reload.roles.first).to eq(r)

@@ -9,11 +9,10 @@ RSpec.feature 'Users', type: :feature do
   end
 
   describe 'logged in' do
-    let!(:role) { Role.create(name: 'role1') }
-    let!(:user) { User.create(name: 'name1', email: 'name1@place.com', password: '123', role: role) }
+    let!(:user) { FactoryBot.create(:user) }
 
     before :each do
-      login
+      login(user)
     end
 
     scenario 'list users' do
@@ -23,7 +22,7 @@ RSpec.feature 'Users', type: :feature do
     end
 
     scenario 'create a user' do
-      user2 = User.new(name: 'name2', email: 'name2@place.com', password: '123', role: role)
+      user2 = FactoryBot.build(:user, role: user.role)
       visit users_path
 
       click_link 'New User'
@@ -61,6 +60,6 @@ RSpec.feature 'Users', type: :feature do
     fill_in 'Email', with: user.email
     fill_in 'Password', with: user.password
     fill_in 'Password confirmation', with: user.password
-    select role.name, from: 'user[role_id]'
+    select user.role.name, from: 'user[role_id]'
   end
 end

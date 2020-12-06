@@ -10,8 +10,7 @@ RSpec.describe User, type: :model do
   end
 
   it 'should require email uniqueness' do
-    User.create(email: 'email', name: 'name', password: '123')
-    expect(User.create(email: 'email').errors).to have_key(:email)
+    expect(User.create(email: FactoryBot.create(:user).email).errors).to have_key(:email)
   end
 
   it 'should require a role' do
@@ -19,8 +18,7 @@ RSpec.describe User, type: :model do
   end
 
   describe 'leveling' do
-    let!(:role) { Role.create(name: 'role1') }
-    let(:user) { User.create(email: 'email@domain.com', name: 'name', role: role, password: '123') }
+    let(:user) { FactoryBot.create(:user) }
 
     it 'should start at level 1' do
       expect(user.level).to eq(1)
