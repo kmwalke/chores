@@ -16,5 +16,4 @@ class ApplicationController < ActionController::Base
     session[:orig_destination] = request.path
     redirect_to login_path
   end
-
 end
