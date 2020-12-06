@@ -95,7 +95,7 @@ RSpec.configure do |config|
 end
 
 def login
-  user = User.create(name: 'name', email: 'name@place.com', password: '123')
+  user = User.create(name: 'name', email: 'name@place.com', password: '123', role: Role.create(name: 'role1'))
   visit login_path
   fill_in 'Email', with: user.email
   fill_in 'Password', with: user.password
