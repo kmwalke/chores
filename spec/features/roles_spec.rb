@@ -15,9 +15,6 @@ RSpec.feature 'Roles', type: :feature do
       login
     end
 
-    before :each do
-    end
-
     scenario 'list roles' do
       visit roles_path
       expect(page).to have_content(role.name)
