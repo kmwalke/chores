@@ -13,16 +13,12 @@
 
   <tbody>
     <% @permissions.each do |permission| %>
-    <tr>
-      <td><%= permission.name %></td>
-        <td><%= permission.description %></td>
-        <td><%= link_to 'Show', permission %></td>
+      <tr>
         <td><%= link_to permission.name, edit_permission_path(permission) %></td>
-        <td><%= link_to 'Destroy', permission, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      <td>
-        <%= link_to 'X', permission_path(permission), method: :delete, id: "delete_#{permission.id}", data: {confirm: 'Are you sure?' } %>
-        &nbsp;
-      </td>
+        <td>
+          <%= link_to 'X', permission_path(permission), method: :delete, id: "delete_#{permission.id}", data: {confirm: 'Are you sure?' } %>
+          &nbsp;
+        </td>
       </tr>
     <% end %>
   </tbody>
