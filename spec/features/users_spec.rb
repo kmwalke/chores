@@ -12,7 +12,7 @@ RSpec.feature 'Users', type: :feature do
     let!(:user) { FactoryBot.create(:user) }
 
     before :each do
-      login
+      login(user)
     end
 
     scenario 'list users' do

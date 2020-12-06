@@ -12,7 +12,7 @@ RSpec.feature 'Permissions', type: :feature do
     let!(:permission) { FactoryBot.create(:permission) }
 
     before :each, skip: 'not implemented' do
-      login
+      login(user)
     end
 
     scenario 'list permissions' do

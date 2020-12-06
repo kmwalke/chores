@@ -12,7 +12,7 @@ RSpec.feature 'Roles', type: :feature do
     let!(:role) { FactoryBot.create(:role) }
 
     before :each, skip: 'not implemented' do
-      login
+      login(user)
     end
 
     scenario 'list roles' do

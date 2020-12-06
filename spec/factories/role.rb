@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :role do
     sequence(:name) { |n| "role#{n}" }
-    description { 'this is a feature description' }
+    description { 'this is a role description' }
 
     transient do
       permissions_count { 2 }
