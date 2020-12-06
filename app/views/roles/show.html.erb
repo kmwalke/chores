@@ -10,5 +10,13 @@
   <%= @role.description %>
 </p>
 
+<ul>
+  <% @role.permissions.each do |permission| %>
+    <li>
+      <%= link_to permission.name, permission %>
+    </li>
+  <% end %>
+</ul>
+
 <%= link_to 'Edit', edit_role_path(@role) %> |
 <%= link_to 'Back', roles_path %>

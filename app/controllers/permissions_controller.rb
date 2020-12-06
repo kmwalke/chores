@@ -18,7 +18,7 @@ class PermissionsController < ApplicationController
 
     respond_to do |format|
       if @permission.save
-        format.html { redirect_to @permission, notice: 'Permission was successfully created.' }
+        format.html { redirect_to permissions_path, notice: 'Permission was successfully created.' }
       else
         format.html { render :new }
       end
@@ -28,7 +28,7 @@ class PermissionsController < ApplicationController
   def update
     respond_to do |format|
       if @permission.update(permission_params)
-        format.html { redirect_to @permission, notice: 'Permission was successfully updated.' }
+        format.html { redirect_to permissions_path, notice: 'Permission was successfully updated.' }
       else
         format.html { render :edit }
       end
@@ -38,7 +38,7 @@ class PermissionsController < ApplicationController
   def destroy
     @permission.destroy
     respond_to do |format|
-      format.html { redirect_to permissions_url, notice: 'Permission was successfully destroyed.' }
+      format.html { redirect_to permissions_path, notice: 'Permission was successfully destroyed.' }
     end
   end
 
