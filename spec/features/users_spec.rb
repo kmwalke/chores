@@ -61,5 +61,6 @@ RSpec.feature 'Users', type: :feature do
     fill_in 'Email', with: user.email
     fill_in 'Password', with: user.password
     fill_in 'Password confirmation', with: user.password
+    select role.name, from: 'user[role_id]'
   end
 end
