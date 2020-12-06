@@ -21,6 +21,10 @@
     <%= form.text_area :description %>
   </div>
 
+  <div class="field">
+    <%= form.collection_check_boxes :permission_ids, Permission.all, :id, :name %>
+  </div>
+
   <div class="actions">
     <%= form.submit %>
   </div>

@@ -36,6 +36,8 @@ RSpec.feature 'Roles', type: :feature do
 
     scenario 'create a role' do
       role2 = Role.new(name: 'role2', description: 'Feature Two')
+      role2.permissions << Permission.create(name: 'feature1', description: 'Feature One')
+      role2.permissions << Permission.create(name: 'feature2', description: 'Feature Two')
       visit roles_path
 
       click_link 'New Role'
@@ -71,5 +73,8 @@ RSpec.feature 'Roles', type: :feature do
   def fill_in_form(role)
     fill_in 'Name', with: role.name
     fill_in 'Description', with: role.description
+    role.permissions.each do |permission|
+      check permission.name
+    end
   end
 end
