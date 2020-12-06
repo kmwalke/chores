@@ -17,3 +17,7 @@ child  = Role.create(name: 'Child')
 admin.permissions << [p1, p2, p3]
 parent.permissions << [p2, p3]
 child.permissions << p3
+
+admin_user = User.create(name: 'user1', email: 'admin@chores.com', role: admin, password: '123')
+parent_user = User.create(name: 'user1', email: 'parent@chores.com', role: parent, password: '123')
+child_user = User.create(name: 'user1', email: 'child@chores.com', role: child, password: '123')

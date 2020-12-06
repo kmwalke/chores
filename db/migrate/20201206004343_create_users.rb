@@ -4,9 +4,9 @@ class CreateUsers < ActiveRecord::Migration[6.0]
       t.string :email
       t.string :password_digest
       t.string :name
-      t.integer :level
-      t.integer :xp
-      t.decimal :xp_multiplier
+      t.integer :level, default: 1
+      t.integer :xp, default: 0
+      t.decimal :xp_multiplier, default: 1
       t.integer :role_id
 
       t.timestamps

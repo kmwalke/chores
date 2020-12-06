@@ -36,9 +36,9 @@ ActiveRecord::Schema.define(version: 2020_12_06_004343) do
     t.string "email"
     t.string "password_digest"
     t.string "name"
-    t.integer "level"
-    t.integer "xp"
-    t.decimal "xp_multiplier"
+    t.integer "level", default: 1
+    t.integer "xp", default: 0
+    t.decimal "xp_multiplier", default: "1.0"
     t.integer "role_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
