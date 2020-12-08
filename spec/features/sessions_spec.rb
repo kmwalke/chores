@@ -1,11 +1,12 @@
 require 'rails_helper'
 
 RSpec.feature 'Sessions', type: :feature do
+  let(:user) { FactoryBot.create(:user) }
   scenario 'redirects to requested admin page' do
-    visit admin_users_path
+    visit users_path
     expect(current_path).to eq(login_path)
-    login
-    expect(current_path).to eq(admin_users_path)
+    login(user)
+    expect(current_path).to eq(users_path)
   end
 
   describe 'logged out' do
@@ -18,7 +19,7 @@ RSpec.feature 'Sessions', type: :feature do
 
   describe 'logged in' do
     before :each do
-      login
+      login(user)
     end
 
     scenario 'logs in' do

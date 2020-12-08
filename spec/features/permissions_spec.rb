@@ -10,9 +10,10 @@ RSpec.feature 'Permissions', type: :feature do
 
   describe 'logged in' do
     let!(:permission) { FactoryBot.create(:permission) }
+    let(:admin) { FactoryBot.create(:user) }
 
     before :each do
-      login(user)
+      login(admin)
     end
 
     scenario 'list permissions' do

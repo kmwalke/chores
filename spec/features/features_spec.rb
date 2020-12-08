@@ -6,12 +6,6 @@ RSpec.feature 'Features', type: :feature do
       visit features_path
       expect(current_path).to eq(login_path)
     end
-
-    scenario 'must be admin to manage features' do
-      login
-      visit features_path
-      expect(current_path).to eq(root_path)
-    end
   end
 
   describe 'logged in' do

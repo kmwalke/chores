@@ -6,12 +6,6 @@ RSpec.feature 'Roles', type: :feature do
       visit roles_path
       expect(current_path).to eq(login_path)
     end
-
-    scenario 'must be admin to manage roles' do
-      login
-      visit roles_path
-      expect(current_path).to eq(root_path)
-    end
   end
 
   describe 'logged in' do

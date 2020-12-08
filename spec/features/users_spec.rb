@@ -46,7 +46,7 @@ RSpec.feature 'Users', type: :feature do
     end
 
     scenario 'delete a user' do
-      user2 = FactoryBot.create(:user)
+      user2    = FactoryBot.create(:user)
       user2_id = user2.id
       visit users_path
 
