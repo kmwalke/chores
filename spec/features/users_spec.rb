@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.feature 'Users', type: :feature do
-  describe 'logged out', skip: 'not implemented' do
+  describe 'logged out' do
     scenario 'must be logged in to manage users' do
       visit users_path
       expect(current_path).to eq(login_path)
@@ -11,7 +11,7 @@ RSpec.feature 'Users', type: :feature do
   describe 'logged in' do
     let!(:user) { FactoryBot.create(:user) }
 
-    before :each, :skip do
+    before :each do
       login(user)
     end
 

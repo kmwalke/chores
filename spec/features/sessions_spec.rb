@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.feature 'Sessions', type: :feature do
-  scenario 'redirects to requested admin page', :skip do
+  scenario 'redirects to requested admin page' do
     visit admin_users_path
     expect(current_path).to eq(login_path)
     login

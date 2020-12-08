@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.feature 'Permissions', type: :feature do
-  describe 'logged out', skip: 'not implemented' do
+  describe 'logged out' do
     scenario 'must be logged in to manage permissions' do
       visit permissions_path
       expect(current_path).to eq(login_path)
@@ -11,7 +11,7 @@ RSpec.feature 'Permissions', type: :feature do
   describe 'logged in' do
     let!(:permission) { FactoryBot.create(:permission) }
 
-    before :each, skip: 'not implemented' do
+    before :each do
       login(user)
     end
 
