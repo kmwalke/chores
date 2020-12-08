@@ -16,8 +16,8 @@
     <% @permissions.each do |permission| %>
       <tr>
         <td><%= link_to permission.feature.name, edit_permission_path(permission) %></td>
-        <td><%= '&#10003;'.html_safe if permission.read? %></td>
         <td><%= '&#10003;'.html_safe if permission.create? %></td>
+        <td><%= '&#10003;'.html_safe if permission.read? %></td>
         <td><%= '&#10003;'.html_safe if permission.update? %></td>
         <td><%= '&#10003;'.html_safe if permission.destroy? %></td>
         <td>
