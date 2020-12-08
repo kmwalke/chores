@@ -1,0 +1,26 @@
+<h1>Users</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= link_to user.name, edit_user_path(user) %></td>
+        <td><%= link_to user.email, edit_user_path(user) %></td>
+        <td>
+          <%= link_to 'X', user, method: :delete, id: "delete_#{user.id}", data: { confirm: 'Are you sure?' } %>
+          &nbsp;
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New User', new_user_path %>

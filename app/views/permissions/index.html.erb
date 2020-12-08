@@ -1,0 +1,34 @@
+<h1>Permissions</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>Create</th>
+      <th>Read</th>
+      <th>Update</th>
+      <th>Destroy</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @permissions.each do |permission| %>
+      <tr>
+        <td><%= link_to permission.feature.name, edit_permission_path(permission) %></td>
+        <td><%= '&#10003;'.html_safe if permission.create? %></td>
+        <td><%= '&#10003;'.html_safe if permission.read? %></td>
+        <td><%= '&#10003;'.html_safe if permission.update? %></td>
+        <td><%= '&#10003;'.html_safe if permission.destroy? %></td>
+        <td>
+          <%= link_to 'X', permission_path(permission), method: :delete, id: "delete_#{permission.id}", data: {confirm: 'Are you sure?' } %>
+          &nbsp;
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Permission', new_permission_path %>
