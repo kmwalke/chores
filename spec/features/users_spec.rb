@@ -46,12 +46,13 @@ RSpec.feature 'Users', type: :feature do
     end
 
     scenario 'delete a user' do
-      user_id = user.id
+      user2 = FactoryBot.create(:user)
+      user2_id = user2.id
       visit users_path
 
-      click_link "delete_#{user.id}"
+      click_link "delete_#{user2.id}"
       expect(current_path).to eq(users_path)
-      expect(User.find_by_id(user_id)).to be_nil
+      expect(User.find_by_id(user2_id)).to be_nil
     end
   end
 
