@@ -1,8 +1,10 @@
 class Action < ApplicationRecord
-  DELETE = 'delete'.freeze
-  CREATE = 'create'.freeze
-  UPDATE = 'update'.freeze
-  READ   = 'read'.freeze
+  has_and_belongs_to_many :permissions
 
-  ALL = [DELETE, CREATE, UPDATE, READ].freeze
+  CREATE = 'create'.freeze
+  READ   = 'read'.freeze
+  UPDATE = 'update'.freeze
+  DESTROY = 'delete'.freeze
+
+  NAMES = [CREATE, READ, UPDATE, DESTROY].freeze
 end

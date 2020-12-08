@@ -10,13 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_06_201505) do
+ActiveRecord::Schema.define(version: 2020_12_08_164119) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "actions", force: :cascade do |t|
     t.string "name"
+  end
+
+  create_table "actions_permissions", id: false, force: :cascade do |t|
+    t.bigint "permission_id"
+    t.bigint "action_id"
+    t.index ["action_id"], name: "index_actions_permissions_on_action_id"
+    t.index ["permission_id"], name: "index_actions_permissions_on_permission_id"
   end
 
   create_table "features", force: :cascade do |t|
@@ -26,16 +33,7 @@ ActiveRecord::Schema.define(version: 2020_12_06_201505) do
   end
 
   create_table "permissions", force: :cascade do |t|
-    t.string "name"
-    t.text "description"
     t.string "feature_id"
-  end
-
-  create_table "permissions_actions", id: false, force: :cascade do |t|
-    t.bigint "permission_id"
-    t.bigint "action_id"
-    t.index ["action_id"], name: "index_permissions_actions_on_action_id"
-    t.index ["permission_id"], name: "index_permissions_actions_on_permission_id"
   end
 
   create_table "permissions_roles", id: false, force: :cascade do |t|

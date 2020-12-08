@@ -2,12 +2,12 @@ require 'rails_helper'
 
 RSpec.feature 'Roles', type: :feature do
   describe 'logged out' do
-    scenario 'must be logged in to manage roles' do
+    scenario 'must be logged in to manage roles', :skip do
       visit roles_path
       expect(current_path).to eq(login_path)
     end
 
-    scenario 'must be admin to manage roles' do
+    scenario 'must be admin to manage roles', :skip do
       login
       visit roles_path
       expect(current_path).to eq(root_path)

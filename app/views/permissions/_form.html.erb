@@ -12,13 +12,12 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
+    <%= form.label :feature %>
+    <%= form.collection_select :feature_id, Feature.all, :id, :name %>
   </div>
 
   <div class="field">
-    <%= form.label :description %>
-    <%= form.text_area :description %>
+    <%= form.collection_check_boxes :action_ids, Action.all, :id, :name %>
   </div>
 
   <div class="actions">

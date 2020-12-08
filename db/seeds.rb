@@ -6,21 +6,21 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-Action::ALL.each do |action|
+Action::NAMES.each do |action|
   Action.create(name: action)
 end
 
-p1 = Permission.create(name: 'feature_1', description: 'Feature One')
-p2 = Permission.create(name: 'feature_2', description: 'Feature Two')
-p3 = Permission.create(name: 'feature_3', description: 'Feature Three')
+%w[features permissions roles users].each do |name|
+  Permission.create(feature: Feature.create(name: name), actions: Action.all)
+end
 
 admin  = Role.create(name: 'Admin')
 parent = Role.create(name: 'Parent')
 child  = Role.create(name: 'Child')
 
-admin.permissions << [p1, p2, p3]
-parent.permissions << [p2, p3]
-child.permissions << p3
+admin.permissions << Permission.all
+# parent.permissions << [p2, p3]
+# child.permissions << p3
 
 User.create(name: 'user1', email: 'admin@chores.com', role: admin, password: '123')
 User.create(name: 'user1', email: 'parent@chores.com', role: parent, password: '123')
