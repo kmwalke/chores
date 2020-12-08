@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   helper_method :current_user, :logged_in?
+  before_action :authorized?
 
   def current_user
     if session[:user_id]
@@ -15,5 +16,13 @@ class ApplicationController < ActionController::Base
     flash[:notice]             = 'You must log in to see this page.'
     session[:orig_destination] = request.path
     redirect_to login_path
+  end
+
+  def authorized?
+    redirect_to login_path unless allowed_to_visit?
+  end
+
+  def allowed_to_visit?
+    controller_name == 'home' || controller_name == 'sessions' || logged_in?
   end
 end
