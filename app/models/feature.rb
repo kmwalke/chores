@@ -1,3 +1,3 @@
 class Feature < ApplicationRecord
-    has_many :permissions
+  has_many :permissions
 end

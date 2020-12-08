@@ -5,15 +5,13 @@ class FeaturesController < ApplicationController
     @features = Feature.all
   end
 
-  def show
-  end
+  def show; end
 
   def new
     @feature = Feature.new
   end
 
-  def edit
-  end
+  def edit; end
 
   def create
     @feature = Feature.new(feature_params)
@@ -45,11 +43,12 @@ class FeaturesController < ApplicationController
   end
 
   private
-    def set_feature
-      @feature = Feature.find(params[:id])
-    end
 
-    def feature_params
-      params.require(:feature).permit(:name)
-    end
+  def set_feature
+    @feature = Feature.find(params[:id])
+  end
+
+  def feature_params
+    params.require(:feature).permit(:name)
+  end
 end
