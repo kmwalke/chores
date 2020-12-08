@@ -23,6 +23,14 @@ class ApplicationController < ActionController::Base
   end
 
   def allowed_to_visit?
-    controller_name == 'home' || controller_name == 'sessions' || logged_in?
+    public_page? || action_allowed?
+  end
+
+  def public_page?
+    controller_name == 'home' || controller_name == 'sessions'
+  end
+
+  def action_allowed?
+    logged_in?
   end
 end
