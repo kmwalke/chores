@@ -34,7 +34,7 @@ RSpec.feature 'Roles', type: :feature do
       visit role_path(role)
       expect(page).to have_content(role.name)
       role.permissions.each do |permission|
-        expect(page).to have_content(permission.name)
+        expect(page).to have_content(permission.feature.name)
       end
     end
 
@@ -76,7 +76,7 @@ RSpec.feature 'Roles', type: :feature do
     fill_in 'Name', with: role.name
     fill_in 'Description', with: role.description
     role.permissions.each do |permission|
-      check permission.name
+      check "role_permission_ids_#{permission.id}"
     end
   end
 end
