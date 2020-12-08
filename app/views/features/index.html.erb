@@ -13,10 +13,11 @@
   <tbody>
     <% @features.each do |feature| %>
       <tr>
-        <td><%= feature.name %></td>
-        <td><%= link_to 'Show', feature %></td>
-        <td><%= link_to 'Edit', edit_feature_path(feature) %></td>
-        <td><%= link_to 'Destroy', feature, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to feature.name, edit_feature_path(feature) %></td>
+        <td>
+          <%= link_to 'X', feature, method: :delete, id: "delete_#{feature.id}", data: { confirm: 'Are you sure?' } %>
+          &nbsp;
+        </td>
       </tr>
     <% end %>
   </tbody>
