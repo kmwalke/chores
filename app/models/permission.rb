@@ -3,6 +3,8 @@ class Permission < ApplicationRecord
   has_and_belongs_to_many :actions
   belongs_to :feature
 
+  validates :feature, presence: true
+
   def create?
     actions.where(name: Action::CREATE).any?
   end

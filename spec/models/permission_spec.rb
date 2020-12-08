@@ -1,21 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe Permission, type: :model do
-  it 'should require a name' do
-    expect(Permission.create(name: '').errors).to have_key(:name)
+  it 'should require a feature' do
+    expect(Permission.create(feature: nil).errors).to have_key(:feature)
   end
 
-  it 'should require a unique name' do
-    FactoryBot.create(:permission, name: 'name')
-    expect(Permission.create(name: 'name').errors).to have_key(:name)
-  end
+  it 'should have actions' do
+    p = FactoryBot.create(:permission)
+    a = FactoryBot.create(:action)
+    p.actions << a
 
-  it 'should require a description' do
-    expect(Permission.create(description: '').errors).to have_key(:description)
-  end
-
-  it 'should require actions' do
-    expect(Permission.create(actions: []).errors).to have_key(:actions)
+    expect(p.reload.actions.include?(a)).to eq(true)
   end
 
   it 'should have roles' do
@@ -23,6 +18,6 @@ RSpec.describe Permission, type: :model do
     r = FactoryBot.create(:role)
     p.roles << r
 
-    expect(p.reload.roles.first).to eq(r)
+    expect(p.reload.roles.include?(r)).to eq(true)
   end
 end

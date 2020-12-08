@@ -9,4 +9,12 @@ RSpec.describe Feature, type: :model do
     FactoryBot.create(:feature, name: 'name')
     expect(Feature.create(name: 'name').errors).to have_key(:name)
   end
+
+  it 'should have permissions' do
+    f = FactoryBot.create(:feature)
+    p = FactoryBot.create(:permission)
+    f.permissions << p
+
+    expect(f.reload.permissions.first).to eq(p)
+  end
 end
