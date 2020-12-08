@@ -11,7 +11,7 @@ RSpec.feature 'Users', type: :feature do
   describe 'logged in' do
     let!(:user) { FactoryBot.create(:user) }
 
-    before :each do
+    before :each, :skip do
       login(user)
     end
 
