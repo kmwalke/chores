@@ -1,18 +1,25 @@
 require 'rails_helper'
 
 RSpec.feature 'Roles', type: :feature do
-  describe 'logged out', skip: 'not implemented' do
-    scenario 'must be logged in to manage roles' do
+  describe 'logged out' do
+    scenario 'must be logged in to manage roles', :skip do
       visit roles_path
       expect(current_path).to eq(login_path)
+    end
+
+    scenario 'must be admin to manage roles', :skip do
+      login
+      visit roles_path
+      expect(current_path).to eq(root_path)
     end
   end
 
   describe 'logged in' do
     let!(:role) { FactoryBot.create(:role) }
+    let(:admin) { FactoryBot.create(:user) }
 
-    before :each, skip: 'not implemented' do
-      login(user)
+    before :each do
+      login(admin)
     end
 
     scenario 'list roles' do
@@ -27,7 +34,7 @@ RSpec.feature 'Roles', type: :feature do
       visit role_path(role)
       expect(page).to have_content(role.name)
       role.permissions.each do |permission|
-        expect(page).to have_content(permission.name)
+        expect(page).to have_content(permission.feature.name)
       end
     end
 
@@ -69,7 +76,7 @@ RSpec.feature 'Roles', type: :feature do
     fill_in 'Name', with: role.name
     fill_in 'Description', with: role.description
     role.permissions.each do |permission|
-      check permission.name
+      check "role_permission_ids_#{permission.id}"
     end
   end
 end

@@ -14,6 +14,6 @@ RSpec.describe Role, type: :model do
     r = FactoryBot.create(:role)
     r.permissions << p
 
-    expect(r.reload.permissions.first).to eq(p)
+    expect(r.reload.permissions.include?(p)).to eq(true)
   end
 end

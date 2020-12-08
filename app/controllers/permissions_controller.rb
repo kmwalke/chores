@@ -49,6 +49,6 @@ class PermissionsController < ApplicationController
   end
 
   def permission_params
-    params.require(:permission).permit(:name, :description)
+    params.require(:permission).permit(:name, :description, :feature_id, action_ids: [])
   end
 end

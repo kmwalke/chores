@@ -17,11 +17,11 @@ RSpec.feature 'Permissions', type: :feature do
 
     scenario 'list permissions' do
       visit permissions_path
-      expect(page).to have_content(permission.name)
+      expect(page).to have_content(permission.feature.name)
     end
 
     scenario 'create a permission' do
-      permission2 = FactoryBot.build(:permission)
+      permission2 = FactoryBot.build(:permission, feature: FactoryBot.create(:feature), actions: permission.actions)
       visit permissions_path
 
       click_link 'New Permission'
@@ -29,19 +29,19 @@ RSpec.feature 'Permissions', type: :feature do
       click_button 'Create Permission'
 
       expect(current_path).to eq(permissions_path)
-      expect(page).to have_content(permission2.name)
+      expect(page).to have_content(permission2.feature.name)
     end
 
     scenario 'edit a permission' do
       visit permissions_path
 
-      click_link permission.name
-      permission.name = 'new name'
-      fill_in_form(permission)
+      click_link permission.feature.name
+      permission.feature = FactoryBot.create(:feature)
+      fill_in_form(permission.reload)
       click_button 'Update Permission'
 
       expect(current_path).to eq(permissions_path)
-      expect(page).to have_content(permission.name)
+      expect(page).to have_content(permission.reload.feature.name)
     end
 
     scenario 'delete a permission' do
@@ -55,7 +55,9 @@ RSpec.feature 'Permissions', type: :feature do
   end
 
   def fill_in_form(permission)
-    fill_in 'Name', with: permission.name
-    fill_in 'Description', with: permission.description
+    select permission.feature.name, from: 'permission[feature_id]'
+    permission.actions.each do |action|
+      check action.name
+    end
   end
 end
