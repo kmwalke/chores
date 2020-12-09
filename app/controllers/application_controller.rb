@@ -32,11 +32,11 @@ class ApplicationController < ActionController::Base
     public_pages.include?(controller_name)
   end
 
-  def action_allowed?
-    logged_in?
-  end
-
   def public_pages
     %w[home sessions]
+  end
+
+  def action_allowed?
+    logged_in?
   end
 end
