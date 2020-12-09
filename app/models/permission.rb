@@ -10,7 +10,7 @@ class Permission < ApplicationRecord
   end
 
   def read?
-    actions.where(name: Action::READ).any?
+    actions.where(name: Action::INDEX).any?
   end
 
   def update?

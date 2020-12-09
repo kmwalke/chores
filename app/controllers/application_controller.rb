@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user, :logged_in?
   before_action :authorized?
 
-  PUBLIC_PAGES = %w[home sessions].freeze
+  PUBLIC_CONTROLLERS = %w[home sessions].freeze
 
   def current_user
     if session[:user_id]
@@ -12,16 +12,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def logged_in?
-    return true unless current_user.nil?
-
-    flash[:notice]             = 'You must log in to see this page.'
-    session[:orig_destination] = request.path
-    redirect_to login_path
-  end
-
   def authorized?
-    redirect_to login_path unless allowed_to_visit?
+    redirect_to root_path unless allowed_to_visit?
   end
 
   private
@@ -31,10 +23,24 @@ class ApplicationController < ActionController::Base
   end
 
   def public_page?
-    PUBLIC_PAGES.include?(controller_name)
+    PUBLIC_CONTROLLERS.include?(controller_name)
   end
 
   def action_allowed?
-    logged_in?
+    logged_in? && role_has_permission?
+  end
+
+  def logged_in?
+    return true unless current_user.nil?
+
+    flash[:notice]             = 'You must log in to see this page.'
+    session[:orig_destination] = request.path
+    false
+  end
+
+  def role_has_permission?
+    return true
+    permission = current_user&.role&.permissions.select { |p| p.feature.name == controller_name }
+    permission.first&.actions&.select{|a| a.name == action_name}&.any? || false
   end
 end
