@@ -22,15 +22,21 @@ class ApplicationController < ActionController::Base
     redirect_to login_path unless allowed_to_visit?
   end
 
+  private
+
   def allowed_to_visit?
     public_page? || action_allowed?
   end
 
   def public_page?
-    controller_name == 'home' || controller_name == 'sessions'
+    public_pages.include?(controller_name)
   end
 
   def action_allowed?
     logged_in?
+  end
+
+  def public_pages
+    %w[home sessions]
   end
 end
