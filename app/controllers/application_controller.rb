@@ -2,6 +2,8 @@ class ApplicationController < ActionController::Base
   helper_method :current_user, :logged_in?
   before_action :authorized?
 
+  PUBLIC_PAGES = %w[home sessions].freeze
+
   def current_user
     if session[:user_id]
       @current_user ||= User.find(session[:user_id])
@@ -29,11 +31,7 @@ class ApplicationController < ActionController::Base
   end
 
   def public_page?
-    public_pages.include?(controller_name)
-  end
-
-  def public_pages
-    %w[home sessions]
+    PUBLIC_PAGES.include?(controller_name)
   end
 
   def action_allowed?
