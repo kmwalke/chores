@@ -45,11 +45,11 @@ RSpec.feature 'Permissions', type: :feature do
     expect(current_path).to eq(permissions_path)
     expect(Permission.find_by_id(permission_id)).to be_nil
   end
-end
 
-def fill_in_form(permission)
-  select permission.feature.name, from: 'permission[feature_id]'
-  permission.actions.each do |action|
-    check action.name
+  def fill_in_form(permission)
+    select permission.feature.name, from: 'permission[feature_id]'
+    permission.actions.each do |action|
+      check action.name
+    end
   end
 end

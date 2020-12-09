@@ -50,8 +50,8 @@ RSpec.feature 'Features', type: :feature do
     expect(current_path).to eq(features_path)
     expect(Feature.find_by_id(feature_id)).to be_nil
   end
-end
 
-def fill_in_form(feature)
-  fill_in 'Name', with: feature.name
+  def fill_in_form(feature)
+    fill_in 'Name', with: feature.name
+  end
 end

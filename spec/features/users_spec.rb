@@ -46,12 +46,12 @@ RSpec.feature 'Users', type: :feature do
     expect(current_path).to eq(users_path)
     expect(User.find_by_id(user2_id)).to be_nil
   end
-end
 
-def fill_in_form(user)
-  fill_in 'Name', with: user.name
-  fill_in 'Email', with: user.email
-  fill_in 'Password', with: user.password
-  fill_in 'Password confirmation', with: user.password
-  select user.role.name, from: 'user[role_id]'
+  def fill_in_form(user)
+    fill_in 'Name', with: user.name
+    fill_in 'Email', with: user.email
+    fill_in 'Password', with: user.password
+    fill_in 'Password confirmation', with: user.password
+    select user.role.name, from: 'user[role_id]'
+  end
 end

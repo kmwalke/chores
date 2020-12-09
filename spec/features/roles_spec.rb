@@ -56,12 +56,12 @@ RSpec.feature 'Roles', type: :feature do
     expect(current_path).to eq(roles_path)
     expect(Role.find_by_id(role_id)).to be_nil
   end
-end
 
-def fill_in_form(role)
-  fill_in 'Name', with: role.name
-  fill_in 'Description', with: role.description
-  role.permissions.each do |permission|
-    check "role_permission_ids_#{permission.id}"
+  def fill_in_form(role)
+    fill_in 'Name', with: role.name
+    fill_in 'Description', with: role.description
+    role.permissions.each do |permission|
+      check "role_permission_ids_#{permission.id}"
+    end
   end
 end
