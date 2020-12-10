@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.feature 'Roles', type: :feature do
   let!(:role) { FactoryBot.create(:role) }
-  let(:admin) { FactoryBot.create(:user) }
+  let(:admin) { FactoryBot.create(:user, role: FactoryBot.create(:role_admin)) }
 
   before :each do
     login(admin)

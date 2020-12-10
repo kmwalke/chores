@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.feature 'Permissions', type: :feature do
   let!(:permission) { FactoryBot.create(:permission) }
-  let(:admin) { FactoryBot.create(:user) }
+  let(:admin) { FactoryBot.create(:user, role: FactoryBot.create(:role_admin)) }
 
   before :each do
     login(admin)

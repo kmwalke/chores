@@ -2,9 +2,10 @@ require 'rails_helper'
 
 RSpec.feature 'Users', type: :feature do
   let!(:user) { FactoryBot.create(:user) }
+  let(:admin) { FactoryBot.create(:user, role: FactoryBot.create(:role_admin)) }
 
   before :each do
-    login(user)
+    login(admin)
   end
 
   scenario 'list users' do
