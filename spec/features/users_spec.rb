@@ -1,58 +1,51 @@
 require 'rails_helper'
 
 RSpec.feature 'Users', type: :feature do
-  describe 'logged out', skip: 'not implemented' do
-    scenario 'must be logged in to manage users' do
-      visit users_path
-      expect(current_path).to eq(login_path)
-    end
+  let!(:user) { FactoryBot.create(:user) }
+  let(:admin) { FactoryBot.create(:user, role: FactoryBot.create(:role_admin)) }
+
+  before :each do
+    login(admin)
   end
 
-  describe 'logged in' do
-    let!(:user) { FactoryBot.create(:user) }
+  scenario 'list users' do
+    visit users_path
+    expect(page).to have_content(user.name)
+    expect(page).to have_content(user.email)
+  end
 
-    before :each, :skip do
-      login(user)
-    end
+  scenario 'create a user' do
+    user2 = FactoryBot.build(:user, role: user.role)
+    visit users_path
 
-    scenario 'list users' do
-      visit users_path
-      expect(page).to have_content(user.name)
-      expect(page).to have_content(user.email)
-    end
+    click_link 'New User'
+    fill_in_form(user2)
+    click_button 'Create User'
 
-    scenario 'create a user' do
-      user2 = FactoryBot.build(:user, role: user.role)
-      visit users_path
+    expect(current_path).to eq(users_path)
+    expect(page).to have_content(user2.name)
+  end
 
-      click_link 'New User'
-      fill_in_form(user2)
-      click_button 'Create User'
+  scenario 'edit a user' do
+    visit users_path
 
-      expect(current_path).to eq(users_path)
-      expect(page).to have_content(user2.name)
-    end
+    click_link user.name
+    user.name = 'new name'
+    fill_in_form(user)
+    click_button 'Update User'
 
-    scenario 'edit a user' do
-      visit users_path
+    expect(current_path).to eq(users_path)
+    expect(page).to have_content(user.name)
+  end
 
-      click_link user.name
-      user.name = 'new name'
-      fill_in_form(user)
-      click_button 'Update User'
+  scenario 'delete a user' do
+    user2    = FactoryBot.create(:user)
+    user2_id = user2.id
+    visit users_path
 
-      expect(current_path).to eq(users_path)
-      expect(page).to have_content(user.name)
-    end
-
-    scenario 'delete a user' do
-      user_id = user.id
-      visit users_path
-
-      click_link "delete_#{user.id}"
-      expect(current_path).to eq(users_path)
-      expect(User.find_by_id(user_id)).to be_nil
-    end
+    click_link "delete_#{user2.id}"
+    expect(current_path).to eq(users_path)
+    expect(User.find_by_id(user2_id)).to be_nil
   end
 
   def fill_in_form(user)

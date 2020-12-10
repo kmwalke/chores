@@ -2,15 +2,10 @@ FactoryBot.define do
   factory :role do
     sequence(:name) { |n| "role#{n}" }
     description { 'this is a role description' }
+    permissions { [] }
 
-    transient do
-      permissions_count { 2 }
-    end
-
-    permissions do
-      Array.new(permissions_count) do
-        association(:permission, roles: [instance])
-      end
+    factory :role_admin do
+      permissions { Permission.all }
     end
   end
 end

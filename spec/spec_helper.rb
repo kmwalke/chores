@@ -92,10 +92,34 @@ RSpec.configure do |config|
   #   # test failures related to randomization by passing the same `--seed` value
   #   # as the one that triggered the failure.
   #   Kernel.srand config.seed
+  config.before(:suite) do
+    Action::NAMES.each do |name|
+      Action.find_or_create_by(name: name)
+    end
+    controllers.each do |controller|
+      p         = Permission.find_or_create_by(feature: Feature.find_or_create_by(name: controller))
+      p.actions = Action.all
+    end
+  end
+
+  def controllers
+    all_controllers.select do |c|
+      !c.nil? &&
+        !c.starts_with?('rails/') &&
+        !c.starts_with?('action_') &&
+        !c.starts_with?('active_') &&
+        !ApplicationController::PUBLIC_CONTROLLERS.include?(c)
+    end
+  end
+
+  def all_controllers
+    Rails.application.routes.routes.map do |route|
+      route.defaults[:controller]
+    end.uniq
+  end
 end
 
-def login(user = nil)
-  user ||= FactoryBot.create(:user)
+def login(user)
   visit login_path
   fill_in 'Email', with: user.email
   fill_in 'Password', with: user.password
