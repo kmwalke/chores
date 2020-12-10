@@ -34,13 +34,13 @@ class Permission < ApplicationRecord
   end
 
   def to_s
-    "#{feature.name}: " +
-    "#{'C' if create?} " +
-    "#{'D' if destroy?} " +
-    "#{'E' if edit?} " +
-    "#{'I' if index?} " +
-    "#{'N' if new?} " +
-    "#{'S' if show?} " +
-    "#{'U' if update?}"
+    "#{feature.name}: " \
+      "#{'C' if create?} " \
+      "#{'D' if destroy?} " \
+      "#{'E' if edit?} " \
+      "#{'I' if index?} " \
+      "#{'N' if new?} " \
+      "#{'S' if show?} " +
+      ('U' if update?).to_s
   end
 end

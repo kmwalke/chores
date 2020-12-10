@@ -96,6 +96,25 @@ RSpec.configure do |config|
     Action::NAMES.each do |name|
       Action.find_or_create_by(name: name)
     end
+    controllers.each do |controller|
+      Feature.find_or_create_by(name: controller)
+    end
+  end
+
+  def controllers
+    all_controllers.select do |c|
+      !c.nil? &&
+        !c.starts_with?('rails/') &&
+        !c.starts_with?('action_') &&
+        !c.starts_with?('active_') &&
+        !ApplicationController::PUBLIC_CONTROLLERS.include?(c)
+    end
+  end
+
+  def all_controllers
+    Rails.application.routes.routes.map do |route|
+      route.defaults[:controller]
+    end.uniq
   end
 end
 

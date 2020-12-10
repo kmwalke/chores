@@ -47,11 +47,7 @@ RSpec.feature 'Access Control', type: :feature do
             permissions: [
               FactoryBot.create(
                 :permission,
-                feature: FactoryBot.create(
-                  :feature,
-                  name: 'users'
-                ),
-                actions: Action.all
+                feature: Feature.find_by(name: 'users')
               )
             ]
           )
@@ -88,10 +84,7 @@ RSpec.feature 'Access Control', type: :feature do
             permissions: [
               FactoryBot.create(
                 :permission,
-                feature: FactoryBot.create(
-                  :feature,
-                  name: 'users'
-                ),
+                feature: Feature.find_by(name: 'users'),
                 actions: [
                   Action.find_by(name: Action::INDEX),
                   Action.find_by(name: Action::SHOW)
