@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.feature 'Sessions', type: :feature do
   let(:user) { FactoryBot.create(:user) }
-  scenario 'redirects to requested admin page' do
+  scenario 'redirects to requested admin page', skip: 'not implemented' do
     visit users_path
     expect(current_path).to eq(login_path)
     login(user)
