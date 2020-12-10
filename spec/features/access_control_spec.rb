@@ -42,15 +42,7 @@ RSpec.feature 'Access Control', type: :feature do
       let!(:admin) do
         FactoryBot.create(
           :user,
-          role: FactoryBot.create(
-            :role,
-            permissions: [
-              FactoryBot.create(
-                :permission,
-                feature: Feature.find_by(name: 'users')
-              )
-            ]
-          )
+          role: FactoryBot.create(:role_admin)
         )
       end
 
