@@ -4,7 +4,7 @@ class Action < ApplicationRecord
   validates :name, presence: true, uniqueness: true
 
   CREATE  = 'create'.freeze
-  DESTROY = 'delete'.freeze
+  DESTROY = 'destroy'.freeze
   EDIT    = 'edit'.freeze
   INDEX   = 'index'.freeze
   NEW     = 'new'.freeze
