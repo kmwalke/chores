@@ -27,7 +27,7 @@ class ApplicationController < ActionController::Base
   end
 
   def action_allowed?
-    logged_in? && role_has_permission_and_action?
+    logged_in? && has_permission?
   end
 
   def logged_in?
@@ -38,11 +38,11 @@ class ApplicationController < ActionController::Base
     false
   end
 
-  def role_has_permission_and_action?
-    permissions.first&.actions&.select{|a| a.name == action_name}&.any? || false
+  def has_permission?
+    permission&.actions&.select{|a| a.name == action_name}&.any? || false
   end
 
-  def permissions
-    current_user&.role&.permissions.select { |p| p.feature.name == controller_name }
+  def permission
+    current_user&.role&.permissions.select { |p| p.feature.name == controller_name }.first
   end
 end
