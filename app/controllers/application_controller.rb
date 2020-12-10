@@ -19,14 +19,14 @@ class ApplicationController < ActionController::Base
   private
 
   def allowed_to_visit?
-    public_page? || action_allowed?
+    public_page? || request_allowed?
   end
 
   def public_page?
     PUBLIC_CONTROLLERS.include?(controller_name)
   end
 
-  def action_allowed?
+  def request_allowed?
     logged_in? && permission?
   end
 
