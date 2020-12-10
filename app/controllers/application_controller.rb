@@ -39,8 +39,8 @@ class ApplicationController < ActionController::Base
   end
 
   def role_has_permission?
-    return true
     permission = current_user&.role&.permissions.select { |p| p.feature.name == controller_name }
-    permission.first&.actions&.select{|a| a.name == action_name}&.any? || false
+    permission.any?
+    # permission.first&.actions&.select{|a| a.name == action_name}&.any? || false
   end
 end
