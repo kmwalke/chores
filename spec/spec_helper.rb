@@ -97,7 +97,7 @@ RSpec.configure do |config|
       Action.find_or_create_by(name: name)
     end
     controllers.each do |controller|
-      p = Permission.find_or_create_by(feature: Feature.find_or_create_by(name: controller))
+      p         = Permission.find_or_create_by(feature: Feature.find_or_create_by(name: controller))
       p.actions = Action.all
     end
   end
