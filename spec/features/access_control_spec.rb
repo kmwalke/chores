@@ -51,15 +51,7 @@ RSpec.feature 'Access Control', type: :feature do
                   :feature,
                   name: 'users'
                 ),
-                actions: [
-                  FactoryBot.create(:action, name: Action::CREATE),
-                  FactoryBot.create(:action, name: Action::DESTROY),
-                  FactoryBot.create(:action, name: Action::EDIT),
-                  FactoryBot.create(:action, name: Action::INDEX),
-                  FactoryBot.create(:action, name: Action::NEW),
-                  FactoryBot.create(:action, name: Action::SHOW),
-                  FactoryBot.create(:action, name: Action::UPDATE),
-                ]
+                actions: Action.all
               )
             ]
           )
@@ -101,8 +93,8 @@ RSpec.feature 'Access Control', type: :feature do
                   name: 'users'
                 ),
                 actions: [
-                  FactoryBot.create(:action, name: Action::INDEX),
-                  FactoryBot.create(:action, name: Action::SHOW),
+                  Action.find_by(name: Action::INDEX),
+                  Action.find_by(name: Action::SHOW)
                 ]
               )
             ]

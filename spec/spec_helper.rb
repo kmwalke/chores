@@ -92,6 +92,11 @@ RSpec.configure do |config|
   #   # test failures related to randomization by passing the same `--seed` value
   #   # as the one that triggered the failure.
   #   Kernel.srand config.seed
+  config.before(:suite) do
+    Action::NAMES.each do |name|
+      Action.find_or_create_by(name: name)
+    end
+  end
 end
 
 def login(user)

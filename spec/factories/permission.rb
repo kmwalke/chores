@@ -7,9 +7,7 @@ FactoryBot.define do
     end
 
     actions do
-      Array.new(actions_count) do
-        association(:action, permissions: [instance])
-      end
+      Action.all.to_a
     end
   end
 end
