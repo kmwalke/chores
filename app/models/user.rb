@@ -24,4 +24,14 @@ class User < ApplicationRecord
     xp % XP_PER_LEVEL.to_f / 100
   end
 
+  def instantiate_tasks
+    #TODO: Use algorithm to select, not random
+    tasks.order(Arel.sql('RANDOM()')).first(10).each do |task|
+      TaskInstance.create(task: task)
+    end
+  end
+
+  def task_list(date = Date.today)
+
+  end
 end

@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
+  let(:user) { FactoryBot.create(:user) }
+
   it 'should require a name' do
     expect(User.create(name: '').errors).to have_key(:name)
   end
@@ -18,11 +20,16 @@ RSpec.describe User, type: :model do
   end
 
   describe 'task list' do
-    let(:user) { FactoryBot.create(:user) }
-
     it 'has a list' do
       user.instantiate_tasks
       expect(user.task_list.size).to be > 0
+    end
+
+    it 'will not instantiate twice' do
+      user.instantiate_tasks
+      old_list = user.task_list
+      user.instantiate_tasks
+      expect(user.task_list).to eq(old_list)
     end
 
     it 'defaults to todays list' do
@@ -32,7 +39,7 @@ RSpec.describe User, type: :model do
 
     it 'gets a past list' do
       user.instantiate_tasks
-      expect(user.task_list(Date.yesterday)).to be_a(Task::ActiveRecord_Relation)
+      expect(user.task_list(Date.yesterday)).to be_a(Array)
     end
 
     it 'cannot get future list' do
@@ -42,7 +49,6 @@ RSpec.describe User, type: :model do
   end
 
   describe 'leveling' do
-    let(:user) { FactoryBot.create(:user) }
 
     it 'should start at level 1' do
       expect(user.level).to eq(1)
