@@ -23,4 +23,5 @@ class User < ApplicationRecord
   def progress_to_level
     xp % XP_PER_LEVEL.to_f / 100
   end
+
 end

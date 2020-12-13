@@ -17,6 +17,30 @@ RSpec.describe User, type: :model do
     expect(User.create(role: nil).errors).to have_key(:role)
   end
 
+  describe 'task list' do
+    let(:user) { FactoryBot.create(:user) }
+
+    it 'has a list' do
+      user.instantiate_tasks
+      expect(user.task_list.size).to be > 0
+    end
+
+    it 'defaults to todays list' do
+      user.instantiate_tasks
+      expect(user.task_list).to eq(user.task_list(Date.today))
+    end
+
+    it 'gets a past list' do
+      user.instantiate_tasks
+      expect(user.task_list(Date.yesterday)).to be_a(Task::ActiveRecord_Relation)
+    end
+
+    it 'cannot get future list' do
+      user.instantiate_tasks
+      expect(user.task_list(Date.tomorrow)).to raise_error(ArgumentError)
+    end
+  end
+
   describe 'leveling' do
     let(:user) { FactoryBot.create(:user) }
 
