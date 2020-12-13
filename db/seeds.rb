@@ -15,8 +15,8 @@ permissions = {}
   permissions[name.to_sym] = Permission.create(feature: Feature.create(name: name), actions: Action.all)
 end
 
-admin  = Role.create(name: 'Admin')
-user = Role.create(name: 'User')
+admin = Role.create(name: 'Admin')
+user  = Role.create(name: 'User')
 
 admin.permissions << Permission.all
 user.permissions << [permissions[:tasks]]
