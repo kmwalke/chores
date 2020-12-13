@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  let(:user) { FactoryBot.create(:user) }
 
   it 'should require a name' do
     expect(User.create(name: '').errors).to have_key(:name)
@@ -20,6 +19,8 @@ RSpec.describe User, type: :model do
   end
 
   describe 'task list' do
+    let(:user) { FactoryBot.create(:user_with_tasks) }
+
     it 'has a list' do
       user.instantiate_tasks
       expect(user.task_list.size).to be > 0
@@ -44,11 +45,12 @@ RSpec.describe User, type: :model do
 
     it 'cannot get future list' do
       user.instantiate_tasks
-      expect(user.task_list(Date.tomorrow)).to raise_error(ArgumentError)
+      expect{user.task_list(Date.tomorrow)}.to raise_error(ArgumentError)
     end
   end
 
   describe 'leveling' do
+    let(:user) { FactoryBot.create(:user) }
 
     it 'should start at level 1' do
       expect(user.level).to eq(1)

@@ -4,8 +4,7 @@ class CreateTaskInstances < ActiveRecord::Migration[6.0]
       t.integer :task_id, null: false
       t.boolean :completed?, default: false, null: false
       t.datetime :completed_at
-
-      t.timestamps
+      t.date :created_on
     end
   end
 end

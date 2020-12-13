@@ -3,6 +3,7 @@ class User < ApplicationRecord
 
   belongs_to :role
   has_many :tasks
+  has_many :task_instances, through: :tasks
 
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true, email: true
@@ -24,14 +25,16 @@ class User < ApplicationRecord
     xp % XP_PER_LEVEL.to_f / 100
   end
 
+  def task_list(date = Date.today)
+    raise ArgumentError.new('s') if date > Date.today
+    task_instances.select { |i|  i.created_on == date }
+  end
+
   def instantiate_tasks
+    return unless task_lisk.empty?
     #TODO: Use algorithm to select, not random
     tasks.order(Arel.sql('RANDOM()')).first(10).each do |task|
       TaskInstance.create(task: task)
     end
-  end
-
-  def task_list(date = Date.today)
-
   end
 end
