@@ -39,8 +39,4 @@ RSpec.describe Task, type: :model do
   it 'should not allow xp to be set' do
     expect(Task.new.respond_to?('xp=')).to eq(false)
   end
-
-  it 'should be completed' do
-    # create a task.complete method that creates a completion for the task
-  end
 end

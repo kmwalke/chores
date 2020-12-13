@@ -2,6 +2,7 @@ class Task < ApplicationRecord
   XP_FACTOR = 10
 
   belongs_to :user
+  has_many :task_instances
 
   validates :name, presence: true, uniqueness: true
   validates :frequency, presence: true, numericality: { greater_than: 0 }
