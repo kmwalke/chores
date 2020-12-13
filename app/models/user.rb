@@ -26,13 +26,15 @@ class User < ApplicationRecord
   end
 
   def task_list(date = Date.today)
-    raise ArgumentError.new('s') if date > Date.today
-    task_instances.select { |i|  i.created_on == date }
+    raise ArgumentError, 's' if date > Date.today
+
+    task_instances.select { |i| i.created_on == date }
   end
 
   def instantiate_tasks
     return unless task_lisk.empty?
-    #TODO: Use algorithm to select, not random
+
+    # TODO: Use algorithm to select, not random
     tasks.order(Arel.sql('RANDOM()')).first(10).each do |task|
       TaskInstance.create(task: task)
     end
