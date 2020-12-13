@@ -32,7 +32,7 @@ class User < ApplicationRecord
   end
 
   def instantiate_tasks
-    return unless task_lisk.empty?
+    return unless task_list.empty?
 
     # TODO: Use algorithm to select, not random
     tasks.order(Arel.sql('RANDOM()')).first(10).each do |task|
