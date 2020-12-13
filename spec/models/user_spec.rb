@@ -25,6 +25,12 @@ RSpec.describe User, type: :model do
       expect(user.reload.task_list.size).to be > 0
     end
 
+    it 'uses an algorithm to build a list' do
+      # Replace the Random select in user.instantiate_tasks with an algorithm.
+      # Select a mix of large and small tasks to give a set amount of xp/day
+      expect(true).to be(false)
+    end
+
     it 'will not instantiate twice' do
       user.instantiate_tasks
       old_list = user.reload.task_list
