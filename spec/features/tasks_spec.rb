@@ -40,6 +40,7 @@ RSpec.feature 'Tasks', type: :feature do
 
     expect(current_path).to eq(tasks_path)
     expect(page).to have_content(task2.name)
+    expect(Task.find_by(name: task2.name).user).to eq(admin)
   end
 
   scenario 'edit a task' do
