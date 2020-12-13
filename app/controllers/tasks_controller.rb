@@ -2,7 +2,7 @@ class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
 
   def index
-    @tasks = Task.all
+    @tasks = Task.where(user_id: current_user.id)
   end
 
   def show; end
@@ -40,6 +40,7 @@ class TasksController < ApplicationController
 
   def set_task
     @task = Task.find(params[:id])
+    redirect_to tasks_path unless @task.user_id == current_user.id
   end
 
   def task_params

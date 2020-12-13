@@ -17,7 +17,7 @@ RSpec.feature 'Tasks', type: :feature do
 
   scenario 'not list other\'s tasks' do
     visit tasks_path
-    expect(page).not_to have_content(task.name)
+    expect(page).not_to have_content(user_task.name)
   end
 
   scenario 'show a task' do
@@ -26,8 +26,8 @@ RSpec.feature 'Tasks', type: :feature do
   end
 
   scenario 'not show another\'s task' do
-    visit task_path(task)
-    expect(page).not_to have_content(task.name)
+    visit task_path(user_task)
+    expect(current_path).to eq(tasks_path)
   end
 
   scenario 'create a task' do
