@@ -1,0 +1,4 @@
+instantiate_tasks:
+  cron: "*/1 * * * *"
+  class: "InstantiateAllTasksWorker"
+  queue: default
