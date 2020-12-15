@@ -66,6 +66,7 @@ jobs:
     docker:
       - *default_docker_ruby_executor
       - *postgres
+      - image: redis:3.2.9
     steps:
       - checkout
       - restore_cache:
