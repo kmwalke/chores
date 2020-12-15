@@ -21,17 +21,16 @@ user_role  = Role.create(name: 'User')
 admin_role.permissions << Permission.all
 user_role.permissions << [permissions[:tasks]]
 
-admin = User.create(name: 'admin1', email: 'admin@chores.com', role: admin_role, password: '123')
-user1 = User.create(name: 'user1', email: 'user1@chores.com', role: user_role, password: '123')
-user2 = User.create(name: 'user2', email: 'user2@chores.com', role: user_role, password: '123')
-user3 = User.create(name: 'user3', email: 'user3@chores.com', role: user_role, password: '123')
+User.create(name: 'admin1', email: 'admin@chores.com', role: admin_role, password: '123')
+User.create(name: 'user1', email: 'user1@chores.com', role: user_role, password: '123')
+User.create(name: 'user2', email: 'user2@chores.com', role: user_role, password: '123')
+User.create(name: 'user3', email: 'user3@chores.com', role: user_role, password: '123')
 
 %w[clean workout play\ music walk\ the\ dog
    empty\ litter\ box go\ to\ playground
    build\ something learn\ something
    homework shop cook dishes].each do |name|
-  Task.create(user: admin, name: name, size: rand(1..5), frequency: rand(1..7))
-  Task.create(user: user1, name: name, size: rand(1..5), frequency: rand(1..7))
-  Task.create(user: user2, name: name, size: rand(1..5), frequency: rand(1..7))
-  Task.create(user: user3, name: name, size: rand(1..5), frequency: rand(1..7))
+  User.all.each do |user|
+    Task.create(user: user, name: name, size: rand(1..5), frequency: rand(1..7))
+  end
 end
