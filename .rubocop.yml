@@ -34,6 +34,10 @@ Lint/RaiseException:
 Lint/StructNewOverride:
   Enabled: true
 
+Lint/UselessMethodDefinition:
+  Exclude:
+    - 'app/models/task.rb'
+
 Metrics/AbcSize:
   Max: 25
 
