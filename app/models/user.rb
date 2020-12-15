@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   has_secure_password
 
+  TASKS_PER_DAY = 5.freeze
+
   belongs_to :role
   has_many :tasks
   has_many :task_instances, through: :tasks
@@ -35,7 +37,7 @@ class User < ApplicationRecord
     return unless task_list.empty?
 
     # TODO: Use algorithm to select, not random
-    tasks.order(Arel.sql('RANDOM()')).first(10).each do |task|
+    tasks.order(Arel.sql('RANDOM()')).first(TASKS_PER_DAY).each do |task|
       TaskInstance.create(task: task)
     end
   end
