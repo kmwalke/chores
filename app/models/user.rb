@@ -26,7 +26,7 @@ class User < ApplicationRecord
   end
 
   def task_list(date = Date.today)
-    raise ArgumentError, 's' if date > Date.today
+    raise ArgumentError, 'Date cannot be in the future' if date > Date.today
 
     task_instances.select { |i| i.created_on == date }
   end
