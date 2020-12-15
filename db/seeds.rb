@@ -10,18 +10,27 @@ Action::NAMES.each do |action|
   Action.create(name: action)
 end
 
-%w[features permissions roles users].each do |name|
-  Permission.create(feature: Feature.create(name: name), actions: Action.all)
+permissions = {}
+%w[features permissions roles tasks users].each do |name|
+  permissions[name.to_sym] = Permission.create(feature: Feature.create(name: name), actions: Action.all)
 end
 
-admin  = Role.create(name: 'Admin')
-parent = Role.create(name: 'Parent')
-child  = Role.create(name: 'Child')
+admin_role = Role.create(name: 'Admin')
+user_role  = Role.create(name: 'User')
 
-admin.permissions << Permission.all
-# parent.permissions << [p2, p3]
-# child.permissions << p3
+admin_role.permissions << Permission.all
+user_role.permissions << [permissions[:tasks]]
 
-User.create(name: 'user1', email: 'admin@chores.com', role: admin, password: '123')
-User.create(name: 'user1', email: 'parent@chores.com', role: parent, password: '123')
-User.create(name: 'user1', email: 'child@chores.com', role: child, password: '123')
+User.create(name: 'admin1', email: 'admin@chores.com', role: admin_role, password: '123')
+User.create(name: 'user1', email: 'user1@chores.com', role: user_role, password: '123')
+User.create(name: 'user2', email: 'user2@chores.com', role: user_role, password: '123')
+User.create(name: 'user3', email: 'user3@chores.com', role: user_role, password: '123')
+
+%w[clean workout play\ music walk\ the\ dog
+   empty\ litter\ box go\ to\ playground
+   build\ something learn\ something
+   homework shop cook dishes].each do |name|
+  User.all.each do |user|
+    Task.create(user: user, name: name, size: rand(1..5), frequency: rand(1..7))
+  end
+end

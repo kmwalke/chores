@@ -17,6 +17,46 @@ RSpec.describe User, type: :model do
     expect(User.create(role: nil).errors).to have_key(:role)
   end
 
+  describe 'task list' do
+    let(:user) { FactoryBot.create(:user_with_tasks) }
+
+    it 'has a list' do
+      user.instantiate_tasks
+      expect(user.reload.task_list.size).to be > 0
+    end
+
+    it 'uses an algorithm to build a list', skip: 'not implemented' do
+      # Replace the Random select in user.instantiate_tasks with an algorithm.
+      # Select a mix of large and small tasks to give a set amount of xp/day
+      expect(true).to be(false)
+    end
+
+    it 'will not instantiate twice' do
+      user.instantiate_tasks
+      old_list = user.reload.task_list
+      user.instantiate_tasks
+      expect(user.reload.task_list).to eq(old_list)
+    end
+
+    it 'defaults to todays list' do
+      user.instantiate_tasks
+      user.reload
+      expect(user.task_list).to eq(user.task_list(Date.today))
+    end
+
+    it 'gets a past list' do
+      user.instantiate_tasks
+      user.reload
+      expect(user.task_list(Date.yesterday)).to be_a(Array)
+    end
+
+    it 'cannot get future list' do
+      user.instantiate_tasks
+      user.reload
+      expect { user.task_list(Date.tomorrow) }.to raise_error(ArgumentError)
+    end
+  end
+
   describe 'leveling' do
     let(:user) { FactoryBot.create(:user) }
 
