@@ -1,13 +1,17 @@
 Rails.application.routes.draw do
-  resources :tasks
-  resources :features
+  require 'sidekiq/web'
+
   root to: 'home#index'
 
-  resources :roles
+  resources :features
   resources :permissions
+  resources :roles
+  resources :tasks
   resources :users
 
   resources :sessions, only: [:new, :create, :destroy]
   get 'login', to: 'sessions#new', as: 'login'
   get 'logout', to: 'sessions#destroy', as: 'logout'
+
+  mount Sidekiq::Web => '/sidekiq'
 end
