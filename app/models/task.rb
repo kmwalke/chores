@@ -4,7 +4,7 @@ class Task < ApplicationRecord
   belongs_to :user
   has_many :task_instances
 
-  validates :name, presence: true, uniqueness: true
+  validates :name, presence: true
   validates :frequency, presence: true, numericality: { greater_than: 0 }
   validates :size, presence: true, numericality: { greater_than: 0 }
   validates :user_id, presence: true
