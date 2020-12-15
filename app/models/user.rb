@@ -1,8 +1,6 @@
 class User < ApplicationRecord
   has_secure_password
 
-  TASKS_PER_DAY = 5.freeze
-
   belongs_to :role
   has_many :tasks
   has_many :task_instances, through: :tasks
@@ -11,7 +9,8 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true, email: true
   validates :xp_multiplier, not_less_than_one: true
 
-  XP_PER_LEVEL = 100
+  TASKS_PER_DAY = 5
+  XP_PER_LEVEL  = 100
 
   def add_xp(amount)
     self.xp += (amount * xp_multiplier)
