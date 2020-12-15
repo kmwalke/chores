@@ -13,6 +13,7 @@
     "postdeploy": "./script/postdeploy.sh"
   },
   "addons": [
-    "papertrail"
+    "papertrail",
+    "redis"
   ]
 }
