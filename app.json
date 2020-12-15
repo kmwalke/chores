@@ -25,13 +25,5 @@
       "quantity": 1,
       "size": "Free"
     }
-  },
-  "buildpacks": [
-    {
-      "url": "heroku/nodejs"
-    },
-    {
-      "url": "heroku/ruby"
-    },
-  ]
+  }
 }
