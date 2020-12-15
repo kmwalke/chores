@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 2020_12_13_161719) do
   enable_extension "plpgsql"
 
   create_table "actions", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
   end
 
   create_table "actions_permissions", id: false, force: :cascade do |t|
@@ -27,13 +27,13 @@ ActiveRecord::Schema.define(version: 2020_12_13_161719) do
   end
 
   create_table "features", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "permissions", force: :cascade do |t|
-    t.string "feature_id"
+    t.integer "feature_id", null: false
   end
 
   create_table "permissions_roles", id: false, force: :cascade do |t|
@@ -44,34 +44,33 @@ ActiveRecord::Schema.define(version: 2020_12_13_161719) do
   end
 
   create_table "roles", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.text "description"
   end
 
   create_table "task_instances", force: :cascade do |t|
     t.integer "task_id", null: false
-    t.boolean "completed?", default: false, null: false
     t.datetime "completed_at"
     t.date "created_on"
   end
 
   create_table "tasks", force: :cascade do |t|
-    t.string "name"
-    t.integer "user_id"
-    t.integer "frequency"
-    t.integer "size"
-    t.integer "xp"
+    t.string "name", null: false
+    t.integer "user_id", null: false
+    t.integer "frequency", null: false
+    t.integer "size", null: false
+    t.integer "xp", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "email"
-    t.string "password_digest"
-    t.string "name"
-    t.integer "level", default: 1
-    t.integer "xp", default: 0
-    t.decimal "xp_multiplier", default: "1.0"
+    t.string "email", null: false
+    t.string "password_digest", null: false
+    t.string "name", null: false
+    t.integer "level", default: 1, null: false
+    t.integer "xp", default: 0, null: false
+    t.decimal "xp_multiplier", default: "1.0", null: false
     t.integer "role_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

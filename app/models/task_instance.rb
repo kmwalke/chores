@@ -4,6 +4,10 @@ class TaskInstance < ApplicationRecord
   validates :task_id, presence: true
 
   def complete!
-    update(completed?: true, completed_at: DateTime.new)
+    update(completed_at: DateTime.new)
+  end
+
+  def completed?
+    !completed_at.nil?
   end
 end
