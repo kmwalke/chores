@@ -8,4 +8,9 @@ RSpec.describe Reward, type: :model do
   it 'should require a user' do
     expect(Reward.create(user_id: nil).errors).to have_key(:user_id)
   end
+
+  it 'should generate an abbreviation' do
+    name = 'name of reward'
+    expect(FactoryBot.create(:reward, name: name).abbreviation).to eq(name[0..1])
+  end
 end
