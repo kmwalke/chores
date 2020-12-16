@@ -28,6 +28,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: rails r "puts Rails.env"
+          command: rails r "puts Rails.env"
+      - run:
           name: Install bundler
           command: gem install bundler
       # Which version of bundler?
