@@ -21,7 +21,14 @@ class User < ApplicationRecord
   end
 
   def level_up
-    self.level = (xp / XP_PER_LEVEL).floor + 1
+    return if level == new_level
+
+    self.level = new_level
+    set_next_reward
+  end
+
+  def new_level
+    (xp / XP_PER_LEVEL).floor + 1
   end
 
   def progress_to_level
