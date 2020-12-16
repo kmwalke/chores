@@ -2,7 +2,7 @@ class RewardsController < ApplicationController
   before_action :set_reward, only: [:show, :edit, :update, :destroy]
 
   def index
-    @rewards = Reward.all
+    @rewards = Reward.where(user_id: current_user.id)
   end
 
   def show; end
@@ -14,10 +14,10 @@ class RewardsController < ApplicationController
   def edit; end
 
   def create
-    @reward = Reward.new(reward_params)
+    @reward = Reward.new(reward_params.merge({ user_id: current_user.id }))
 
     if @reward.save
-      redirect_to @reward, notice: 'Reward was successfully created.'
+      redirect_to rewards_path, notice: 'Reward was successfully created.'
     else
       render :new
     end
@@ -25,7 +25,7 @@ class RewardsController < ApplicationController
 
   def update
     if @reward.update(reward_params)
-      redirect_to @reward, notice: 'Reward was successfully updated.'
+      redirect_to rewards_path, notice: 'Reward was successfully updated.'
     else
       render :edit
     end
@@ -33,13 +33,14 @@ class RewardsController < ApplicationController
 
   def destroy
     @reward.destroy
-    redirect_to rewards_url, notice: 'Reward was successfully destroyed.'
+    redirect_to rewards_path, notice: 'Reward was successfully destroyed.'
   end
 
   private
 
   def set_reward
     @reward = Reward.find(params[:id])
+    redirect_to rewards_path unless @reward.user_id == current_user.id
   end
 
   def reward_params

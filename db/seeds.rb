@@ -35,7 +35,7 @@ User.create(name: 'user3', email: 'user3@chores.com', role: user_role, password:
   end
 end
 
-%w[ice\ cream banjo\ strings new\ shoes new\ game lazy\ day].each do |name|
+%w[ice\ cream banjo\ strings new\ shoes new\ game lazy\ day get\ drunk].each do |name|
   User.all.each do |user|
     Reward.create(name: name, user: user)
   end
