@@ -5,15 +5,13 @@ class RewardsController < ApplicationController
     @rewards = Reward.all
   end
 
-  def show
-  end
+  def show; end
 
   def new
     @reward = Reward.new
   end
 
-  def edit
-  end
+  def edit; end
 
   def create
     @reward = Reward.new(reward_params)
@@ -39,11 +37,12 @@ class RewardsController < ApplicationController
   end
 
   private
-    def set_reward
-      @reward = Reward.find(params[:id])
-    end
 
-    def reward_params
-      params.require(:reward).permit(:name)
-    end
+  def set_reward
+    @reward = Reward.find(params[:id])
+  end
+
+  def reward_params
+    params.require(:reward).permit(:name)
+  end
 end

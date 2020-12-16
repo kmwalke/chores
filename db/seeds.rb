@@ -11,7 +11,7 @@ Action::NAMES.each do |action|
 end
 
 permissions = {}
-%w[features permissions roles tasks users].each do |name|
+%w[features permissions rewards roles tasks users].each do |name|
   permissions[name.to_sym] = Permission.create(feature: Feature.create(name: name), actions: Action.all)
 end
 
@@ -32,5 +32,11 @@ User.create(name: 'user3', email: 'user3@chores.com', role: user_role, password:
    homework shop cook dishes].each do |name|
   User.all.each do |user|
     Task.create(user: user, name: name, size: rand(1..5), frequency: rand(1..7))
+  end
+end
+
+%w[ice\ cream banjo\ strings new\ shoes new\ game lazy\ day].each do |name|
+  User.all.each do |user|
+    Reward.create(name: name, user: user)
   end
 end
