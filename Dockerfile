@@ -16,6 +16,7 @@ RUN apt-get update && \
   imagemagick \
   nodejs \
   postgresql-client \
+  redis \
   yarn
 
 ENV BUNDLE_PATH /gems
