@@ -13,6 +13,17 @@
     "postdeploy": "./script/postdeploy.sh"
   },
   "addons": [
+    "heroku-redis",
     "papertrail"
-  ]
+  ],
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "Free"
+    },
+    "worker": {
+      "quantity": 1,
+      "size": "Free"
+    }
+  }
 }

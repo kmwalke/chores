@@ -1,30 +1,39 @@
 version: '3.4'
 
+x-chores-common:
+  &chores-common
+  build:
+    context: .
+    args:
+      USERNAME: $USER
+      UID: ${USER_ID:-0}
+      GID: ${GROUP_ID:-0}
+  volumes:
+    - .:/app
+    - chores-gems:/gems
+    - /app/node_modules
+  stdin_open: true # docker run -i
+  tty: true        # docker run -t
+  #    user: $USER
+  links:
+    - db
+  environment:
+    DB_DEV: chores-development
+    DB_HOST: db
+    DB_TEST: chores-test
+    DB_USERNAME: postgres
+    REDIS_URL: redis://redis:6379
+
 services:
   web:
-    build:
-      context: .
-      args:
-        USERNAME: $USER
-        UID: ${USER_ID:-0}
-        GID: ${GROUP_ID:-0}
+    << : *chores-common
     command: "./script/start-dev.sh"
-    volumes:
-      - .:/app
-      - chores-gems:/gems
-      - /app/node_modules
     ports:
       - "3000:3000"
-    stdin_open: true # docker run -i
-    tty: true        # docker run -t
-#    user: $USER
-    links:
-      - db
-    environment:
-      DB_DEV: chores-development
-      DB_HOST: db
-      DB_TEST: chores-test
-      DB_USERNAME: postgres
+
+  worker:
+    << : *chores-common
+    command: bundle exec sidekiq
 
   db:
     image: postgres:11.5
@@ -32,6 +41,10 @@ services:
       - chores-data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
 
 
 volumes:
