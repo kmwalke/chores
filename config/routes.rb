@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   resources :features
   resources :permissions
+  resources :rewards
   resources :roles
   resources :tasks
   resources :users
