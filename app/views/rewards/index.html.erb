@@ -1,0 +1,26 @@
+<h1>Rewards</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @rewards.each do |reward| %>
+      <tr>
+        <td><%= link_to reward.name, edit_reward_path(reward) %></td>
+        <td>
+          <%= link_to 'X', reward_path(reward), method: :delete, id: "delete_#{reward.id}", data: { confirm: 'Are you sure?' } %>
+          &nbsp;
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Reward', new_reward_path %>

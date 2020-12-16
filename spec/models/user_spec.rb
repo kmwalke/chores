@@ -98,4 +98,33 @@ RSpec.describe User, type: :model do
       expect(user.progress_to_level).to eq(0.75)
     end
   end
+
+  describe 'rewards' do
+    let(:user) { FactoryBot.create(:user_with_tasks) }
+
+    it 'has rewards' do
+      expect(user.rewards.first).to be_a(Reward)
+    end
+
+    it 'has next_reward' do
+      expect(user.next_reward).to be_a(Reward)
+    end
+
+    it 'earns rewards' do
+      old_reward_count = user.earned_rewards.count
+      user.add_xp(User::XP_PER_LEVEL + 1)
+      expect(user.reload.earned_rewards.count).to eq(old_reward_count + 1)
+    end
+
+    it 'sets a next_reward' do
+      user.add_xp(User::XP_PER_LEVEL + 1)
+      expect(user.next_reward).to be_a(Reward)
+    end
+
+    it 'sets a new next_reward', skip: 'Not implemented' do
+      old_reward = user.next_reward
+      user.add_xp(User::XP_PER_LEVEL + 1)
+      expect(user.reload.next_reward).not_to eq(old_reward)
+    end
+  end
 end

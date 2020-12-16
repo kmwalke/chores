@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_13_161719) do
+ActiveRecord::Schema.define(version: 2020_12_16_214623) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,22 @@ ActiveRecord::Schema.define(version: 2020_12_13_161719) do
     t.bigint "role_id"
     t.index ["permission_id"], name: "index_permissions_roles_on_permission_id"
     t.index ["role_id"], name: "index_permissions_roles_on_role_id"
+  end
+
+  create_table "rewards", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "user_id", null: false
+    t.string "abbreviation"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "rewards_users", id: false, force: :cascade do |t|
+    t.bigint "reward_id"
+    t.bigint "user_id"
+    t.datetime "created_at"
+    t.index ["reward_id"], name: "index_rewards_users_on_reward_id"
+    t.index ["user_id"], name: "index_rewards_users_on_user_id"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -74,6 +90,7 @@ ActiveRecord::Schema.define(version: 2020_12_13_161719) do
     t.integer "role_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "next_reward_id"
   end
 
 end
