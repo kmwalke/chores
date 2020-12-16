@@ -2,6 +2,7 @@ class User < ApplicationRecord
   has_secure_password
 
   belongs_to :role
+  belongs_to :next_reward, class_name: 'Reward', optional: true
   has_many :rewards
   has_many :tasks
   has_many :task_instances, through: :tasks
@@ -40,5 +41,10 @@ class User < ApplicationRecord
     tasks.order(Arel.sql('RANDOM()')).first(TASKS_PER_DAY).each do |task|
       TaskInstance.create(task: task)
     end
+  end
+
+  def set_next_reward
+    # TODO: Use algorithm to select, not random
+    self.next_reward = rewards.order(Arel.sql('RANDOM()')).first
   end
 end
