@@ -2,6 +2,7 @@ class User < ApplicationRecord
   has_secure_password
 
   belongs_to :role
+  has_many :rewards
   has_many :tasks
   has_many :task_instances, through: :tasks
 
