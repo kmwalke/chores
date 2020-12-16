@@ -14,7 +14,7 @@ class RewardsController < ApplicationController
   def edit; end
 
   def create
-    @reward = Reward.new(reward_params.merge({ user_id: current_user.id }))
+    @reward = Reward.new(reward_params.merge(user_id: current_user.id))
 
     if @reward.save
       redirect_to rewards_path, notice: 'Reward was successfully created.'
