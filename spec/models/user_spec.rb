@@ -116,6 +116,7 @@ RSpec.describe User, type: :model do
       expect(user.reload.earned_rewards.count).to eq(old_reward_count + 1)
     end
 
+    # This will catch a random bug where it assigns the same reward twice randomly
     it 'set new next_reward' do
       old_reward = user.next_reward
       user.add_xp(User::XP_PER_LEVEL + 1)
