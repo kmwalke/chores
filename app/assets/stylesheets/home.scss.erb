@@ -29,6 +29,19 @@ body.home {
         }
 
         span.level {
+          display: inline-block;
+          position: absolute;
+          left: 2.5em;
+          top: 4em;
+          padding: 0 0 0 .3em;
+          width: 1.0em;
+          height: 1.3em;
+          line-height: 1.3em;
+          font-size: 2em;
+          background: $gold;
+          border: 4px outset lighten($gold, 20%);
+          @include rounded-corners(1em);
+
         }
       }
 
