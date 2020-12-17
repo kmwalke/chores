@@ -24,6 +24,7 @@
       <li>
         <input type="checkbox" id="task_<%= daily.id %>" <% if daily.completed? %>checked<% end %>/>
         <label for="task_<%= daily.id %>"><%= daily.task.name %></label>
+        <span><%= "#{daily.task.xp}xp" %></span>
       </li>
     <% end %>
   </ul>
