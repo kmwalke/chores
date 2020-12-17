@@ -10,7 +10,7 @@
       <div class="level-info">
         <div class="xp-bar"><%= @user.progress_to_level %></div>
         <div class="xp-multiplier<% if @user.xp_multiplier == 1 %> hidden<% end %>">x<%= @user.xp_multiplier %></div>
-        <div class="next-reward"><%= @user.next_reward.avatar %></div>
+        <div class="next-reward"><%= @user.next_reward&.avatar %></div>
       </div>
       <h2>Tasks</h2>
       <ul class="task-list">
