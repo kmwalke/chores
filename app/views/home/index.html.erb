@@ -20,19 +20,19 @@
   </div>
   <h2>Tasks</h2>
   <ul class="task-list">
-    <% @user.task_list.each do |daily| %>
+    <% @task_list.each do |daily| %>
       <li>
-        <input type="checkbox" id="task_<%= daily.id %>"/>
+        <input type="checkbox" id="task_<%= daily.id %>" <% if daily.completed? %>checked<% end %>/>
         <label for="task_<%= daily.id %>"><%= daily.task.name %></label>
       </li>
     <% end %>
   </ul>
   <h2>Earned Rewards</h2>
   <ul class="earned-rewards">
-    <% @user.earned_rewards.each do |reward| %>
+    <% @earned_rewards.each do |reward| %>
       <li>
         <span class="name"><%= reward.name %></span>
-        <span class="date"><%= reward.created_at %></span>
+        <span class="date"><%= humanize_datetime reward.created_at %></span>
       </li>
     <% end %>
   </ul>
