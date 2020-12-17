@@ -18,6 +18,10 @@ class User < ApplicationRecord
   TASKS_PER_DAY = 5
   XP_PER_LEVEL  = 100
 
+  def avatar
+    name[0..1].downcase.capitalize
+  end
+
   def add_xp(amount)
     self.xp += (amount * xp_multiplier)
     level_up
