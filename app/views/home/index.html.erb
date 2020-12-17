@@ -5,7 +5,9 @@
       <span class="level"><%= @user.level %></span>
     </div>
     <div class="level-info">
-      <div class="xp-bar"><%= @user.progress_to_level %></div>
+      <div class="xp-bar">
+        <div class="xp-bar-fill" style="width:<%= @user.progress_to_level * 100 %>%">&nbsp;</div>
+      </div>
       <div class="xp-multiplier
         <% if @user.xp_multiplier == 1 %> hidden
         <% end %>">x<%= @user.xp_multiplier %>

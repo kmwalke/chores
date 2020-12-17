@@ -41,7 +41,6 @@ body.home {
           background: $gold;
           border: 4px outset lighten($gold, 20%);
           @include rounded-corners(1em);
-
         }
       }
 
@@ -49,6 +48,27 @@ body.home {
         display: inline-block;
         width: 75%;
         vertical-align: top;
+
+        div.xp-bar {
+          display: inline-block;
+          background: $grey;
+          width: 80%;
+          height: 3em;
+          margin: 2em 0 0 0.5em;
+
+          div.xp-bar-fill {
+            background: $green;
+            height: 3em;
+          }
+        }
+
+        div.xp-multiplier {
+          display: inline-block;
+        }
+
+        div.next-reward {
+          display: inline-block;
+        }
       }
     }
   }
