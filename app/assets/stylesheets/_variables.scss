@@ -1,7 +1,9 @@
 $black: black;
 $blue: #14323f;
 $brown: #8c5a4e;
+$gold: #d7b31f;
 $tan: #f3f1df;
+$white: white;
 
 @mixin rounded-corners($radius) {
   border-radius: $radius;

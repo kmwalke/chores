@@ -1,35 +1,34 @@
-<h1>Chores App</h1>
-
 <% if logged_in? %>
-  <div class="home-container">
-    <div class="header">
-      <div class="user-badge">
-        <div class="avatar"><%= @user.avatar %></div>
-        <div class="level"><%= @user.level %></div>
+  <div class="header">
+    <div class="user-badge">
+      <span class="avatar"><%= @user.avatar %></span>
+      <span class="level"><%= @user.level %></span>
+    </div>
+    <div class="level-info">
+      <div class="xp-bar"><%= @user.progress_to_level %></div>
+      <div class="xp-multiplier
+        <% if @user.xp_multiplier == 1 %> hidden
+        <% end %>">x<%= @user.xp_multiplier %>
       </div>
-      <div class="level-info">
-        <div class="xp-bar"><%= @user.progress_to_level %></div>
-        <div class="xp-multiplier<% if @user.xp_multiplier == 1 %> hidden<% end %>">x<%= @user.xp_multiplier %></div>
-        <div class="next-reward"><%= @user.next_reward&.avatar %></div>
-      </div>
-      <h2>Tasks</h2>
-      <ul class="task-list">
-        <% @user.task_list.each do |daily| %>
-          <li>
-            <input type="checkbox" id="task_<%= daily.id %>"/>
-            <label for="task_<%= daily.id %>"><%= daily.task.name %></label>
-          </li>
-        <% end %>
-      </ul>
-      <h2>Earned Rewards</h2>
-      <ul class="earned-rewards">
-        <% @user.earned_rewards.each do |reward| %>
-          <li>
-            <span class="name"><%= reward.name %></span>
-            <span class="date"><%= reward.created_at %></span>
-          </li>
-        <% end %>
-      </ul>
+      <div class="next-reward"><%= @user.next_reward&.avatar %></div>
     </div>
   </div>
+  <h2>Tasks</h2>
+  <ul class="task-list">
+    <% @user.task_list.each do |daily| %>
+      <li>
+        <input type="checkbox" id="task_<%= daily.id %>"/>
+        <label for="task_<%= daily.id %>"><%= daily.task.name %></label>
+      </li>
+    <% end %>
+  </ul>
+  <h2>Earned Rewards</h2>
+  <ul class="earned-rewards">
+    <% @user.earned_rewards.each do |reward| %>
+      <li>
+        <span class="name"><%= reward.name %></span>
+        <span class="date"><%= reward.created_at %></span>
+      </li>
+    <% end %>
+  </ul>
 <% end %>

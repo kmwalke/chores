@@ -1,1 +1,42 @@
 @import 'variables';
+
+body.home {
+  div.content {
+    width: 40em;
+    border: 1px solid black;
+
+    div.header {
+      border-bottom: 1px solid black;
+
+      div.user-badge {
+        display: inline-block;
+        width: 20%;
+        height: 10em;
+        vertical-align: top;
+
+        span.avatar {
+          font-size: 4em;
+          display: inline-block;
+          margin: 0.1em 0 0 0.1em;
+          line-height: 1.7em;
+          height: 1.7em;
+          width: 1.4em;
+          padding: 0 0 0 0.3em;
+          background-color: $blue;
+          color: $white;
+          @include rounded-corners(1em);
+          @include shadow(0, 0, 20px, $gold);
+        }
+
+        span.level {
+        }
+      }
+
+      div.level-info {
+        display: inline-block;
+        width: 75%;
+        vertical-align: top;
+      }
+    }
+  }
+}
