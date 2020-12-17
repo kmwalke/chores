@@ -5,6 +5,10 @@ body.home {
     width: 40em;
     border: 1px solid black;
 
+    .hidden {
+      display: none !important;
+    }
+
     div.header {
       border-bottom: 1px solid black;
 
@@ -48,6 +52,7 @@ body.home {
         display: inline-block;
         width: 75%;
         vertical-align: top;
+        position: relative;
 
         div.xp-bar {
           display: inline-block;
@@ -64,6 +69,13 @@ body.home {
 
         div.xp-multiplier {
           display: inline-block;
+          position: absolute;
+          left: 50%;
+          top: 3.5em;
+          background-color: $gold;
+          font-size: 1.5em;
+          border: 2px outset lighten($gold, 20%);
+          padding: 0.25em 0.25em;
         }
 
         div.next-reward {
