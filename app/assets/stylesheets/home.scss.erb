@@ -118,5 +118,23 @@ body.home {
         }
       }
     }
+
+    ul.task-list {
+      li {
+        list-style: none;
+
+        input {
+          display: inline-block;
+        }
+
+        label {
+          display: inline-block;
+        }
+
+        input:checked + label {
+          text-decoration: line-through;
+        }
+      }
+    }
   }
 }
