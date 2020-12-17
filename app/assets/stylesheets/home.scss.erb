@@ -5,6 +5,14 @@ body.home {
     width: 40em;
     border: 1px solid black;
 
+    a {
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
     .hidden {
       display: none !important;
     }
@@ -18,18 +26,20 @@ body.home {
         height: 10em;
         vertical-align: top;
 
-        span.avatar {
-          font-size: 4em;
-          display: inline-block;
-          margin: 0.1em 0 0 0.1em;
-          line-height: 1.7em;
-          height: 1.7em;
-          width: 1.4em;
-          padding: 0 0 0 0.3em;
-          background-color: $blue;
-          color: $white;
-          @include rounded-corners(1em);
-          @include shadow(0, 0, 20px, $gold);
+        div.avatar {
+          a {
+            font-size: 4em;
+            display: inline-block;
+            margin: 0.1em 0 0 0.1em;
+            line-height: 1.7em;
+            height: 1.7em;
+            width: 1.4em;
+            padding: 0 0 0 0.3em;
+            background-color: $blue;
+            color: $white;
+            @include rounded-corners(1em);
+            @include shadow(0, 0, 20px, $gold);
+          }
         }
 
         span.level {
@@ -80,6 +90,35 @@ body.home {
 
         div.next-reward {
           display: inline-block;
+          margin: 0 0 0 0.2em;
+          vertical-align: top;
+          position: relative;
+
+          span {
+            display: block;
+            clear: both;
+            width: 3em;
+            white-space: nowrap;
+            overflow: visible;
+            margin: 0.2em 0 0 0;
+            padding: 0;
+            font-weight: bold;
+          }
+
+          a {
+            display: block;
+            position: absolute;
+            background-color: $red;
+            color: $white;
+            font-size: 3em;
+            left: 50%;
+            margin: 0.2em 0 0 -25%;
+            padding: 0 0 0 .3em;
+            width: 1.2em;
+            height: 1.5em;
+            line-height: 1.5em;
+            vertical-align: top;
+          }
         }
       }
     }
