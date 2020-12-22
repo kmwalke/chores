@@ -28,6 +28,10 @@ class User < ApplicationRecord
     save
   end
 
+  def remove_xp(amount)
+    add_xp(amount * -1)
+  end
+
   def level_up
     return unless level_up?
 

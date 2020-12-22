@@ -72,9 +72,9 @@ RSpec.feature 'Home', type: :feature do
     end
 
     scenario 'remove xp on task uncompletion' do
-      old_xp   = user.xp
       instance = user.task_list.first
-      instance.uncomplete!
+      instance.complete!
+      old_xp   = user.reload.xp
       visit root_path
       click_link instance.task.name
       expect(user.reload.xp).to be < old_xp

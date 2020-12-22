@@ -18,6 +18,7 @@ class TaskInstance < ApplicationRecord
 
   def uncomplete!
     update(completed_at: nil)
+    task.user.remove_xp(task.xp)
   end
 
   def completed?
