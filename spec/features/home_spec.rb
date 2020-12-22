@@ -64,7 +64,7 @@ RSpec.feature 'Home', type: :feature do
     end
 
     scenario 'add xp on task completion' do
-      old_xp = user.xp
+      old_xp   = user.xp
       instance = user.task_list.first
       visit root_path
       click_link instance.task.name
@@ -72,7 +72,7 @@ RSpec.feature 'Home', type: :feature do
     end
 
     scenario 'remove xp on task uncompletion' do
-      old_xp = user.xp
+      old_xp   = user.xp
       instance = user.task_list.first
       instance.uncomplete!
       visit root_path
