@@ -6,6 +6,10 @@ class Reward < ApplicationRecord
 
   after_save :set_user_reward
 
+  def avatar
+    abbreviation
+  end
+
   def abbreviation
     name[0..1]
   end

@@ -1,1 +1,167 @@
 @import 'variables';
+
+body.home {
+  div.content {
+    width: 40em;
+    border: 1px solid black;
+
+    a {
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    div.header {
+      border-bottom: 1px solid black;
+
+      div.user-badge {
+        display: inline-block;
+        width: 20%;
+        height: 10em;
+        vertical-align: top;
+
+        div.avatar {
+          a {
+            font-size: 4em;
+            display: inline-block;
+            margin: 0.1em 0 0 0.1em;
+            line-height: 1.7em;
+            height: 1.7em;
+            width: 1.4em;
+            padding: 0 0 0 0.3em;
+            background-color: $blue;
+            color: $white;
+            @include rounded-corners(1em);
+            @include shadow(0, 0, 20px, $gold);
+          }
+        }
+
+        span.level {
+          display: inline-block;
+          position: absolute;
+          left: 2.5em;
+          top: 4em;
+          padding: 0 0 0 .3em;
+          width: 1.0em;
+          height: 1.3em;
+          line-height: 1.3em;
+          font-size: 2em;
+          background: $gold;
+          border: 4px outset lighten($gold, 20%);
+          @include rounded-corners(1em);
+        }
+      }
+
+      div.level-info {
+        display: inline-block;
+        width: 75%;
+        vertical-align: top;
+        position: relative;
+
+        div.xp-bar {
+          display: inline-block;
+          background: $grey;
+          width: 80%;
+          height: 3em;
+          margin: 2em 0 0 0.5em;
+
+          div.xp-bar-fill {
+            background: $green;
+            height: 3em;
+            @include shadow(0, 0, 10px, $black);
+            clip-path: inset(0px -15px 0px 0px);
+          }
+        }
+
+        div.xp-multiplier {
+          display: inline-block;
+          position: absolute;
+          left: 50%;
+          top: 3.5em;
+          background-color: $gold;
+          font-size: 1.5em;
+          border: 2px outset lighten($gold, 20%);
+          padding: 0.25em 0.25em;
+        }
+
+        div.next-reward {
+          display: inline-block;
+          margin: 0 0 0 0.2em;
+          vertical-align: top;
+          position: relative;
+
+          span {
+            display: block;
+            clear: both;
+            width: 3em;
+            white-space: nowrap;
+            overflow: visible;
+            margin: 0.2em 0 0 0;
+            padding: 0;
+            font-weight: bold;
+          }
+
+          a {
+            display: block;
+            position: absolute;
+            background-color: $red;
+            color: $white;
+            font-size: 3em;
+            left: 50%;
+            margin: 0.2em 0 0 -25%;
+            padding: 0 0 0 .3em;
+            width: 1.2em;
+            height: 1.5em;
+            line-height: 1.5em;
+            vertical-align: top;
+            @include shadow(0, 0, 10px, $gold);
+          }
+        }
+      }
+    }
+
+    ul.task-list {
+      li {
+        list-style: none;
+
+        input {
+          display: inline-block;
+        }
+
+        label {
+          display: inline-block;
+          color: $black;
+        }
+
+        span {
+          font-size: smaller;
+          color: lighten($black, 50%);
+        }
+
+        input:checked + label {
+          text-decoration: line-through;
+        }
+      }
+    }
+
+    ul.earned-rewards {
+      li {
+        list-style: none;
+        border-bottom: 1px solid $black;
+        padding: .5em 0;
+
+        span.name {
+          font-weight: bold;
+          color: $black;
+        }
+
+        span.date {
+          font-size: small;
+          color: lighten($black, 50%)
+        }
+      }
+    }
+  }
+}

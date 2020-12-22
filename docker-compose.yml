@@ -33,7 +33,7 @@ services:
 
   worker:
     << : *chores-common
-    command: bundle exec sidekiq
+    command: bundle exec sidekiq -r . -C config/sidekiq.yml
 
   db:
     image: postgres:11.5

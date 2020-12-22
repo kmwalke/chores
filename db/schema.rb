@@ -46,7 +46,6 @@ ActiveRecord::Schema.define(version: 2020_12_16_214623) do
   create_table "rewards", force: :cascade do |t|
     t.string "name", null: false
     t.integer "user_id", null: false
-    t.string "abbreviation"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
