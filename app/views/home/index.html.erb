@@ -9,9 +9,8 @@
         <div class="xp-bar-fill" style="width:<%= @user.progress_to_level * 100 %>%">&nbsp;</div>
       </div>
       <% unless @user.xp_multiplier == 1 %>
-        <div class="xp-multiplier">x<%= @user.xp_multiplier %>
+        <div class="xp-multiplier">x<%= @user.xp_multiplier %></div>
       <% end %>
-      </div>
       <div class="next-reward">
         <span>Next Reward:</span>
         <%= link_to @user.next_reward&.avatar, @user.next_reward %>
