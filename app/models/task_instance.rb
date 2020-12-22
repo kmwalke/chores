@@ -13,6 +13,7 @@ class TaskInstance < ApplicationRecord
 
   def complete!
     update(completed_at: DateTime.new)
+    task.user.add_xp(task.xp)
   end
 
   def uncomplete!

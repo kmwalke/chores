@@ -49,7 +49,7 @@ RSpec.feature 'Home', type: :feature do
     scenario 'completes a task' do
       instance = user.task_list.first
       visit root_path
-      click_link user.task_list.first.task.name
+      click_link instance.task.name
       expect(current_path).to eq(root_path)
       expect(instance.reload.completed?).to eq(true)
     end
@@ -58,17 +58,26 @@ RSpec.feature 'Home', type: :feature do
       instance = user.task_list.first
       instance.complete!
       visit root_path
-      click_link user.task_list.first.task.name
+      click_link instance.task.name
       expect(current_path).to eq(root_path)
       expect(instance.reload.completed?).to eq(false)
     end
 
-    scenario 'cannot complete another users tasks' do
-      expect(true).to eq(false)
+    scenario 'add xp on task completion' do
+      old_xp = user.xp
+      instance = user.task_list.first
+      visit root_path
+      click_link instance.task.name
+      expect(user.reload.xp).to be > old_xp
     end
 
-    scenario 'add xp on task completion' do
-      expect(true).to eq(false)
+    scenario 'remove xp on task uncompletion' do
+      old_xp = user.xp
+      instance = user.task_list.first
+      instance.uncomplete!
+      visit root_path
+      click_link instance.task.name
+      expect(user.reload.xp).to be < old_xp
     end
   end
 end

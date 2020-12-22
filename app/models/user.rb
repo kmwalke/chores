@@ -37,7 +37,7 @@ class User < ApplicationRecord
   end
 
   def level_up?
-    level != new_level
+    level < new_level
   end
 
   def new_level
