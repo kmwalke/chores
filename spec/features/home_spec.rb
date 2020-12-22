@@ -62,5 +62,13 @@ RSpec.feature 'Home', type: :feature do
       expect(current_path).to eq(root_path)
       expect(instance.reload.completed?).to eq(false)
     end
+
+    scenario 'cannot complete another users tasks' do
+      expect(true).to eq(false)
+    end
+
+    scenario 'add xp on task completion' do
+      expect(true).to eq(false)
+    end
   end
 end
