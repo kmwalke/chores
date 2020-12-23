@@ -21,10 +21,14 @@
   <ul class="task-list">
     <% @task_list.each do |instance| %>
       <li>
+        <a href="<%= complete_task_instance_path(instance) %>" data-method="patch">
         <input type="checkbox" id="task_<%= instance.id %>" <% if instance.completed? %>checked<% end %>/>
-        <label for="task_<%= instance.id %>"><%= instance.task.name %></label>
-        <span><%= "#{instance.task.xp}xp" %></span>
-        <%= link_to instance.task.name, complete_task_instance_path(instance), method: 'patch' %>
+        <label for="task_<%= instance.id %>">
+          <%= instance.task.name %>
+          <span><%= "#{instance.task.xp}xp" %></span>
+        </label>
+        </a>
+        <%#= link_to instance.task.name, complete_task_instance_path(instance), method: 'patch' %>
       </li>
     <% end %>
   </ul>
