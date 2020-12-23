@@ -1,0 +1,15 @@
+<h1>Delete <%= @current_user.name %> and all associated data</h1>
+
+<p>
+  We are sorry to see you go, but are happy to make it an easy process. Please type "<%= @current_user.name %>"
+  in the field below to delete your user:
+</p>
+<%= form_tag destroy_current_user_path, method: :delete do |form| %>
+  <div class="field">
+    <%= label_tag :confirm %>
+    <%= text_field_tag :confirm %>
+  </div>
+  <div class="actions">
+    <%= submit_tag "Delete My Account & All of My Data" %>
+  </div>
+<% end %>
