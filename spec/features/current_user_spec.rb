@@ -31,13 +31,30 @@ RSpec.feature 'Current User', type: :feature do
       expect(user.reload.name).to eq(new_name)
     end
 
+    scenario 'does not delete current user if form not filled' do
+      user_id = user.id
+      visit edit_current_user_path
+
+      click_link 'Delete User'
+      expect(current_path).to eq(delete_current_user_path)
+
+      fill_in 'Confirm', with: 'not a name'
+      click_button 'Delete My Account & All of My Data'
+      expect(current_path).to eq(edit_current_user_path)
+      expect(User.find(user_id)).to eq(user)
+    end
+
     scenario 'deletes current user' do
       user_id = user.id
       visit edit_current_user_path
 
-      click_button 'Delete User'
+      click_link 'Delete User'
+      expect(current_path).to eq(delete_current_user_path)
+
+      fill_in 'Confirm', with: user.name
+      click_button 'Delete My Account & All of My Data'
       expect(current_path).to eq(root_path)
-      expect(User.find(user_id)).to be_nil
+      expect(User.find_by_id(user_id)).to be_nil
     end
   end
 end

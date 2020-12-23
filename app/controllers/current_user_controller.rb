@@ -1,5 +1,6 @@
 class CurrentUserController < ApplicationController
   before_action :set_current_user
+  before_action :check_destroy_confirm, only: [:destroy]
 
   def edit; end
 
@@ -13,10 +14,12 @@ class CurrentUserController < ApplicationController
     end
   end
 
+  def delete; end
+
   def destroy
     @current_user.destroy
     respond_to do |format|
-      format.html { redirect_to logout_path, notice: 'User was successfully destroyed.' }
+      format.html { redirect_to root_path, notice: 'User was successfully destroyed.' }
     end
   end
 
@@ -27,6 +30,12 @@ class CurrentUserController < ApplicationController
   end
 
   def current_user_params
-    params.permit(:name, :email, :password, :password_confirmation, :name)
+    params.permit(:name, :email, :password, :password_confirmation, :confirm)
+  end
+
+  def check_destroy_confirm
+    return if current_user_params[:confirm] == @current_user.name
+
+    redirect_to edit_current_user_path, notice: 'You must type your user name exactly to confirm deletion.'
   end
 end

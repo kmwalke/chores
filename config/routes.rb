@@ -6,7 +6,8 @@ Rails.application.routes.draw do
 
   get 'current_user/edit', as: 'edit_current_user'
   patch 'current_user/update', as: 'update_current_user'
-  delete 'current_user/delete', as: 'destroy_current_user'
+  delete 'current_user/delete', as: 'delete_current_user'
+  delete 'current_user/destroy', as: 'destroy_current_user'
   resources :features
   resources :permissions
   resources :rewards

@@ -11,7 +11,7 @@ Action::NAMES.each do |action|
 end
 
 permissions = {}
-%w[features permissions rewards roles tasks users].each do |name|
+%w[current_user features permissions rewards roles tasks users].each do |name|
   permissions[name.to_sym] = Permission.create(feature: Feature.create(name: name), actions: Action.all)
 end
 
@@ -19,7 +19,7 @@ admin_role = Role.create(name: 'Admin')
 user_role  = Role.create(name: 'User')
 
 admin_role.permissions << Permission.all
-user_role.permissions << [permissions[:tasks]]
+user_role.permissions << [permissions[:current_user], permissions[:tasks]]
 
 User.create(name: 'admin1', email: 'admin@chores.com', role: admin_role, password: '123')
 User.create(name: 'user1', email: 'user1@chores.com', role: user_role, password: '123')
