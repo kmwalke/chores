@@ -100,9 +100,9 @@ RSpec.describe User, type: :model do
     it 'should not level down' do
       user.add_xp(User::XP_PER_LEVEL + 1)
       user.remove_xp(10)
-      user.add_xp(5)
+      user.add_xp(1)
 
-      expect(user.level).to eq(2)
+      expect(user.xp).to eq(User::XP_PER_LEVEL + 2)
     end
 
     it 'should get progress to next level' do
