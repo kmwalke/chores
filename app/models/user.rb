@@ -38,22 +38,6 @@ class User < ApplicationRecord
     xp % XP_PER_LEVEL
   end
 
-  def level_up
-    return unless level_up?
-
-    self.level = new_level
-    earn_reward
-    set_next_reward
-  end
-
-  def level_up?
-    level < new_level
-  end
-
-  def new_level
-    (xp / XP_PER_LEVEL).floor + 1
-  end
-
   def progress_to_level
     xp_this_level.to_f / XP_PER_LEVEL
   end
@@ -73,6 +57,24 @@ class User < ApplicationRecord
     end
   end
 
+  private
+
+  def level_up
+    return unless level_up?
+
+    self.level = new_level
+    earn_reward
+    set_next_reward
+  end
+
+  def level_up?
+    level < new_level
+  end
+
+  def new_level
+    (xp / XP_PER_LEVEL).floor + 1
+  end
+
   def earn_reward
     earned_rewards << next_reward if next_reward
   end
@@ -81,8 +83,6 @@ class User < ApplicationRecord
     # TODO: Use algorithm to select, not random
     self.next_reward = rewards.order(Arel.sql('RANDOM()')).first
   end
-
-  private
 
   def xp=(value)
     super(value)

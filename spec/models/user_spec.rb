@@ -105,6 +105,11 @@ RSpec.describe User, type: :model do
       expect(user.xp).to eq(User::XP_PER_LEVEL + 2)
     end
 
+    it 'should get current xp this level' do
+      user.add_xp(User::XP_PER_LEVEL * 1.75)
+      expect(user.xp_this_level).to eq(User::XP_PER_LEVEL * 0.75)
+    end
+
     it 'should get progress to next level' do
       user.add_xp(User::XP_PER_LEVEL * 1.75)
       expect(user.progress_to_level).to eq(0.75)
