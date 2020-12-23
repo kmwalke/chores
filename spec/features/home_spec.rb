@@ -8,12 +8,14 @@ RSpec.feature 'Home', type: :feature do
       expect(page).not_to have_content('Tasks')
     end
   end
+
   describe 'logged in' do
     let(:user) { FactoryBot.create(:user_with_tasks) }
 
     before(:each) do
       user.add_xp(User::XP_PER_LEVEL * 3.2)
       user.instantiate_tasks
+      user.reload
       login(user)
     end
 
@@ -42,6 +44,40 @@ RSpec.feature 'Home', type: :feature do
       user.update(xp_multiplier: 1.1)
       visit root_path
       expect(page).to have_content("x#{user.xp_multiplier}")
+    end
+
+    scenario 'completes a task' do
+      instance = user.task_list.first
+      visit root_path
+      click_link instance.task.name
+      expect(current_path).to eq(root_path)
+      expect(instance.reload.completed?).to eq(true)
+    end
+
+    scenario 'uncompletes a task' do
+      instance = user.task_list.first
+      instance.complete!
+      visit root_path
+      click_link instance.task.name
+      expect(current_path).to eq(root_path)
+      expect(instance.reload.completed?).to eq(false)
+    end
+
+    scenario 'add xp on task completion' do
+      old_xp   = user.xp
+      instance = user.task_list.first
+      visit root_path
+      click_link instance.task.name
+      expect(user.reload.xp).to be > old_xp
+    end
+
+    scenario 'remove xp on task uncompletion' do
+      instance = user.task_list.first
+      instance.complete!
+      old_xp   = user.reload.xp
+      visit root_path
+      click_link instance.task.name
+      expect(user.reload.xp).to be < old_xp
     end
   end
 end

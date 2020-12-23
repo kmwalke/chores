@@ -72,6 +72,10 @@ RSpec.describe User, type: :model do
       expect(user.xp).to eq(0)
     end
 
+    it 'should not allow xp to be set' do
+      expect(User.new.respond_to?('xp=')).to eq(false)
+    end
+
     it 'should receive xp' do
       user.add_xp(10)
       expect(user.xp).to eq(10)
@@ -91,6 +95,19 @@ RSpec.describe User, type: :model do
     it 'should level up' do
       user.add_xp(User::XP_PER_LEVEL + 1)
       expect(user.level).to eq(2)
+    end
+
+    it 'should not level down' do
+      user.add_xp(User::XP_PER_LEVEL + 1)
+      user.remove_xp(10)
+      user.add_xp(1)
+
+      expect(user.xp).to eq(User::XP_PER_LEVEL + 2)
+    end
+
+    it 'should get current xp this level' do
+      user.add_xp(User::XP_PER_LEVEL * 1.75)
+      expect(user.xp_this_level).to eq(User::XP_PER_LEVEL * 0.75)
     end
 
     it 'should get progress to next level' do

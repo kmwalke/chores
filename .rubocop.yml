@@ -37,6 +37,7 @@ Lint/StructNewOverride:
 Lint/UselessMethodDefinition:
   Exclude:
     - 'app/models/task.rb'
+    - 'app/models/user.rb'
 
 Metrics/AbcSize:
   Max: 25

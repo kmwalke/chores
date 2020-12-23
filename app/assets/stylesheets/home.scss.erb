@@ -126,22 +126,28 @@ body.home {
       li {
         list-style: none;
 
-        input {
-          display: inline-block;
+        a {
+          input {
+            display: inline-block;
+          }
+
+          label {
+            display: inline-block;
+            color: $black;
+          }
+
+          span {
+            font-size: smaller;
+            color: lighten($black, 50%);
+          }
+
+          input:checked + label {
+            text-decoration: line-through;
+          }
         }
 
-        label {
-          display: inline-block;
-          color: $black;
-        }
-
-        span {
-          font-size: smaller;
-          color: lighten($black, 50%);
-        }
-
-        input:checked + label {
-          text-decoration: line-through;
+        a:hover {
+          background-color: $white;
         }
       }
     }
