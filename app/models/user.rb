@@ -16,7 +16,7 @@ class User < ApplicationRecord
   validates :xp_multiplier, not_less_than_one: true
 
   TASKS_PER_DAY = 5
-  XP_PER_LEVEL  = 100
+  XP_PER_LEVEL  = 1000
 
   def avatar
     name[0..1].downcase.capitalize
@@ -29,7 +29,13 @@ class User < ApplicationRecord
   end
 
   def remove_xp(amount)
+    return if (amount * xp_multiplier) > xp_this_level
+
     add_xp(amount * -1)
+  end
+
+  def xp_this_level
+    xp % XP_PER_LEVEL
   end
 
   def level_up
@@ -49,7 +55,7 @@ class User < ApplicationRecord
   end
 
   def progress_to_level
-    xp % XP_PER_LEVEL.to_f / 100
+    xp_this_level.to_f / XP_PER_LEVEL
   end
 
   def task_list(date = Date.today)
@@ -74,5 +80,11 @@ class User < ApplicationRecord
   def set_next_reward
     # TODO: Use algorithm to select, not random
     self.next_reward = rewards.order(Arel.sql('RANDOM()')).first
+  end
+
+  private
+
+  def xp=(value)
+    super(value)
   end
 end
