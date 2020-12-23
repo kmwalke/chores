@@ -14,7 +14,23 @@ RSpec.describe TaskInstance, type: :model do
 
   it 'should be completed' do
     instance.complete!
-    expect(instance.completed?).to be(true)
+    expect(instance.reload.completed?).to be(true)
     expect(instance.completed_at.class).to eq(ActiveSupport::TimeWithZone)
+  end
+
+  it 'should be uncompleted' do
+    instance.uncomplete!
+    expect(instance.reload.completed?).to be(false)
+    expect(instance.completed_at).to be_nil
+  end
+
+  it 'should toggle completion' do
+    instance.toggle_complete!
+    expect(instance.reload.completed?).to be(true)
+    expect(instance.completed_at.class).to eq(ActiveSupport::TimeWithZone)
+
+    instance.toggle_complete!
+    expect(instance.reload.completed?).to be(false)
+    expect(instance.completed_at).to be_nil
   end
 end
