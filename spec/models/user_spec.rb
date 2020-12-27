@@ -91,6 +91,18 @@ RSpec.describe User, type: :model do
       expect(user.reload.xp_multiplier).to be > old_multiplier
     end
 
+    it 'should decrement the xp multiplier' do
+      user.increment_xp_multiplier!
+      old_multiplier = user.xp_multiplier
+      user.decrement_xp_multiplier!
+      expect(user.reload.xp_multiplier).to be < old_multiplier
+    end
+
+    it 'should not decrement xp_multiplier below 1' do
+      user.decrement_xp_multiplier!
+      expect(user.reload.xp_multiplier).to eq(1)
+    end
+
     it 'should reset the xp_multiplier' do
       user.increment_xp_multiplier!
       user.reset_xp_multiplier!

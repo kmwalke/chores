@@ -40,6 +40,13 @@ class User < ApplicationRecord
     save
   end
 
+  def decrement_xp_multiplier!
+    return if xp_multiplier == 1
+
+    self.xp_multiplier -= XP_MULT_INCREMENT
+    save
+  end
+
   def reset_xp_multiplier!
     self.xp_multiplier = 1
     save
