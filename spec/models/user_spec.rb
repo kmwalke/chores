@@ -55,6 +55,13 @@ RSpec.describe User, type: :model do
       user.reload
       expect { user.task_list(Date.tomorrow) }.to raise_error(ArgumentError)
     end
+
+    it 'should reset the xp_multiplier if yesterdays tasks undone' do
+      FactoryBot.create(:task_instance, task: user.tasks.first, created_on: Date.yesterday, completed_at: nil)
+      user.increment_xp_multiplier!
+      user.instantiate_tasks
+      expect(user.xp_multiplier).to eq(1)
+    end
   end
 
   describe 'leveling' do

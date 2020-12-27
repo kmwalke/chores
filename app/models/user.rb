@@ -69,6 +69,7 @@ class User < ApplicationRecord
   def instantiate_tasks
     return if task_list?
 
+    reset_xp_multiplier! unless tasks_completed?(Date.yesterday)
     # TODO: Use algorithm to select, not random
     tasks.order(Arel.sql('RANDOM()')).first(TASKS_PER_DAY).each do |task|
       TaskInstance.create(task: task)
@@ -104,6 +105,12 @@ class User < ApplicationRecord
   def set_next_reward
     # TODO: Use algorithm to select, not random
     self.next_reward = rewards.order(Arel.sql('RANDOM()')).first
+  end
+
+  def tasks_completed?(date = Date.today)
+    task_list(date).select do |instance|
+      instance.completed_at.nil?
+    end.empty?
   end
 
   def xp=(value)
