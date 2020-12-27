@@ -14,7 +14,7 @@ RSpec.feature 'Home', type: :feature do
 
     before(:each) do
       user.add_xp(User::XP_PER_LEVEL * 3.2)
-      user.instantiate_tasks
+      user.build_task_list
       user.reload
       login(user)
     end

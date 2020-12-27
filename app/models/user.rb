@@ -66,7 +66,7 @@ class User < ApplicationRecord
     task_instances.select { |i| i.created_on == date }
   end
 
-  def instantiate_tasks
+  def build_task_list
     return if task_list?
 
     reset_xp_multiplier! unless tasks_completed?(Date.yesterday)

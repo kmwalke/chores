@@ -21,7 +21,7 @@ RSpec.describe User, type: :model do
     let(:user) { FactoryBot.create(:user_with_tasks) }
 
     it 'has a list' do
-      user.instantiate_tasks
+      user.build_task_list
       expect(user.reload.task_list.size).to be > 0
     end
 
@@ -32,26 +32,26 @@ RSpec.describe User, type: :model do
     end
 
     it 'will not instantiate twice' do
-      user.instantiate_tasks
+      user.build_task_list
       old_list = user.reload.task_list
-      user.instantiate_tasks
+      user.build_task_list
       expect(user.reload.task_list).to eq(old_list)
     end
 
     it 'defaults to todays list' do
-      user.instantiate_tasks
+      user.build_task_list
       user.reload
       expect(user.task_list).to eq(user.task_list(Date.today))
     end
 
     it 'gets a past list' do
-      user.instantiate_tasks
+      user.build_task_list
       user.reload
       expect(user.task_list(Date.yesterday)).to be_a(Array)
     end
 
     it 'cannot get future list' do
-      user.instantiate_tasks
+      user.build_task_list
       user.reload
       expect { user.task_list(Date.tomorrow) }.to raise_error(ArgumentError)
     end
@@ -59,7 +59,7 @@ RSpec.describe User, type: :model do
     it 'should reset the xp_multiplier if yesterdays tasks undone' do
       FactoryBot.create(:task_instance, task: user.tasks.first, created_on: Date.yesterday, completed_at: nil)
       user.increment_xp_multiplier!
-      user.instantiate_tasks
+      user.build_task_list
       expect(user.xp_multiplier).to eq(1)
     end
   end
