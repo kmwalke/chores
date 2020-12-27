@@ -57,8 +57,8 @@ class User < ApplicationRecord
     end
   end
 
-  def task_list?
-    tasks.any? && task_list.any?
+  def task_list?(date = Date.today)
+    tasks.any? && task_list(date).any?
   end
 
   private
