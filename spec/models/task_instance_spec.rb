@@ -33,4 +33,31 @@ RSpec.describe TaskInstance, type: :model do
     expect(instance.reload.completed?).to be(false)
     expect(instance.completed_at).to be_nil
   end
+
+  it 'should add xp when completed' do
+    old_xp = instance.task.user.xp
+    instance.complete!
+    expect(instance.reload.task.user.xp).to be > old_xp
+  end
+
+  it 'should increment multiplier when completed' do
+    old_mult = instance.task.user.xp_multiplier
+    instance.complete!
+    expect(instance.reload.task.user.xp_multiplier).to be > old_mult
+  end
+
+  it 'should remove xp when uncompleted' do
+    FactoryBot.create(:task_instance, task: instance.task).complete!
+    instance.complete!
+    old_xp = instance.reload.task.user.xp
+    instance.uncomplete!
+    expect(instance.reload.task.user.xp).to be < old_xp
+  end
+
+  it 'should decrement multiplier when uncompleted' do
+    instance.complete!
+    old_mult = instance.reload.task.user.xp_multiplier
+    instance.uncomplete!
+    expect(instance.reload.task.user.xp_multiplier).to be < old_mult
+  end
 end

@@ -25,7 +25,12 @@
         <input type="checkbox" id="task_<%= instance.id %>" <% if instance.completed? %>checked<% end %>/>
         <label for="task_<%= instance.id %>">
           <%= instance.task.name %>
-          <span><%= "#{instance.task.xp}xp" %></span>
+          <span>
+            <%= "#{instance.task.xp}xp" %>
+            <% if @user.xp_multiplier > 1 && !instance.completed? %>
+              <%= "+#{instance.task.bonus_xp} bonus" %>
+            <% end %>
+          </span>
         </label>
         </a>
       </li>

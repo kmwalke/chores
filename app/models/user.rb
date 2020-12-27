@@ -15,8 +15,9 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true, email: true
   validates :xp_multiplier, not_less_than_one: true
 
-  TASKS_PER_DAY = 5
-  XP_PER_LEVEL  = 1000
+  TASKS_PER_DAY     = 5
+  XP_PER_LEVEL      = 1000
+  XP_MULT_INCREMENT = 0.1
 
   def avatar
     name[0..1].downcase.capitalize
@@ -34,6 +35,23 @@ class User < ApplicationRecord
     add_xp(amount * -1)
   end
 
+  def increment_xp_multiplier!
+    self.xp_multiplier += XP_MULT_INCREMENT
+    save
+  end
+
+  def decrement_xp_multiplier!
+    return if xp_multiplier == 1
+
+    self.xp_multiplier -= XP_MULT_INCREMENT
+    save
+  end
+
+  def reset_xp_multiplier!
+    self.xp_multiplier = 1
+    save
+  end
+
   def xp_this_level
     xp % XP_PER_LEVEL
   end
@@ -48,9 +66,10 @@ class User < ApplicationRecord
     task_instances.select { |i| i.created_on == date }
   end
 
-  def instantiate_tasks
+  def build_task_list
     return if task_list?
 
+    reset_xp_multiplier! unless tasks_completed?(Date.yesterday)
     # TODO: Use algorithm to select, not random
     tasks.order(Arel.sql('RANDOM()')).first(TASKS_PER_DAY).each do |task|
       TaskInstance.create(task: task)
@@ -88,7 +107,17 @@ class User < ApplicationRecord
     self.next_reward = rewards.order(Arel.sql('RANDOM()')).first
   end
 
+  def tasks_completed?(date = Date.today)
+    task_list(date).select do |instance|
+      instance.completed_at.nil?
+    end.empty?
+  end
+
   def xp=(value)
+    super(value)
+  end
+
+  def xp_multiplier=(value)
     super(value)
   end
 end
