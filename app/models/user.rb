@@ -18,6 +18,7 @@ class User < ApplicationRecord
   TASKS_PER_DAY     = 5
   XP_PER_LEVEL      = 1000
   XP_MULT_INCREMENT = 0.1
+  MAX_XP_MULT       = 2
 
   def avatar
     name[0..1].downcase.capitalize
@@ -36,6 +37,8 @@ class User < ApplicationRecord
   end
 
   def increment_xp_multiplier!
+    return if xp_multiplier >= MAX_XP_MULT
+
     self.xp_multiplier += XP_MULT_INCREMENT
     save
   end
