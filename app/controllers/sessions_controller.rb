@@ -4,11 +4,10 @@ class SessionsController < ApplicationController
   def create
     user = User.find_by_email(params[:email])
     if user&.authenticate(params[:password])
-      InstantiateTasksWorker.perform_async(user.id) unless ENV['CIRCLECI']
       session[:user_id]          = user.id
       destination                = session[:orig_destination] || root_path
       session[:orig_destination] = nil
-      redirect_to destination, notice: 'Logged in!'
+      redirect_to destination
     else
       flash.now[:alert] = 'Email or password is invalid'
       render 'new'
