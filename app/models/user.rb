@@ -15,8 +15,8 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true, email: true
   validates :xp_multiplier, not_less_than_one: true
 
-  TASKS_PER_DAY = 5
-  XP_PER_LEVEL  = 1000
+  TASKS_PER_DAY     = 5
+  XP_PER_LEVEL      = 1000
   XP_MULT_INCREMENT = 0.1
 
   def avatar
