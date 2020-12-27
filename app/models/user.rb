@@ -80,7 +80,7 @@ class User < ApplicationRecord
   end
 
   def task_list?(date = Date.today)
-    tasks.any? && task_list(date).any?
+    tasks.empty? || task_list(date).any?
   end
 
   private
