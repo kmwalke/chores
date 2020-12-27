@@ -35,13 +35,13 @@ RSpec.feature 'Home', type: :feature do
     end
 
     scenario 'hides xp multiplier when 1' do
-      user.update(xp_multiplier: 1)
+      user.reset_xp_multiplier!
       visit root_path
       expect(page).not_to have_content("x#{user.xp_multiplier}")
     end
 
     scenario 'shows xp multiplier when >1' do
-      user.update(xp_multiplier: 1.1)
+      user.increment_xp_multiplier!
       visit root_path
       expect(page).to have_content("x#{user.xp_multiplier}")
     end
