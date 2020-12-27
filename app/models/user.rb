@@ -49,12 +49,16 @@ class User < ApplicationRecord
   end
 
   def instantiate_tasks
-    return unless task_list.empty?
+    return if task_list?
 
     # TODO: Use algorithm to select, not random
     tasks.order(Arel.sql('RANDOM()')).first(TASKS_PER_DAY).each do |task|
       TaskInstance.create(task: task)
     end
+  end
+
+  def task_list?(date = Date.today)
+    tasks.any? && task_list(date).any?
   end
 
   private
