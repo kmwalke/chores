@@ -10,7 +10,7 @@ class HomeController < ApplicationController
 
     return if @user.task_list? || Rails.env.test?
 
-    @user.instantiate_tasks
+    @user.build_task_list
     redirect_to root_path
   end
 

@@ -15,6 +15,10 @@ class Task < ApplicationRecord
     self.xp = frequency * size * XP_FACTOR
   end
 
+  def bonus_xp
+    (xp * (user.xp_multiplier - 1)).to_i
+  end
+
   private
 
   def xp=(value)
