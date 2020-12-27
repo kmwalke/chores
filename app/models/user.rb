@@ -17,6 +17,7 @@ class User < ApplicationRecord
 
   TASKS_PER_DAY = 5
   XP_PER_LEVEL  = 1000
+  XP_MULT_INCREMENT = 0.1
 
   def avatar
     name[0..1].downcase.capitalize
@@ -32,6 +33,16 @@ class User < ApplicationRecord
     return if (amount * xp_multiplier) > xp_this_level
 
     add_xp(amount * -1)
+  end
+
+  def increment_xp_multiplier!
+    self.xp_multiplier += XP_MULT_INCREMENT
+    save
+  end
+
+  def reset_xp_multiplier!
+    self.xp_multiplier = 1
+    save
   end
 
   def xp_this_level
@@ -89,6 +100,10 @@ class User < ApplicationRecord
   end
 
   def xp=(value)
+    super(value)
+  end
+
+  def xp_multiplier=(value)
     super(value)
   end
 end

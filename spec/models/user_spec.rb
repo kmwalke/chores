@@ -81,15 +81,26 @@ RSpec.describe User, type: :model do
       expect(user.xp).to eq(10)
     end
 
-    it 'should use the xp multiplier' do
-      user.xp_multiplier = 1.3
-      user.add_xp(10)
-      expect(user.xp).to eq(13)
+    it 'should not allow xp_multiplier to be set' do
+      expect(User.new.respond_to?('xp_multiplier=')).to eq(false)
     end
 
-    it 'cannot set xp_multiplier less than 1' do
-      user.xp_multiplier = 0
-      expect(user.save).to eq(false)
+    it 'should increment the xp multiplier' do
+      old_multiplier = user.xp_multiplier
+      user.increment_xp_multiplier!
+      expect(user.reload.xp_multiplier).to be > old_multiplier
+    end
+
+    it 'should reset the xp_multiplier' do
+      user.increment_xp_multiplier!
+      user.reset_xp_multiplier!
+      expect(user.reload.xp_multiplier).to eq(1)
+    end
+
+    it 'should use the xp multiplier' do
+      user.increment_xp_multiplier!
+      user.add_xp(10)
+      expect(user.xp).to be > 10
     end
 
     it 'should level up' do
