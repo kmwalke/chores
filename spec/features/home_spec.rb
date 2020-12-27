@@ -9,7 +9,18 @@ RSpec.feature 'Home', type: :feature do
     end
   end
 
-  describe 'logged in' do
+  describe 'logged in with no tasks' do
+    let(:user) { FactoryBot.create(:user) }
+
+    scenario 'displays the homepage' do
+      login(user)
+      visit root_path
+      expect(page).to have_content(user.avatar)
+      expect(page).to have_content('Tasks')
+    end
+  end
+
+  describe 'logged in with tasks' do
     let(:user) { FactoryBot.create(:user_with_tasks) }
 
     before(:each) do
