@@ -39,4 +39,13 @@ RSpec.describe Task, type: :model do
   it 'should not allow xp to be set' do
     expect(Task.new.respond_to?('xp=')).to eq(false)
   end
+
+  it 'should calculate bonus xp at 0' do
+    expect(task.bonus_xp).to eq(0)
+  end
+
+  it 'should calculate bonus xp' do
+    task.user.increment_xp_multiplier!
+    expect(task.reload.bonus_xp).to be > 0
+  end
 end
