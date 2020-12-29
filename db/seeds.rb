@@ -21,10 +21,10 @@ user_role  = Role.create(name: 'User')
 admin_role.permissions << Permission.all
 user_role.permissions << [permissions[:current_user], permissions[:tasks]]
 
-User.create(name: 'admin1', email: 'admin@chores.com', role: admin_role, password: '123')
-User.create(name: 'user1', email: 'user1@chores.com', role: user_role, password: '123')
-User.create(name: 'user2', email: 'user2@chores.com', role: user_role, password: '123')
-User.create(name: 'user3', email: 'user3@chores.com', role: user_role, password: '123')
+User.create(name: 'admin1', email: 'admin@chores.com', role: admin_role, password: '123', time_zone: 'MST')
+User.create(name: 'user1', email: 'user1@chores.com', role: user_role, password: '123', time_zone: 'MST')
+User.create(name: 'user2', email: 'user2@chores.com', role: user_role, password: '123', time_zone: 'MST')
+User.create(name: 'user3', email: 'user3@chores.com', role: user_role, password: '123', time_zone: 'MST')
 
 %w[clean workout play\ music walk\ the\ dog
    empty\ litter\ box go\ to\ playground

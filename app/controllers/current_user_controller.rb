@@ -30,7 +30,7 @@ class CurrentUserController < ApplicationController
   end
 
   def current_user_params
-    params.permit(:name, :email, :password, :password_confirmation, :confirm)
+    params.permit(:confirm, :email, :name, :password, :password_confirmation, :time_zone)
   end
 
   def check_destroy_confirm
