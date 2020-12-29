@@ -12,6 +12,8 @@ any Linux system.
 
 ### Docker setup
 1. Install docker and docker-compose
+   1. https://docs.docker.com/docker-for-windows/install/
+   2. https://docs.docker.com/compose/install/
 2. Enable VT-x (hardware virtualization) on your computer
   - This is deferent for every computer, but can usually be found in your BIOS settings
   - Macs have this enabled by default, but if you notice containers running very slow, it may be turned off.  Reboot your computer and hold CMD-OPT-P-R during boot to re-enable it
