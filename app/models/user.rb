@@ -13,6 +13,7 @@ class User < ApplicationRecord
 
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true, email: true
+  validates :time_zone, presence: true, time_zone: true
   validates :xp_multiplier, not_less_than_one: true
 
   TASKS_PER_DAY     = 5
