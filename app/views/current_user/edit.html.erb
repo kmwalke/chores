@@ -1,5 +1,5 @@
 <h1>Editing <%= @current_user.name %></h1>
-<%= form_tag update_current_user_path, method: :patch do |form| %>
+<%= form_tag update_current_user_path, method: :patch do %>
   <% if @current_user.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@current_user.errors.count, "error") %> prohibited this user from being saved:</h2>
@@ -18,6 +18,22 @@
   </div>
 
   <div class="field">
+    <%= label_tag :name %>
+    <%= text_field_tag :name, @current_user.name %>
+  </div>
+
+  <div class="field">
+    <%= label_tag :time_zone %>
+    <select name="time_zone" id="time_zone">
+      <% ActiveSupport::TimeZone.all.each do |zone| %>
+        <option value="<%= zone.name %>"<%= 'selected="selected"' if zone.name == @current_user.time_zone %>>
+          <%= zone.to_s %>
+        </option>
+      <% end %>
+    </select>
+  </div>
+
+  <div class="field">
     <%= label_tag :password %>
     <%= password_field_tag :password %>
   </div>
@@ -25,11 +41,6 @@
   <div class="field">
     <%= label_tag :password_confirmation %>
     <%= password_field_tag :password_confirmation %>
-  </div>
-
-  <div class="field">
-    <%= label_tag :name %>
-    <%= text_field_tag :name, @current_user.name %>
   </div>
 
   <div class="actions">
