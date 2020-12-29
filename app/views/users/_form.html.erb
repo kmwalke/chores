@@ -17,6 +17,16 @@
   </div>
 
   <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :role %>
+    <%= form.time_zone_select(:time_zone) %>
+  </div>
+
+  <div class="field">
     <%= form.label :password %>
     <%= form.password_field :password %>
   </div>
@@ -24,11 +34,6 @@
   <div class="field">
     <%= form.label :password_confirmation %>
     <%= form.password_field :password_confirmation %>
-  </div>
-
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
   </div>
 
   <div class="field">
