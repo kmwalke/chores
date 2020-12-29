@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  # include TimeZoneConverter
   has_secure_password
 
   belongs_to :role
@@ -15,11 +16,19 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true, email: true
   validates :time_zone, presence: true, time_zone: true
   validates :xp_multiplier, not_less_than_one: true
+  def today_in_zone(zone)
+    Time.find_zone!(zone).today
+  end
 
-  TASKS_PER_DAY     = 5
-  XP_PER_LEVEL      = 1000
+  def yesterday_in_zone(zone)
+    Time.find_zone!(zone).yesterday
+  end
+
+
+  TASKS_PER_DAY = 5
+  XP_PER_LEVEL = 1000
   XP_MULT_INCREMENT = 0.1
-  MAX_XP_MULT       = 2
+  MAX_XP_MULT = 2
 
   def avatar
     name[0..1].downcase.capitalize
@@ -64,8 +73,8 @@ class User < ApplicationRecord
     xp_this_level.to_f / XP_PER_LEVEL
   end
 
-  def task_list(date = Date.today)
-    raise ArgumentError, 'Date cannot be in the future' if date > Date.today
+  def task_list(date = today_in_zone(time_zone))
+    raise ArgumentError, 'Date cannot be in the future' if date > today_in_zone(time_zone)
 
     task_instances.select { |i| i.created_on == date }
   end
@@ -73,14 +82,14 @@ class User < ApplicationRecord
   def build_task_list
     return if task_list?
 
-    reset_xp_multiplier! unless tasks_completed?(Date.yesterday)
+    reset_xp_multiplier! unless tasks_completed?(yesterday_in_zone(time_zone))
     # TODO: Use algorithm to select, not random
     tasks.order(Arel.sql('RANDOM()')).first(TASKS_PER_DAY).each do |task|
       TaskInstance.create(task: task)
     end
   end
 
-  def task_list?(date = Date.today)
+  def task_list?(date = today_in_zone(time_zone))
     tasks.empty? || task_list(date).any?
   end
 
@@ -111,7 +120,7 @@ class User < ApplicationRecord
     self.next_reward = rewards.order(Arel.sql('RANDOM()')).first
   end
 
-  def tasks_completed?(date = Date.today)
+  def tasks_completed?(date = today_in_zone(time_zone))
     task_list(date).select do |instance|
       instance.completed_at.nil?
     end.empty?
