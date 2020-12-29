@@ -18,13 +18,13 @@ any Linux system.
   - This is deferent for every computer, but can usually be found in your BIOS settings
   - Macs have this enabled by default, but if you notice containers running very slow, it may be turned off.  Reboot your computer and hold CMD-OPT-P-R during boot to re-enable it
 3. Run the following in the chores directory
-    ````
-   > docker-compose build
-   > docker-compose up
+    ````bash
+   $ docker-compose build
+   $ docker-compose up
     ````
 4. Once the container is started you can open another terminal and enter the container
-    ````
-   > docker-compose exec web bash
+    ````bash
+   $ docker-compose exec web bash
     ````
 5. Once inside the container
 
@@ -33,17 +33,17 @@ We use rspec for tests. There is also a gem called 'guard'
 installed. Guard facilitates some automatic running of tests.
 
 1. Enter the container CLI:
-    ````
-    > docker-compose exec web bash
+    ````bash
+    $ docker-compose exec web bash
     ````
 2. Run tests manually if desired:
-    ````
-    > rspec
+    ````bash
+    $ rspec
     ````
 3. Run guard to run tests automatically
+    ````bash
+    $ bundle exec guard
     ````
-   > bundle exec guard
-   ````
 4. See the guard docs for info on guard:
     1. https://github.com/guard/guard
 
@@ -52,20 +52,20 @@ We use hound to check the code formatting on github. We
 have rubocop installed as a gem to check/correct it locally.
 
 1. Enter the container CLI:
-    ````
-    > docker-compose exec web bash
+    ````bash
+    $ docker-compose exec web bash
     ````
 2. Run rubocop to report on formatting issues:
-    ````
-    > rubocop
+    ````bash
+    $ rubocop
     ````
 2. Run rubocop to fix most issues:
-    ````
-    > rubocop -a
+    ````bash
+    $ rubocop -a
     ````
 2. Run rubocop to fix everything it can (unsafe fixes):
-    ````
-    > rubocop -A
+    ````bash
+    $ rubocop -A
     ````
 
 ## Branching Structure
