@@ -1,4 +1,4 @@
-#instantiate_tasks:
-#  cron: "5 0 * * *"
-#  class: "InstantiateAllTasksWorker"
-#  queue: default
+instantiate_tasks:
+  cron: "5 0 * * *"
+  class: "InstantiateAllTasksWorker"
+  queue: default
