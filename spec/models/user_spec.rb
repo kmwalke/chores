@@ -17,6 +17,14 @@ RSpec.describe User, type: :model do
     expect(User.create(role: nil).errors).to have_key(:role)
   end
 
+  it 'should require a TimeZone' do
+    expect(User.create(time_zone: nil).errors).to have_key(:time_zone)
+  end
+
+  it 'should require a valid TimeZone' do
+    expect(User.create(time_zone: 'not a time zone').errors).to have_key(:time_zone)
+  end
+
   describe 'task list' do
     let(:user) { FactoryBot.create(:user_with_tasks) }
 
