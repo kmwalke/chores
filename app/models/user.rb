@@ -1,5 +1,6 @@
 class User < ApplicationRecord
-  # include TimeZoneConverter
+  include DateInZone
+
   has_secure_password
 
   belongs_to :role
@@ -16,19 +17,11 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true, email: true
   validates :time_zone, presence: true, time_zone: true
   validates :xp_multiplier, not_less_than_one: true
-  def today_in_zone(zone)
-    Time.find_zone!(zone).today
-  end
 
-  def yesterday_in_zone(zone)
-    Time.find_zone!(zone).yesterday
-  end
-
-
-  TASKS_PER_DAY = 5
-  XP_PER_LEVEL = 1000
+  TASKS_PER_DAY     = 5
+  XP_PER_LEVEL      = 1000
   XP_MULT_INCREMENT = 0.1
-  MAX_XP_MULT = 2
+  MAX_XP_MULT       = 2
 
   def avatar
     name[0..1].downcase.capitalize

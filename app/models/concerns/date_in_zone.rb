@@ -1,4 +1,4 @@
-module TimeZoneConverter
+module DateInZone
   extend ActiveSupport::Concern
 
   def today_in_zone(zone)
