@@ -69,7 +69,7 @@ class User < ApplicationRecord
   def task_list(date = today_in_zone(time_zone))
     raise ArgumentError, 'Date cannot be in the future' if date > today_in_zone(time_zone)
 
-    task_instances.select { |i| i.created_on == date }
+    task_instances.where(created_on: date).to_a
   end
 
   def build_task_list
@@ -78,7 +78,7 @@ class User < ApplicationRecord
     reset_xp_multiplier! unless tasks_completed?(yesterday_in_zone(time_zone))
     # TODO: Use algorithm to select, not random
     tasks.order(Arel.sql('RANDOM()')).first(TASKS_PER_DAY).each do |task|
-      TaskInstance.create(task: task)
+      TaskInstance.create(task: task, created_on: today_in_zone(time_zone))
     end
   end
 
