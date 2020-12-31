@@ -2,7 +2,7 @@ class RewardsController < ApplicationController
   before_action :set_reward, only: [:show, :edit, :update, :destroy]
 
   def index
-    @rewards = Reward.where(user_id: current_user.id)
+    @rewards = Reward.where(user_id: current_user.id).order(:name)
   end
 
   def show; end
