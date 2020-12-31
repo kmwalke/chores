@@ -2,7 +2,7 @@ class FeaturesController < ApplicationController
   before_action :set_feature, only: [:show, :edit, :update, :destroy]
 
   def index
-    @features = Feature.all
+    @features = Feature.all.order(:name)
   end
 
   def show; end

@@ -2,7 +2,7 @@ class PermissionsController < ApplicationController
   before_action :set_permission, only: [:show, :edit, :update, :destroy]
 
   def index
-    @permissions = Permission.all
+    @permissions = Permission.all.order(:feature_id)
   end
 
   def show; end
