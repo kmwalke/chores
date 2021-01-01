@@ -1,11 +1,11 @@
 <div class="links">
   <%= link_to 'Home', root_path %>
   <%= link_to 'My Account', edit_current_user_path %>
-  <%= link_to 'Rewards', rewards_path %>
-  <%= link_to 'Tasks', tasks_path %>
-  <%= link_to 'Features', features_path %>
-  <%= link_to 'Permissions', permissions_path %>
-  <%= link_to 'Roles', roles_path %>
-  <%= link_to 'Users', users_path %>
+  <%= render partial: 'layouts/conditional_link', locals: {name: 'rewards'} %>
+  <%= render partial: 'layouts/conditional_link', locals: {name: 'tasks'} %>
+  <%= render partial: 'layouts/conditional_link', locals: {name: 'features'} %>
+  <%= render partial: 'layouts/conditional_link', locals: {name: 'permissions'} %>
+  <%= render partial: 'layouts/conditional_link', locals: {name: 'roles'} %>
+  <%= render partial: 'layouts/conditional_link', locals: {name: 'users'} %>
   <%= link_to 'Log Out', logout_path %>
 </div>
