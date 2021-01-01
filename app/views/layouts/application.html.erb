@@ -13,9 +13,9 @@
   <body class="<%= controller.controller_name%>">
 
     <% if current_user %>
-      <%= render partial: 'layouts/admin_links' %>
+      <%= render partial: 'layouts/user_links' %>
     <% else %>
-      <%= render partial: 'layouts/links' %>
+      <%= render partial: 'layouts/guest_links' %>
     <% end %>
     <p class=”notice”><%= notice %></p>
 
