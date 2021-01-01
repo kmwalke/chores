@@ -4,8 +4,8 @@ class Role < ApplicationRecord
 
   validates :name, presence: true, uniqueness: true
 
-  def has_feature(name)
+  def feature?(name)
     feature = Feature.find_by(name: name.downcase)
-    permissions.select{ |p| p.feature_id == feature.id}.any? unless feature.nil?
+    permissions.select { |p| p.feature_id == feature.id }.any? unless feature.nil?
   end
 end
