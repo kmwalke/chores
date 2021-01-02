@@ -5,8 +5,8 @@ class Task < ApplicationRecord
   has_many :task_instances
 
   validates :name, presence: true
-  validates :frequency, presence: true, numericality: { greater_than: 0 }
-  validates :size, presence: true, numericality: { greater_than: 0 }
+  validates :frequency, presence: true, numericality: { greater_than: 0, less_than: 32 }
+  validates :size, presence: true, numericality: { greater_than: 0, less_than: 6 }
   validates :user_id, presence: true
 
   before_save :set_xp
