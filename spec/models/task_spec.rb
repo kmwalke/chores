@@ -18,12 +18,20 @@ RSpec.describe Task, type: :model do
     expect(Task.create(frequency: 0).errors).to have_key(:frequency)
   end
 
+  it 'should require frequency of 31 or less' do
+    expect(Task.create(frequency: 32).errors).to have_key(:frequency)
+  end
+
   it 'should require a size' do
     expect(Task.create(size: '').errors).to have_key(:size)
   end
 
   it 'should require a positive size' do
     expect(Task.create(size: 0).errors).to have_key(:size)
+  end
+
+  it 'should require a size of 5 or less' do
+    expect(Task.create(size: 6).errors).to have_key(:size)
   end
 
   it 'should generate an xp value' do
