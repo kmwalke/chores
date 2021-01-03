@@ -59,7 +59,9 @@ RSpec.describe Task, type: :model do
 
   describe 'data privacy' do
     it 'cascade deletes task instances' do
-      expect(true).to eq(false)
+      instance_id = task.task_instances.first.id
+      task.destroy
+      expect(TaskInstance.find_by(id: instance_id)).to be_nil
     end
   end
 end
