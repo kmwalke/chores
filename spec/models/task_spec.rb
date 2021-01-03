@@ -56,4 +56,10 @@ RSpec.describe Task, type: :model do
     task.user.increment_xp_multiplier!
     expect(task.reload.bonus_xp).to be > 0
   end
+
+  describe 'data privacy' do
+    it 'cascade deletes task instances' do
+      expect(true).to eq(false)
+    end
+  end
 end

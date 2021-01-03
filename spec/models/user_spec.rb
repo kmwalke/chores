@@ -182,4 +182,14 @@ RSpec.describe User, type: :model do
       expect(user.reload.next_reward).not_to eq(old_reward)
     end
   end
+
+  describe 'data privacy' do
+    it 'does not cascade delete roles' do
+      expect(true).to eq(false)
+    end
+
+    it 'cascade deletes tasks' do
+      expect(true).to eq(false)
+    end
+  end
 end
