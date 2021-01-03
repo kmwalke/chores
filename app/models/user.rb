@@ -10,7 +10,7 @@ class User < ApplicationRecord
                           join_table: 'rewards_users',
                           association_foreign_key: 'reward_id'
   has_many :rewards
-  has_many :tasks
+  has_many :tasks, dependent: :destroy
   has_many :task_instances, through: :tasks
 
   validates :name, presence: true
