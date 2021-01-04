@@ -1,4 +1,6 @@
 class Task < ApplicationRecord
+  include SoftDeletable
+
   XP_FACTOR = 10
 
   belongs_to :user
