@@ -2,7 +2,7 @@ class SessionsController < ApplicationController
   def new; end
 
   def create
-    user = User.find_by_email(params[:email])
+    user = User.where('lower(email) = ?', params[:email].downcase).first
     if user&.authenticate(params[:password])
       session[:user_id]          = user.id
       destination                = session[:orig_destination] || root_path
