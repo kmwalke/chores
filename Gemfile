@@ -1,14 +1,14 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.7.2'
+ruby '3.0.0'
 
 gem 'bcrypt'
 gem 'bootsnap'
 gem 'image_processing'
 gem 'pg'
 gem 'puma'
-gem 'rails', '~> 6.0.3', '>= 6.0.3.1'
+gem 'rails'
 gem 'sass-rails'
 gem 'sidekiq'
 gem 'sidekiq-cron'
