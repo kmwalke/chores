@@ -16,6 +16,35 @@ RSpec.feature 'Sessions', type: :feature do
       expect(current_path).to eq(login_path)
     end
   end
+  
+   describe 'logging in' do
+     scenario 'case insensitive email' do
+       visit login_path
+       fill_in 'Email', with: user.email.upcase
+       fill_in 'Password', with: user.password
+       click_button 'Log In'
+	   expect(page).to have_content('Log Out')
+       expect(current_path).to eq(root_path)
+     end
+	 
+	 scenario 'Wrong Password' do
+       visit login_path
+       fill_in 'Email', with: user.email
+       fill_in 'Password', with: "Wrong Password"
+       click_button 'Log In'
+	   expect(page).to have_content('Email or password is invalid')
+       expect(current_path).to eq(root_path)
+	 end
+	 
+	 scenario 'Wrong Email' do
+       visit login_path
+       fill_in 'Email', with: "Wrong Email"
+       fill_in 'Password', with: user.password
+       click_button 'Log In'
+	   expect(page).to have_content('Email or password is invalid')
+       expect(current_path).to eq(root_path)
+	 end
+  end
 
   describe 'logged in' do
     before :each do
