@@ -6,6 +6,7 @@ class User < ApplicationRecord
   belongs_to :role
   belongs_to :next_reward, class_name: 'Reward', optional: true
   has_and_belongs_to_many :earned_rewards,
+                          -> { unscope(where: :deleted_at) },
                           class_name: 'Reward',
                           join_table: 'rewards_users',
                           association_foreign_key: 'reward_id'
