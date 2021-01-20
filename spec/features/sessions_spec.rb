@@ -27,6 +27,15 @@ RSpec.feature 'Sessions', type: :feature do
       expect(current_path).to eq(root_path)
     end
 
+    scenario 'email with spaces' do
+      visit login_path
+      fill_in 'Email', with: " #{user.email} "
+      fill_in 'Password', with: user.password
+      click_button 'Log In'
+      expect(page).to have_content('Log Out')
+      expect(current_path).to eq(root_path)
+    end
+
     scenario 'Wrong Password' do
       visit login_path
       fill_in 'Email', with: user.email
