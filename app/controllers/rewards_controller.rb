@@ -32,7 +32,7 @@ class RewardsController < ApplicationController
   end
 
   def destroy
-    @reward.destroy
+    @reward.soft_delete
     redirect_to rewards_path, notice: 'Reward was successfully destroyed.'
   end
 
