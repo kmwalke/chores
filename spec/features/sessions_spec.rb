@@ -33,7 +33,7 @@ RSpec.feature 'Sessions', type: :feature do
        fill_in 'Password', with: "Wrong Password"
        click_button 'Log In'
 	   expect(page).to have_content('Email or password is invalid')
-       expect(current_path).to eq(root_path)
+       expect(current_path).to eq(sessions_path)
 	 end
 	 
 	 scenario 'Wrong Email' do
@@ -42,7 +42,7 @@ RSpec.feature 'Sessions', type: :feature do
        fill_in 'Password', with: user.password
        click_button 'Log In'
 	   expect(page).to have_content('Email or password is invalid')
-       expect(current_path).to eq(root_path)
+       expect(current_path).to eq(sessions_path)
 	 end
   end
 
