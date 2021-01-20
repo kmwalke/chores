@@ -182,4 +182,23 @@ RSpec.describe User, type: :model do
       expect(user.reload.next_reward).not_to eq(old_reward)
     end
   end
+
+  describe 'data privacy' do
+    let(:user) { FactoryBot.create(:user_with_tasks) }
+
+    it 'does not cascade delete roles' do
+      role_id = user.role.id
+      user.destroy
+      expect(Role.find_by(id: role_id)).to_not be_nil
+    end
+
+    it 'cascade deletes tasks' do
+      task_ids = user.tasks.map(&:id)
+      user.destroy
+
+      task_ids.each do |id|
+        expect(Task.find_by(id: id)).to be_nil
+      end
+    end
+  end
 end

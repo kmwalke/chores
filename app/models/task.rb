@@ -1,8 +1,10 @@
 class Task < ApplicationRecord
+  include SoftDeletable
+
   XP_FACTOR = 10
 
   belongs_to :user
-  has_many :task_instances
+  has_many :task_instances, dependent: :destroy
 
   validates :name, presence: true
   validates :frequency, presence: true, numericality: { greater_than: 0, less_than_or_equal_to: 31 }

@@ -32,7 +32,7 @@ class TasksController < ApplicationController
   end
 
   def destroy
-    @task.destroy
+    @task.soft_delete
     redirect_to tasks_path, notice: 'Task was successfully destroyed.'
   end
 
