@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 2021_01_26_233548) do
   create_table "actions_permissions", id: false, force: :cascade do |t|
     t.bigint "permission_id", null: false
     t.bigint "action_id", null: false
+    t.index ["action_id", "permission_id"], name: "index_actions_permissions_on_action_id_and_permission_id", unique: true
     t.index ["action_id"], name: "index_actions_permissions_on_action_id"
     t.index ["permission_id"], name: "index_actions_permissions_on_permission_id"
   end
@@ -39,6 +40,7 @@ ActiveRecord::Schema.define(version: 2021_01_26_233548) do
   create_table "permissions_roles", id: false, force: :cascade do |t|
     t.bigint "permission_id", null: false
     t.bigint "role_id", null: false
+    t.index ["permission_id", "role_id"], name: "index_permissions_roles_on_permission_id_and_role_id", unique: true
     t.index ["permission_id"], name: "index_permissions_roles_on_permission_id"
     t.index ["role_id"], name: "index_permissions_roles_on_role_id"
   end
@@ -52,9 +54,10 @@ ActiveRecord::Schema.define(version: 2021_01_26_233548) do
   end
 
   create_table "rewards_users", id: false, force: :cascade do |t|
-    t.bigint "reward_id"
-    t.bigint "user_id"
+    t.bigint "reward_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at"
+    t.index ["reward_id", "user_id"], name: "index_rewards_users_on_reward_id_and_user_id", unique: true
     t.index ["reward_id"], name: "index_rewards_users_on_reward_id"
     t.index ["user_id"], name: "index_rewards_users_on_user_id"
   end
@@ -67,7 +70,7 @@ ActiveRecord::Schema.define(version: 2021_01_26_233548) do
   create_table "task_instances", force: :cascade do |t|
     t.integer "task_id", null: false
     t.datetime "completed_at"
-    t.date "created_on"
+    t.date "created_on", null: false
   end
 
   create_table "tasks", force: :cascade do |t|
@@ -88,7 +91,7 @@ ActiveRecord::Schema.define(version: 2021_01_26_233548) do
     t.integer "level", default: 1, null: false
     t.integer "xp", default: 0, null: false
     t.decimal "xp_multiplier", default: "1.0", null: false
-    t.integer "role_id"
+    t.integer "role_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "next_reward_id"
@@ -99,4 +102,6 @@ ActiveRecord::Schema.define(version: 2021_01_26_233548) do
   add_foreign_key "actions_permissions", "permissions"
   add_foreign_key "permissions_roles", "permissions"
   add_foreign_key "permissions_roles", "roles"
+  add_foreign_key "rewards_users", "rewards"
+  add_foreign_key "rewards_users", "users"
 end
