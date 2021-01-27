@@ -13,4 +13,5 @@ fi
 bundle exec rails db:migrate RAILS_ENV=development
 bundle exec rails db:migrate RAILS_ENV=test
 
+./bin/webpack --watch &
 bundle exec puma -p 3000 -C config/puma.rb
