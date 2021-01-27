@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_03_204717) do
+ActiveRecord::Schema.define(version: 2021_01_26_233548) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,8 +20,9 @@ ActiveRecord::Schema.define(version: 2021_01_03_204717) do
   end
 
   create_table "actions_permissions", id: false, force: :cascade do |t|
-    t.bigint "permission_id"
-    t.bigint "action_id"
+    t.bigint "permission_id", null: false
+    t.bigint "action_id", null: false
+    t.index ["action_id", "permission_id"], name: "index_actions_permissions_on_action_id_and_permission_id", unique: true
     t.index ["action_id"], name: "index_actions_permissions_on_action_id"
     t.index ["permission_id"], name: "index_actions_permissions_on_permission_id"
   end
@@ -37,8 +38,9 @@ ActiveRecord::Schema.define(version: 2021_01_03_204717) do
   end
 
   create_table "permissions_roles", id: false, force: :cascade do |t|
-    t.bigint "permission_id"
-    t.bigint "role_id"
+    t.bigint "permission_id", null: false
+    t.bigint "role_id", null: false
+    t.index ["permission_id", "role_id"], name: "index_permissions_roles_on_permission_id_and_role_id", unique: true
     t.index ["permission_id"], name: "index_permissions_roles_on_permission_id"
     t.index ["role_id"], name: "index_permissions_roles_on_role_id"
   end
@@ -52,22 +54,23 @@ ActiveRecord::Schema.define(version: 2021_01_03_204717) do
   end
 
   create_table "rewards_users", id: false, force: :cascade do |t|
-    t.bigint "reward_id"
-    t.bigint "user_id"
-    t.datetime "created_at"
+    t.bigint "reward_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["reward_id", "user_id"], name: "index_rewards_users_on_reward_id_and_user_id", unique: true
     t.index ["reward_id"], name: "index_rewards_users_on_reward_id"
     t.index ["user_id"], name: "index_rewards_users_on_user_id"
   end
 
   create_table "roles", force: :cascade do |t|
     t.string "name", null: false
-    t.text "description"
+    t.text "description", null: false
   end
 
   create_table "task_instances", force: :cascade do |t|
     t.integer "task_id", null: false
     t.datetime "completed_at"
-    t.date "created_on"
+    t.date "created_on", null: false
   end
 
   create_table "tasks", force: :cascade do |t|
@@ -88,11 +91,17 @@ ActiveRecord::Schema.define(version: 2021_01_03_204717) do
     t.integer "level", default: 1, null: false
     t.integer "xp", default: 0, null: false
     t.decimal "xp_multiplier", default: "1.0", null: false
-    t.integer "role_id"
+    t.integer "role_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "next_reward_id"
     t.string "time_zone", default: "UTC", null: false
   end
 
+  add_foreign_key "actions_permissions", "actions"
+  add_foreign_key "actions_permissions", "permissions"
+  add_foreign_key "permissions_roles", "permissions"
+  add_foreign_key "permissions_roles", "roles"
+  add_foreign_key "rewards_users", "rewards"
+  add_foreign_key "rewards_users", "users"
 end
