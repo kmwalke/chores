@@ -91,6 +91,9 @@ jobs:
       - run:
           name: Database setup
           command: bundle exec rails db:schema:load --trace
+      - run:
+          name: Webpacker Compile
+          command: bundle exec rails webpacker:compile
       # Run rspec in parallel
       - run:
           name: Run Tests
