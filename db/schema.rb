@@ -56,7 +56,7 @@ ActiveRecord::Schema.define(version: 2021_01_26_233548) do
   create_table "rewards_users", id: false, force: :cascade do |t|
     t.bigint "reward_id", null: false
     t.bigint "user_id", null: false
-    t.datetime "created_at"
+    t.datetime "created_at", null: false
     t.index ["reward_id", "user_id"], name: "index_rewards_users_on_reward_id_and_user_id", unique: true
     t.index ["reward_id"], name: "index_rewards_users_on_reward_id"
     t.index ["user_id"], name: "index_rewards_users_on_user_id"

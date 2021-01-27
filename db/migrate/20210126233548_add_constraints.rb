@@ -14,6 +14,7 @@ class AddConstraints < ActiveRecord::Migration[6.1]
 
     change_column :rewards_users, :reward_id, :bigint, null: false
     change_column :rewards_users, :user_id, :bigint, null: false
+    change_column :rewards_users, :created_at, :datetime, null: false
     add_foreign_key :rewards_users, :rewards
     add_foreign_key :rewards_users, :users
     add_index :rewards_users, [:reward_id, :user_id], unique: true
