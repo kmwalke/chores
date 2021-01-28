@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_26_233548) do
+ActiveRecord::Schema.define(version: 2021_01_28_001928) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,11 @@ ActiveRecord::Schema.define(version: 2021_01_26_233548) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "happiness", force: :cascade do |t|
+    t.string "name", null: false
+    t.index ["name"], name: "index_happiness_on_name", unique: true
+  end
+
   create_table "permissions", force: :cascade do |t|
     t.integer "feature_id", null: false
   end
@@ -43,6 +48,14 @@ ActiveRecord::Schema.define(version: 2021_01_26_233548) do
     t.index ["permission_id", "role_id"], name: "index_permissions_roles_on_permission_id_and_role_id", unique: true
     t.index ["permission_id"], name: "index_permissions_roles_on_permission_id"
     t.index ["role_id"], name: "index_permissions_roles_on_role_id"
+  end
+
+  create_table "ratings", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "happiness", null: false
+    t.text "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "rewards", force: :cascade do |t|
@@ -102,6 +115,7 @@ ActiveRecord::Schema.define(version: 2021_01_26_233548) do
   add_foreign_key "actions_permissions", "permissions"
   add_foreign_key "permissions_roles", "permissions"
   add_foreign_key "permissions_roles", "roles"
+  add_foreign_key "ratings", "happiness", column: "happiness", primary_key: "name"
   add_foreign_key "rewards_users", "rewards"
   add_foreign_key "rewards_users", "users"
 end
