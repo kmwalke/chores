@@ -13,6 +13,7 @@ class User < ApplicationRecord
   has_many :rewards
   has_many :tasks, dependent: :destroy
   has_many :task_instances, through: :tasks
+  has_many :ratings
 
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true, email: true
