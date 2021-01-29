@@ -1,7 +1,7 @@
 class CreateDays < ActiveRecord::Migration[6.1]
   def up
     create_table :days, id: false do |t|
-      t.string :name, null: false
+      t.string :name, primary_key: true, null: false
     end
 
     add_index :days, :name, unique: true

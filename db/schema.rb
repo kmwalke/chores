@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_29_204536) do
+ActiveRecord::Schema.define(version: 2021_01_29_214102) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,9 +27,14 @@ ActiveRecord::Schema.define(version: 2021_01_29_204536) do
     t.index ["permission_id"], name: "index_actions_permissions_on_permission_id"
   end
 
-  create_table "days", id: false, force: :cascade do |t|
-    t.string "name", null: false
+  create_table "days", primary_key: "name", id: :string, force: :cascade do |t|
     t.index ["name"], name: "index_days_on_name", unique: true
+  end
+
+  create_table "days_schedules", force: :cascade do |t|
+    t.string "day", null: false
+    t.integer "schedule_id", null: false
+    t.index ["day", "schedule_id"], name: "index_days_schedules_on_day_and_schedule_id", unique: true
   end
 
   create_table "features", force: :cascade do |t|
@@ -70,6 +75,13 @@ ActiveRecord::Schema.define(version: 2021_01_29_204536) do
   create_table "roles", force: :cascade do |t|
     t.string "name", null: false
     t.text "description", null: false
+  end
+
+  create_table "schedules", force: :cascade do |t|
+    t.integer "num_occurrences", comment: "null means occur forever"
+    t.date "due_date", comment: "null means no particular due date"
+    t.integer "model_id", null: false
+    t.string "model_type", null: false
   end
 
   create_table "task_instances", force: :cascade do |t|
