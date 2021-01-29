@@ -100,6 +100,9 @@ RSpec.configure do |config|
       p         = Permission.find_or_create_by(feature: Feature.find_or_create_by(name: controller))
       p.actions = Action.all
     end
+    Day::NAMES.each do |name|
+      Day.find_or_create_by(name: name)
+    end
   end
 
   def controllers
