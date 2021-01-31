@@ -69,7 +69,7 @@ ActiveRecord::Schema.define(version: 2021_01_31_022356) do
   end
 
   create_table "schedules", force: :cascade do |t|
-    t.integer "num_occurrences", comment: "null means occur forever"
+    t.integer "occurrences", comment: "null means occur forever"
     t.date "due_date", comment: "null means no particular due date"
     t.integer "model_id", null: false
     t.string "model_type", null: false
