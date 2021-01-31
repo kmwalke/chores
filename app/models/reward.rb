@@ -5,6 +5,7 @@ class Reward < ApplicationRecord
   validates :user_id, presence: true
 
   belongs_to :user
+  has_one :schedule
 
   after_save :set_user_reward
 

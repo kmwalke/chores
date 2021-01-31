@@ -5,7 +5,7 @@ class Task < ApplicationRecord
 
   belongs_to :user
   has_many :task_instances, dependent: :destroy
-  has_many :schedules, as: :model
+  has_one :schedule, as: :model
 
   validates :name, presence: true
   validates :frequency, presence: true, numericality: { greater_than: 0, less_than_or_equal_to: 31 }
