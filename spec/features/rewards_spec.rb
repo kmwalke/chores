@@ -43,6 +43,20 @@ RSpec.feature 'Rewards', type: :feature do
     expect(Reward.find_by(name: reward2.name).user).to eq(admin)
   end
 
+  scenario 'create a one time reward' do
+    reward2 = FactoryBot.build(:reward)
+    visit rewards_path
+
+    click_link 'New Reward'
+    fill_in_form(reward2)
+    check 'Advanced'
+    fill_in 'Occurrences', with: 1
+    click_button 'Create Reward'
+
+    one_time_reward = Reward.find_by(name: reward2.name)
+    expect(one_time_reward.schedule.occurrences).to eq(1)
+  end
+
   scenario 'edit a reward' do
     visit rewards_path
 
