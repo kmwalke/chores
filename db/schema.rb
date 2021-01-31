@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_29_214102) do
+ActiveRecord::Schema.define(version: 2021_01_29_213942) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,16 +25,6 @@ ActiveRecord::Schema.define(version: 2021_01_29_214102) do
     t.index ["action_id", "permission_id"], name: "index_actions_permissions_on_action_id_and_permission_id", unique: true
     t.index ["action_id"], name: "index_actions_permissions_on_action_id"
     t.index ["permission_id"], name: "index_actions_permissions_on_permission_id"
-  end
-
-  create_table "days", primary_key: "name", id: :string, force: :cascade do |t|
-    t.index ["name"], name: "index_days_on_name", unique: true
-  end
-
-  create_table "days_schedules", force: :cascade do |t|
-    t.string "day", null: false
-    t.integer "schedule_id", null: false
-    t.index ["day", "schedule_id"], name: "index_days_schedules_on_day_and_schedule_id", unique: true
   end
 
   create_table "features", force: :cascade do |t|
