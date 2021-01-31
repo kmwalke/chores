@@ -3,6 +3,13 @@ FactoryBot.define do
     occurrences { 2 }
     due_date { 1.week.since }
     model_type { 'Task' }
-    association :model, factory: :task
+
+    factory :schedule_with_reward do
+      association :model, factory: :reward
+    end
+
+    factory :schedule_with_task do
+      association :model, factory: :task
+    end
   end
 end
