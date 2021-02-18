@@ -43,6 +43,34 @@ RSpec.feature 'Tasks', type: :feature do
     expect(Task.find_by(name: task2.name).user).to eq(admin)
   end
 
+  scenario 'create a one time task' do
+    task2 = FactoryBot.build(:task)
+    visit tasks_path
+
+    click_link 'New Task'
+    fill_in_form(task2)
+    check 'Advanced'
+    fill_in 'Occurrences', with: 1
+    click_button 'Create Task'
+
+    one_time_task = Task.find_by(name: task2.name)
+    expect(one_time_task.schedule.occurrences).to eq(1)
+  end
+
+  scenario 'create a task with a due date' do
+    task2 = FactoryBot.build(:task)
+    visit tasks_path
+
+    click_link 'New Task'
+    fill_in_form(task2)
+    check 'Advanced'
+    fill_in 'Due Date', with: Date.tomorrow
+    click_button 'Create Task'
+
+    one_time_task = Task.find_by(name: task2.name)
+    expect(one_time_task.schedule.due_date).to eq(Date.tomorrow)
+  end
+
   scenario 'edit a task' do
     visit tasks_path
 
