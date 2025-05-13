@@ -8,44 +8,76 @@ RSpec.feature 'Users', type: :feature do
     login(admin)
   end
 
-  scenario 'list users' do
-    visit users_path
-    expect(page).to have_content(user.name)
-    expect(page).to have_content(user.email)
+  describe 'list users' do
+    before do
+      visit users_path
+    end
+
+    scenario 'list users name' do
+      expect(page).to have_content(user.name)
+    end
+
+    scenario 'list users email' do
+      expect(page).to have_content(user.email)
+    end
   end
 
-  scenario 'create a user' do
-    user2 = build(:user, role: user.role)
-    visit users_path
+  describe 'create a user' do
+    let!(:user2) { build(:user, role: user.role) }
 
-    click_link 'New User'
-    fill_in_form(user2)
-    click_button 'Create User'
+    before do
+      visit users_path
 
-    expect(page).to have_current_path(users_path, ignore_query: true)
-    expect(page).to have_content(user2.name)
+      click_link 'New User'
+      fill_in_form(user2)
+      click_button 'Create User'
+    end
+
+    scenario 'redirects to index' do
+      expect(page).to have_current_path(users_path, ignore_query: true)
+    end
+
+    scenario 'lists the new user' do
+      expect(page).to have_content(user2.name)
+    end
   end
 
-  scenario 'edit a user' do
-    visit users_path
+  describe scenario 'edit a user' do
+    before do
+      visit users_path
 
-    click_link user.name
-    user.name = 'new name'
-    fill_in_form(user)
-    click_button 'Update User'
+      click_link user.name
+      user.name = 'new name'
+      fill_in_form(user)
+      click_button 'Update User'
+    end
 
-    expect(page).to have_current_path(users_path, ignore_query: true)
-    expect(page).to have_content(user.name)
+    scenario 'redirects to index' do
+      expect(page).to have_current_path(users_path, ignore_query: true)
+    end
+
+    scenario 'lists new user name' do
+      expect(page).to have_content(user.name)
+    end
   end
 
-  scenario 'delete a user' do
-    user2    = create(:user)
-    user2_id = user2.id
-    visit users_path
+  describe 'delete a user' do
+    let!(:user2) { create(:user) }
+    let(:user2_id) { user2.id }
 
-    click_link "delete_#{user2.id}"
-    expect(page).to have_current_path(users_path, ignore_query: true)
-    expect(User.find_by(id: user2_id)).to be_nil
+    before do
+      visit users_path
+
+      click_link "delete_#{user2.id}"
+    end
+
+    scenario 'redirects to index' do
+      expect(page).to have_current_path(users_path, ignore_query: true)
+    end
+
+    scenario 'deletes old user' do
+      expect(User.find_by(id: user2_id)).to be_nil
+    end
   end
 
   def fill_in_form(user)

@@ -30,29 +30,47 @@ RSpec.feature 'Tasks', type: :feature do
     expect(page).to have_current_path(tasks_path, ignore_query: true)
   end
 
-  scenario 'create a task' do
-    task2 = build(:task)
-    visit tasks_path
+  describe 'create a task' do
+    let(:task2) { build(:task) }
 
-    click_link 'New Task'
-    fill_in_form(task2)
-    click_button 'Create Task'
+    before do
+      visit tasks_path
 
-    expect(page).to have_current_path(tasks_path, ignore_query: true)
-    expect(page).to have_content(task2.name)
-    expect(Task.find_by(name: task2.name).user).to eq(admin)
+      click_link 'New Task'
+      fill_in_form(task2)
+      click_button 'Create Task'
+    end
+
+    scenario 'redirect to index' do
+      expect(page).to have_current_path(tasks_path, ignore_query: true)
+    end
+
+    scenario 'lists new task' do
+      expect(page).to have_content(task2.name)
+    end
+
+    scenario 'assigns task to current user' do
+      expect(Task.find_by(name: task2.name).user).to eq(admin)
+    end
   end
 
-  scenario 'edit a task' do
-    visit tasks_path
+  describe 'edit a task' do
+    before do
+      visit tasks_path
 
-    click_link task.name
-    task.name = 'new name'
-    fill_in_form(task)
-    click_button 'Update Task'
+      click_link task.name
+      task.name = 'new name'
+      fill_in_form(task)
+      click_button 'Update Task'
+    end
 
-    expect(page).to have_current_path(tasks_path, ignore_query: true)
-    expect(page).to have_content(task.name)
+    scenario 'redirects to index' do
+      expect(page).to have_current_path(tasks_path, ignore_query: true)
+    end
+
+    scenario 'lists new name' do
+      expect(page).to have_content(task.name)
+    end
   end
 
   scenario 'not edit another\'s task' do
@@ -60,13 +78,22 @@ RSpec.feature 'Tasks', type: :feature do
     expect(page).to have_current_path(tasks_path, ignore_query: true)
   end
 
-  scenario 'delete a task' do
-    task_id = task.id
-    visit tasks_path
+  describe 'delete a task' do
+    let(:task_id) { task.id }
 
-    click_link "delete_#{task.id}"
-    expect(page).to have_current_path(tasks_path, ignore_query: true)
-    expect(Task.find_by(id: task_id)).to be_nil
+    before do
+      visit tasks_path
+
+      click_link "delete_#{task.id}"
+    end
+
+    scenario 'redirects to index' do
+      expect(page).to have_current_path(tasks_path, ignore_query: true)
+    end
+
+    scenario 'removes old task' do
+      expect(Task.find_by(id: task_id)).to be_nil
+    end
   end
 
   def fill_in_form(task)
