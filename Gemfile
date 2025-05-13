@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.0.0'
+ruby '3.4.3'
 
 gem 'bcrypt'
 gem 'bootsnap'
@@ -12,8 +12,6 @@ gem 'rails'
 gem 'sass-rails'
 gem 'sidekiq'
 gem 'sidekiq-cron'
-gem 'turbolinks'
-gem 'webpacker'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -29,9 +27,13 @@ end
 group :development do
   gem 'listen'
   gem 'rubocop'
+  gem 'rubocop-capybara'
+  gem 'rubocop-daemon', require: false
+  gem 'rubocop-factory_bot'
   gem 'rubocop-performance'
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
+  gem 'rubocop-rspec_rails'
   gem 'spring'
   gem 'spring-watcher-listen'
   gem 'web-console'

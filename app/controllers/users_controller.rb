@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   def index
-    @users = User.all.order(:name)
+    @users = User.order(:name)
   end
 
   def show; end
@@ -49,6 +49,6 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:email, :name, :password, :password_confirmation, :role_id, :time_zone)
+    params.expect(user: [:email, :name, :password, :password_confirmation, :role_id, :time_zone])
   end
 end

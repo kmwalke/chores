@@ -5,7 +5,7 @@ describe DateInZone do
   let(:test_instance) { test_class.new(name: 'thing') }
 
   it 'gets today for utc' do
-    expect(test_instance.today_in_zone('UTC')).to eq(Date.today)
+    expect(test_instance.today_in_zone('UTC')).to eq(Time.zone.today)
   end
 
   it 'gets today for mst' do

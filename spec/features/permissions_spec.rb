@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-RSpec.feature 'Permissions', type: :feature do
-  let!(:permission) { FactoryBot.create(:permission) }
-  let(:admin) { FactoryBot.create(:user, role: FactoryBot.create(:role_admin)) }
+RSpec.feature 'Permissions' do
+  let!(:permission) { create(:permission) }
+  let(:admin) { create(:user, role: create(:role_admin)) }
 
-  before :each do
+  before do
     login(admin)
   end
 
@@ -13,37 +13,61 @@ RSpec.feature 'Permissions', type: :feature do
     expect(page).to have_content(permission.feature.name)
   end
 
-  scenario 'create a permission' do
-    permission2 = FactoryBot.build(:permission, feature: FactoryBot.create(:feature), actions: permission.actions)
-    visit permissions_path
+  describe 'create a permission' do
+    let!(:permission2) { build(:permission, feature: create(:feature), actions: permission.actions) }
 
-    click_link 'New Permission'
-    fill_in_form(permission2)
-    click_button 'Create Permission'
+    before do
+      visit permissions_path
 
-    expect(current_path).to eq(permissions_path)
-    expect(page).to have_content(permission2.feature.name)
+      click_link 'New Permission'
+      fill_in_form(permission2)
+      click_button 'Create Permission'
+    end
+
+    scenario 'redirects to index' do
+      expect(page).to have_current_path(permissions_path, ignore_query: true)
+    end
+
+    scenario 'lists new permission' do
+      expect(page).to have_content(permission2.feature.name)
+    end
   end
 
-  scenario 'edit a permission' do
-    visit permissions_path
+  describe 'edit a permission' do
+    before do
+      visit permissions_path
 
-    click_link permission.feature.name
-    permission.feature = FactoryBot.create(:feature)
-    fill_in_form(permission.reload)
-    click_button 'Update Permission'
+      click_link permission.feature.name
+      permission.feature = create(:feature)
+      fill_in_form(permission.reload)
+      click_button 'Update Permission'
+    end
 
-    expect(current_path).to eq(permissions_path)
-    expect(page).to have_content(permission.reload.feature.name)
+    scenario 'redirects to index' do
+      expect(page).to have_current_path(permissions_path, ignore_query: true)
+    end
+
+    scenario 'lists new permission' do
+      expect(page).to have_content(permission.reload.feature.name)
+    end
   end
 
-  scenario 'delete a permission' do
-    permission_id = permission.id
-    visit permissions_path
+  describe 'delete a permission' do
+    let(:permission_id) { permission.id }
 
-    click_link "delete_#{permission.id}"
-    expect(current_path).to eq(permissions_path)
-    expect(Permission.find_by_id(permission_id)).to be_nil
+    before do
+      visit permissions_path
+
+      click_link "delete_#{permission.id}"
+    end
+
+    scenario 'redirects to index' do
+      expect(page).to have_current_path(permissions_path, ignore_query: true)
+    end
+
+    scenario 'removes old permission' do
+      expect(Permission.find_by(id: permission_id)).to be_nil
+    end
   end
 
   def fill_in_form(permission)

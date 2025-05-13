@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-RSpec.feature 'Features', type: :feature do
-  let!(:feature) { FactoryBot.create(:feature) }
-  let(:admin) { FactoryBot.create(:user, role: FactoryBot.create(:role_admin)) }
+RSpec.feature 'Features' do
+  let!(:feature) { create(:feature) }
+  let(:admin) { create(:user, role: create(:role_admin)) }
 
-  before :each do
+  before do
     login(admin)
   end
 
@@ -18,37 +18,61 @@ RSpec.feature 'Features', type: :feature do
     expect(page).to have_content(feature.name)
   end
 
-  scenario 'create a feature' do
-    feature2 = FactoryBot.build(:feature)
-    visit features_path
+  describe 'create a feature' do
+    let!(:feature2) { build(:feature) }
 
-    click_link 'New Feature'
-    fill_in_form(feature2)
-    click_button 'Create Feature'
+    before do
+      visit features_path
 
-    expect(current_path).to eq(features_path)
-    expect(page).to have_content(feature2.name)
+      click_link 'New Feature'
+      fill_in_form(feature2)
+      click_button 'Create Feature'
+    end
+
+    scenario 'redirects to index' do
+      expect(page).to have_current_path(features_path, ignore_query: true)
+    end
+
+    scenario 'lists the new feature' do
+      expect(page).to have_content(feature2.name)
+    end
   end
 
-  scenario 'edit a feature' do
-    visit features_path
+  describe 'edit a feature' do
+    before do
+      visit features_path
 
-    click_link feature.name
-    feature.name = 'new name'
-    fill_in_form(feature)
-    click_button 'Update Feature'
+      click_link feature.name
+      feature.name = 'new name'
+      fill_in_form(feature)
+      click_button 'Update Feature'
+    end
 
-    expect(current_path).to eq(features_path)
-    expect(page).to have_content(feature.name)
+    scenario 'redirects to index' do
+      expect(page).to have_current_path(features_path, ignore_query: true)
+    end
+
+    scenario 'lists the new feature' do
+      expect(page).to have_content(feature.name)
+    end
   end
 
-  scenario 'delete a feature' do
-    feature_id = feature.id
-    visit features_path
+  describe 'delete a feature' do
+    let!(:feature_id) { feature.id }
 
-    click_link "delete_#{feature.id}"
-    expect(current_path).to eq(features_path)
-    expect(Feature.find_by_id(feature_id)).to be_nil
+    before do
+      visit features_path
+
+      click_link "delete_#{feature.id}"
+    end
+
+    scenario 'redirects to index' do
+      expect(page).to have_current_path(features_path, ignore_query: true)
+    end
+
+    scenario 'deletes old feature' do
+      expect(Feature.find_by(id: feature_id)).to be_nil
+    end
   end
 
   def fill_in_form(feature)

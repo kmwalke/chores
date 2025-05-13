@@ -26,17 +26,15 @@ User.create(name: 'user1', email: 'user1@chores.com', role: user_role, password:
 User.create(name: 'user2', email: 'user2@chores.com', role: user_role, password: '123', time_zone: 'MST')
 User.create(name: 'user3', email: 'user3@chores.com', role: user_role, password: '123', time_zone: 'MST')
 
-%w[clean workout play\ music walk\ the\ dog
-   empty\ litter\ box go\ to\ playground
-   build\ something learn\ something
-   homework shop cook dishes].each do |name|
-  User.all.each do |user|
+['clean', 'workout', 'play music', 'walk the dog', 'empty litter box', 'go to playground', 'build something',
+ 'learn something', 'homework', 'shop', 'cook', 'dishes'].each do |name|
+  User.find_each do |user|
     Task.create(user: user, name: name, size: rand(1..5), frequency: rand(1..7))
   end
 end
 
-%w[ice\ cream banjo\ strings new\ shoes new\ game lazy\ day get\ drunk].each do |name|
-  User.all.each do |user|
+['ice cream', 'banjo strings', 'new shoes', 'new game', 'lazy day', 'get drunk'].each do |name|
+  User.find_each do |user|
     Reward.create(name: name, user: user)
   end
 end

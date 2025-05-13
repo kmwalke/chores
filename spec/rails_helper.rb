@@ -6,7 +6,6 @@ require File.expand_path('../config/environment', __dir__)
 abort('The Rails environment is running in production mode!') if Rails.env.production?
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
-require 'support/factory_bot'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -33,7 +32,7 @@ rescue ActiveRecord::PendingMigrationError => e
 end
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  config.fixture_paths = [Rails.root.join('/spec/fixtures')]
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
@@ -41,6 +40,7 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
 
   config.include Capybara::DSL
+  config.include FactoryBot::Syntax::Methods
 
   # You can uncomment this line to turn off ActiveRecord support entirely.
   # config.use_active_record = false

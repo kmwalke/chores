@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_26_233548) do
-
+ActiveRecord::Schema[8.0].define(version: 2025_05_13_232506) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension "pg_catalog.plpgsql"
 
   create_table "actions", force: :cascade do |t|
     t.string "name", null: false
+    t.index ["name"], name: "index_actions_on_name", unique: true
   end
 
   create_table "actions_permissions", id: false, force: :cascade do |t|
@@ -29,8 +29,9 @@ ActiveRecord::Schema.define(version: 2021_01_26_233548) do
 
   create_table "features", force: :cascade do |t|
     t.string "name", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_features_on_name", unique: true
   end
 
   create_table "permissions", force: :cascade do |t|
@@ -48,8 +49,8 @@ ActiveRecord::Schema.define(version: 2021_01_26_233548) do
   create_table "rewards", force: :cascade do |t|
     t.string "name", null: false
     t.integer "user_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.datetime "deleted_at"
   end
 
@@ -65,6 +66,7 @@ ActiveRecord::Schema.define(version: 2021_01_26_233548) do
   create_table "roles", force: :cascade do |t|
     t.string "name", null: false
     t.text "description", null: false
+    t.index ["name"], name: "index_roles_on_name", unique: true
   end
 
   create_table "task_instances", force: :cascade do |t|
@@ -79,8 +81,8 @@ ActiveRecord::Schema.define(version: 2021_01_26_233548) do
     t.integer "frequency", null: false
     t.integer "size", null: false
     t.integer "xp", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.datetime "deleted_at"
   end
 
@@ -92,10 +94,11 @@ ActiveRecord::Schema.define(version: 2021_01_26_233548) do
     t.integer "xp", default: 0, null: false
     t.decimal "xp_multiplier", default: "1.0", null: false
     t.integer "role_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "next_reward_id"
     t.string "time_zone", default: "UTC", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
   end
 
   add_foreign_key "actions_permissions", "actions"

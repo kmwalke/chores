@@ -1,12 +1,12 @@
 require 'rails_helper'
 
-RSpec.feature 'Tasks', type: :feature do
-  let(:admin) { FactoryBot.create(:user, role: FactoryBot.create(:role_admin)) }
-  let!(:task) { FactoryBot.create(:task, user: admin) }
-  let(:user) { FactoryBot.create(:user) }
-  let!(:user_task) { FactoryBot.create(:task, user: user) }
+RSpec.feature 'Tasks' do
+  let(:admin) { create(:user, role: create(:role_admin)) }
+  let!(:task) { create(:task, user: admin) }
+  let(:user) { create(:user) }
+  let!(:user_task) { create(:task, user: user) }
 
-  before :each do
+  before do
     login(admin)
   end
 
@@ -17,7 +17,7 @@ RSpec.feature 'Tasks', type: :feature do
 
   scenario 'not list other\'s tasks' do
     visit tasks_path
-    expect(page).not_to have_content(user_task.name)
+    expect(page).to have_no_content(user_task.name)
   end
 
   scenario 'show a task' do
@@ -27,46 +27,73 @@ RSpec.feature 'Tasks', type: :feature do
 
   scenario 'not show another\'s task' do
     visit task_path(user_task)
-    expect(current_path).to eq(tasks_path)
+    expect(page).to have_current_path(tasks_path, ignore_query: true)
   end
 
-  scenario 'create a task' do
-    task2 = FactoryBot.build(:task)
-    visit tasks_path
+  describe 'create a task' do
+    let(:task2) { build(:task) }
 
-    click_link 'New Task'
-    fill_in_form(task2)
-    click_button 'Create Task'
+    before do
+      visit tasks_path
 
-    expect(current_path).to eq(tasks_path)
-    expect(page).to have_content(task2.name)
-    expect(Task.find_by(name: task2.name).user).to eq(admin)
+      click_link 'New Task'
+      fill_in_form(task2)
+      click_button 'Create Task'
+    end
+
+    scenario 'redirect to index' do
+      expect(page).to have_current_path(tasks_path, ignore_query: true)
+    end
+
+    scenario 'lists new task' do
+      expect(page).to have_content(task2.name)
+    end
+
+    scenario 'assigns task to current user' do
+      expect(Task.find_by(name: task2.name).user).to eq(admin)
+    end
   end
 
-  scenario 'edit a task' do
-    visit tasks_path
+  describe 'edit a task' do
+    before do
+      visit tasks_path
 
-    click_link task.name
-    task.name = 'new name'
-    fill_in_form(task)
-    click_button 'Update Task'
+      click_link task.name
+      task.name = 'new name'
+      fill_in_form(task)
+      click_button 'Update Task'
+    end
 
-    expect(current_path).to eq(tasks_path)
-    expect(page).to have_content(task.name)
+    scenario 'redirects to index' do
+      expect(page).to have_current_path(tasks_path, ignore_query: true)
+    end
+
+    scenario 'lists new name' do
+      expect(page).to have_content(task.name)
+    end
   end
 
   scenario 'not edit another\'s task' do
     visit edit_task_path(user_task)
-    expect(current_path).to eq(tasks_path)
+    expect(page).to have_current_path(tasks_path, ignore_query: true)
   end
 
-  scenario 'delete a task' do
-    task_id = task.id
-    visit tasks_path
+  describe 'delete a task' do
+    let(:task_id) { task.id }
 
-    click_link "delete_#{task.id}"
-    expect(current_path).to eq(tasks_path)
-    expect(Task.find_by_id(task_id)).to be_nil
+    before do
+      visit tasks_path
+
+      click_link "delete_#{task.id}"
+    end
+
+    scenario 'redirects to index' do
+      expect(page).to have_current_path(tasks_path, ignore_query: true)
+    end
+
+    scenario 'removes old task' do
+      expect(Task.find_by(id: task_id)).to be_nil
+    end
   end
 
   def fill_in_form(task)

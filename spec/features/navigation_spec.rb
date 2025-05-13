@@ -1,69 +1,69 @@
 require 'rails_helper'
 
-RSpec.feature 'Navigation', type: :feature do
+RSpec.feature 'Navigation' do
   describe 'logged out' do
     scenario 'logs in' do
       visit root_path
       click_link 'Log In'
-      expect(current_path).to eq(login_path)
+      expect(page).to have_current_path(login_path, ignore_query: true)
     end
   end
 
   describe 'logged in with no permissions' do
-    let(:user) { FactoryBot.create(:user) }
+    let(:user) { create(:user) }
 
-    before(:each) do
+    before do
       login(user)
       visit root_path
     end
 
     scenario 'logs out' do
       click_link 'Log Out'
-      expect(current_path).to eq(root_path)
+      expect(page).to have_current_path(root_path, ignore_query: true)
     end
   end
 
   describe 'logged in with permissions' do
-    let(:user) { FactoryBot.create(:user, role: FactoryBot.create(:role_admin)) }
+    let(:user) { create(:user, role: create(:role_admin)) }
 
-    before(:each) do
+    before do
       login(user)
       visit root_path
     end
 
     scenario 'visits My Account' do
       click_link 'My Account'
-      expect(current_path).to eq(edit_current_user_path)
+      expect(page).to have_current_path(edit_current_user_path, ignore_query: true)
     end
 
     scenario 'visits rewards' do
       click_link 'Rewards'
-      expect(current_path).to eq(rewards_path)
+      expect(page).to have_current_path(rewards_path, ignore_query: true)
     end
 
     scenario 'visits tasks' do
       click_link 'Tasks'
-      expect(current_path).to eq(tasks_path)
+      expect(page).to have_current_path(tasks_path, ignore_query: true)
     end
 
     scenario 'visits features' do
       click_link 'Features'
-      expect(current_path).to eq(features_path)
+      expect(page).to have_current_path(features_path, ignore_query: true)
     end
 
     scenario 'visits permissions' do
       click_link 'Permissions'
-      expect(current_path).to eq(permissions_path)
+      expect(page).to have_current_path(permissions_path, ignore_query: true)
     end
 
     scenario 'visits roles' do
       click_link 'Roles'
-      expect(current_path).to eq(roles_path)
+      expect(page).to have_current_path(roles_path, ignore_query: true)
     end
 
     scenario 'visits users' do
       click_link 'Users'
-      expect(current_path).to eq(users_path)
+      expect(page).to have_current_path(users_path, ignore_query: true)
     end
   end
 end

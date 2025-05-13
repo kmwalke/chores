@@ -1,18 +1,18 @@
 require 'rails_helper'
 
-RSpec.describe Feature, type: :model do
-  it 'should require a name' do
-    expect(Feature.create(name: '').errors).to have_key(:name)
+RSpec.describe Feature do
+  it 'requires a name' do
+    expect(described_class.create(name: '').errors).to have_key(:name)
   end
 
-  it 'should require a unique name' do
-    FactoryBot.create(:feature, name: 'name')
-    expect(Feature.create(name: 'name').errors).to have_key(:name)
+  it 'requires a unique name' do
+    create(:feature, name: 'name')
+    expect(described_class.create(name: 'name').errors).to have_key(:name)
   end
 
-  it 'should have permissions' do
-    f = FactoryBot.create(:feature)
-    p = FactoryBot.create(:permission)
+  it 'has permissions' do
+    f = create(:feature)
+    p = create(:permission)
     f.permissions << p
 
     expect(f.reload.permissions.first).to eq(p)

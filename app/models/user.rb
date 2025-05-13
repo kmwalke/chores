@@ -115,16 +115,16 @@ class User < ApplicationRecord
   end
 
   def tasks_completed?(date = today_in_zone(time_zone))
-    task_list(date).select do |instance|
+    task_list(date).none? do |instance|
       instance.completed_at.nil?
-    end.empty?
+    end
   end
 
   def xp=(value)
-    super(value)
+    super
   end
 
   def xp_multiplier=(value)
-    super(value)
+    super
   end
 end

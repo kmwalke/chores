@@ -2,7 +2,7 @@ class FeaturesController < ApplicationController
   before_action :set_feature, only: [:show, :edit, :update, :destroy]
 
   def index
-    @features = Feature.all.order(:name)
+    @features = Feature.order(:name)
   end
 
   def show; end
@@ -49,6 +49,6 @@ class FeaturesController < ApplicationController
   end
 
   def feature_params
-    params.require(:feature).permit(:name)
+    params.expect(feature: [:name])
   end
 end

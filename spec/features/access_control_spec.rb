@@ -1,80 +1,80 @@
 require 'rails_helper'
 
-RSpec.feature 'Access Control', type: :feature do
+RSpec.feature 'Access Control' do
   describe 'logged out' do
     # TODO: Stub a controller instead of using a specific one
     scenario 'must be logged in to manage users' do
       visit users_path
-      expect(current_path).to eq(root_path)
+      expect(page).to have_current_path(root_path, ignore_query: true)
     end
   end
 
   describe 'logged in' do
-    let(:feature) { FactoryBot.create(:feature) }
+    let(:feature) { create(:feature) }
 
     # TODO: Stub a controller instead of using a specific one
     describe 'unauthorized' do
-      let(:user) { FactoryBot.create(:user) }
-      let(:other_user) { FactoryBot.create(:user) }
+      let(:user) { create(:user) }
+      let(:other_user) { create(:user) }
 
-      before :each do
+      before do
         login(user)
       end
 
       scenario 'cannot visit index' do
         visit users_path
-        expect(current_path).to eq(root_path)
+        expect(page).to have_current_path(root_path, ignore_query: true)
       end
 
       scenario 'cannot visit show' do
         visit user_path(other_user)
-        expect(current_path).to eq(root_path)
+        expect(page).to have_current_path(root_path, ignore_query: true)
       end
 
       scenario 'can visit edit' do
         visit edit_user_path(other_user)
-        expect(current_path).to eq(root_path)
+        expect(page).to have_current_path(root_path, ignore_query: true)
       end
     end
 
     describe 'admin authorized' do
-      let(:user) { FactoryBot.create(:user) }
+      let(:user) { create(:user) }
       let!(:admin) do
-        FactoryBot.create(
+        create(
           :user,
-          role: FactoryBot.create(:role_admin)
+          role: create(:role_admin)
         )
       end
 
-      before :each do
+      before do
         login(admin)
       end
 
       scenario 'can visit index' do
         visit users_path
-        expect(current_path).to eq(users_path)
+        expect(page).to have_current_path(users_path, ignore_query: true)
       end
 
       scenario 'can visit show' do
         visit user_path(user)
-        expect(current_path).to eq(user_path(user))
+        expect(page).to have_current_path(user_path(user), ignore_query: true)
       end
 
       scenario 'can visit edit' do
         visit edit_user_path(user)
-        expect(current_path).to eq(edit_user_path(user))
+        expect(page).to have_current_path(edit_user_path(user), ignore_query: true)
       end
     end
 
     describe 'partial authorized' do
-      let(:user) { FactoryBot.create(:user) }
+      let(:user) { create(:user) }
       let!(:partial_user) do
-        FactoryBot.create(
+        create(
           :user,
-          role: FactoryBot.create(
+          role: create(
             :role,
             permissions: [
-              FactoryBot.create(
+              create(
                 :permission,
                 feature: Feature.find_by(name: 'users'),
                 actions: [
@@ -87,23 +87,23 @@ RSpec.feature 'Access Control', type: :feature do
         )
       end
 
-      before :each do
+      before do
         login(partial_user)
       end
 
       scenario 'can visit index' do
         visit users_path
-        expect(current_path).to eq(users_path)
+        expect(page).to have_current_path(users_path, ignore_query: true)
       end
 
       scenario 'can visit show' do
         visit user_path(user)
-        expect(current_path).to eq(user_path(user))
+        expect(page).to have_current_path(user_path(user), ignore_query: true)
       end
 
       scenario 'cannot visit edit' do
         visit edit_user_path(user)
-        expect(current_path).to eq(root_path)
+        expect(page).to have_current_path(root_path, ignore_query: true)
       end
     end
   end

@@ -108,7 +108,7 @@ RSpec.configure do |config|
         !c.starts_with?('rails/') &&
         !c.starts_with?('action_') &&
         !c.starts_with?('active_') &&
-        !ApplicationController::PUBLIC_CONTROLLERS.include?(c)
+        ApplicationController::PUBLIC_CONTROLLERS.exclude?(c)
     end
   end
 
