@@ -79,6 +79,9 @@ Rails/BulkChangeTable:
 Rails/HasManyOrHasOneDependent:
   Enabled: false
 
+Rails/ReversibleMigration:
+  Enabled: false
+
 RSpec/LetSetup:
   Exclude:
     - 'spec/reports/*'
