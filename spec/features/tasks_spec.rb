@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Tasks', type: :feature do
+RSpec.feature 'Tasks' do
   let(:admin) { create(:user, role: create(:role_admin)) }
   let!(:task) { create(:task, user: admin) }
   let(:user) { create(:user) }

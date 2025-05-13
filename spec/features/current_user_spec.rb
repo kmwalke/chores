@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Current User', type: :feature do
+RSpec.feature 'Current User' do
   describe 'logged out' do
     scenario 'displays the homepage' do
       visit edit_current_user_path

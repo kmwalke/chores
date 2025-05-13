@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Role, type: :model do
+RSpec.describe Role do
   let(:role) { create(:role_admin) }
 
   it 'requires a name' do

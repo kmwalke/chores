@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe TaskInstance, type: :model do
+RSpec.describe TaskInstance do
   let(:instance) { create(:task_instance) }
 
   it 'requires a task' do

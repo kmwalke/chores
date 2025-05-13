@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Access Control', type: :feature do
+RSpec.feature 'Access Control' do
   describe 'logged out' do
     # TODO: Stub a controller instead of using a specific one
     scenario 'must be logged in to manage users' do

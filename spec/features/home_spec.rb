@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Home', type: :feature do
+RSpec.feature 'Home' do
   describe 'logged out' do
     before do
       visit root_path

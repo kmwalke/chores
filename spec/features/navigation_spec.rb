@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Navigation', type: :feature do
+RSpec.feature 'Navigation' do
   describe 'logged out' do
     scenario 'logs in' do
       visit root_path

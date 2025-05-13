@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Features', type: :feature do
+RSpec.feature 'Features' do
   let!(:feature) { create(:feature) }
   let(:admin) { create(:user, role: create(:role_admin)) }
 

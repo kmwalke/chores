@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Sessions', type: :feature do
+RSpec.feature 'Sessions' do
   let(:user) { create(:user) }
 
   describe 'redirects to requested admin page', skip: 'not implemented' do

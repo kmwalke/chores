@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Permission, type: :model do
+RSpec.describe Permission do
   it 'requires a feature' do
     expect(described_class.create(feature: nil).errors).to have_key(:feature)
   end

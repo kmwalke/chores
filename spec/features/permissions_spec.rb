@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Permissions', type: :feature do
+RSpec.feature 'Permissions' do
   let!(:permission) { create(:permission) }
   let(:admin) { create(:user, role: create(:role_admin)) }
 

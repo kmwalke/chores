@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Rewards', type: :feature do
+RSpec.feature 'Rewards' do
   let(:admin) { create(:user, role: create(:role_admin)) }
   let!(:reward) { create(:reward, user: admin) }
   let(:user) { create(:user) }

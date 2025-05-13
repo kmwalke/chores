@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Task, type: :model do
+RSpec.describe Task do
   let(:task) { create(:task) }
 
   it 'requires a name' do
