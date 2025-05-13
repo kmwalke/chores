@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.feature 'Features', type: :feature do
-  let!(:feature) { FactoryBot.create(:feature) }
-  let(:admin) { FactoryBot.create(:user, role: FactoryBot.create(:role_admin)) }
+  let!(:feature) { create(:feature) }
+  let(:admin) { create(:user, role: create(:role_admin)) }
 
-  before :each do
+  before do
     login(admin)
   end
 
@@ -19,14 +19,14 @@ RSpec.feature 'Features', type: :feature do
   end
 
   scenario 'create a feature' do
-    feature2 = FactoryBot.build(:feature)
+    feature2 = build(:feature)
     visit features_path
 
     click_link 'New Feature'
     fill_in_form(feature2)
     click_button 'Create Feature'
 
-    expect(current_path).to eq(features_path)
+    expect(page).to have_current_path(features_path, ignore_query: true)
     expect(page).to have_content(feature2.name)
   end
 
@@ -38,7 +38,7 @@ RSpec.feature 'Features', type: :feature do
     fill_in_form(feature)
     click_button 'Update Feature'
 
-    expect(current_path).to eq(features_path)
+    expect(page).to have_current_path(features_path, ignore_query: true)
     expect(page).to have_content(feature.name)
   end
 
@@ -47,8 +47,8 @@ RSpec.feature 'Features', type: :feature do
     visit features_path
 
     click_link "delete_#{feature.id}"
-    expect(current_path).to eq(features_path)
-    expect(Feature.find_by_id(feature_id)).to be_nil
+    expect(page).to have_current_path(features_path, ignore_query: true)
+    expect(Feature.find_by(id: feature_id)).to be_nil
   end
 
   def fill_in_form(feature)

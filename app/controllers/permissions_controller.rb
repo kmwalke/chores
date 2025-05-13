@@ -2,7 +2,7 @@ class PermissionsController < ApplicationController
   before_action :set_permission, only: [:show, :edit, :update, :destroy]
 
   def index
-    @permissions = Permission.all.order(:feature_id)
+    @permissions = Permission.order(:feature_id)
   end
 
   def show; end
@@ -49,6 +49,6 @@ class PermissionsController < ApplicationController
   end
 
   def permission_params
-    params.require(:permission).permit(:name, :description, :feature_id, action_ids: [])
+    params.expect(permission: [:name, :description, :feature_id, { action_ids: [] }])
   end
 end

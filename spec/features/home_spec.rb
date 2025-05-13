@@ -5,12 +5,12 @@ RSpec.feature 'Home', type: :feature do
     scenario 'displays the homepage' do
       visit root_path
       expect(page).to have_content('Log In')
-      expect(page).not_to have_content('Tasks')
+      expect(page).to have_no_content('Tasks')
     end
   end
 
   describe 'logged in with no tasks' do
-    let(:user) { FactoryBot.create(:user) }
+    let(:user) { create(:user) }
 
     scenario 'displays the homepage' do
       login(user)
@@ -21,9 +21,9 @@ RSpec.feature 'Home', type: :feature do
   end
 
   describe 'logged in with tasks' do
-    let(:user) { FactoryBot.create(:user_with_tasks) }
+    let(:user) { create(:user_with_tasks) }
 
-    before(:each) do
+    before do
       user.add_xp(User::XP_PER_LEVEL * 3.2)
       user.build_task_list
       user.reload
@@ -48,7 +48,7 @@ RSpec.feature 'Home', type: :feature do
     scenario 'hides xp multiplier when 1' do
       user.reset_xp_multiplier!
       visit root_path
-      expect(page).not_to have_content("x#{user.xp_multiplier}")
+      expect(page).to have_no_content("x#{user.xp_multiplier}")
     end
 
     scenario 'shows xp multiplier when >1' do
@@ -61,8 +61,8 @@ RSpec.feature 'Home', type: :feature do
       instance = user.task_list.first
       visit root_path
       click_link instance.task.name
-      expect(current_path).to eq(root_path)
-      expect(instance.reload.completed?).to eq(true)
+      expect(page).to have_current_path(root_path, ignore_query: true)
+      expect(instance.reload.completed?).to be(true)
     end
 
     scenario 'uncompletes a task' do
@@ -70,8 +70,8 @@ RSpec.feature 'Home', type: :feature do
       instance.complete!
       visit root_path
       click_link instance.task.name
-      expect(current_path).to eq(root_path)
-      expect(instance.reload.completed?).to eq(false)
+      expect(page).to have_current_path(root_path, ignore_query: true)
+      expect(instance.reload.completed?).to be(false)
     end
 
     scenario 'add xp on task completion' do

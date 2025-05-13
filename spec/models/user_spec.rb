@@ -1,32 +1,32 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  it 'should require a name' do
-    expect(User.create(name: '').errors).to have_key(:name)
+  it 'requires a name' do
+    expect(described_class.create(name: '').errors).to have_key(:name)
   end
 
-  it 'should require an email' do
-    expect(User.create(email: '').errors).to have_key(:email)
+  it 'requires an email' do
+    expect(described_class.create(email: '').errors).to have_key(:email)
   end
 
-  it 'should require email uniqueness' do
-    expect(User.create(email: FactoryBot.create(:user).email).errors).to have_key(:email)
+  it 'requires email uniqueness' do
+    expect(described_class.create(email: create(:user).email).errors).to have_key(:email)
   end
 
-  it 'should require a role' do
-    expect(User.create(role: nil).errors).to have_key(:role)
+  it 'requires a role' do
+    expect(described_class.create(role: nil).errors).to have_key(:role)
   end
 
-  it 'should require a TimeZone' do
-    expect(User.create(time_zone: nil).errors).to have_key(:time_zone)
+  it 'requires a TimeZone' do
+    expect(described_class.create(time_zone: nil).errors).to have_key(:time_zone)
   end
 
-  it 'should require a valid TimeZone' do
-    expect(User.create(time_zone: 'not a time zone').errors).to have_key(:time_zone)
+  it 'requires a valid TimeZone' do
+    expect(described_class.create(time_zone: 'not a time zone').errors).to have_key(:time_zone)
   end
 
   describe 'task list' do
-    let(:user) { FactoryBot.create(:user_with_tasks) }
+    let(:user) { create(:user_with_tasks) }
 
     it 'has a list' do
       user.build_task_list
@@ -39,7 +39,7 @@ RSpec.describe User, type: :model do
       expect(true).to be(false)
     end
 
-    it 'will not instantiate twice' do
+    it 'does not instantiate twice' do
       user.build_task_list
       old_list = user.reload.task_list
       user.build_task_list
@@ -49,7 +49,7 @@ RSpec.describe User, type: :model do
     it 'defaults to todays list' do
       user.build_task_list
       user.reload
-      expect(user.task_list).to eq(user.task_list(Date.today))
+      expect(user.task_list).to eq(user.task_list(Time.zone.today))
     end
 
     it 'gets a past list' do
@@ -64,8 +64,8 @@ RSpec.describe User, type: :model do
       expect { user.task_list(Date.tomorrow) }.to raise_error(ArgumentError)
     end
 
-    it 'should reset the xp_multiplier if yesterdays tasks undone' do
-      FactoryBot.create(:task_instance, task: user.tasks.first, created_on: Date.yesterday, completed_at: nil)
+    it 'resets the xp_multiplier if yesterdays tasks undone' do
+      create(:task_instance, task: user.tasks.first, created_on: Date.yesterday, completed_at: nil)
       user.increment_xp_multiplier!
       user.build_task_list
       expect(user.xp_multiplier).to eq(1)
@@ -73,69 +73,69 @@ RSpec.describe User, type: :model do
   end
 
   describe 'leveling' do
-    let(:user) { FactoryBot.create(:user) }
+    let(:user) { create(:user) }
 
-    it 'should start at level 1' do
+    it 'starts at level 1' do
       expect(user.level).to eq(1)
     end
 
-    it 'should start at xp_multiplier 1' do
+    it 'starts at xp_multiplier 1' do
       expect(user.xp_multiplier).to eq(1)
     end
 
-    it 'should start at xp 0' do
+    it 'starts at xp 0' do
       expect(user.xp).to eq(0)
     end
 
-    it 'should not allow xp to be set' do
-      expect(User.new.respond_to?('xp=')).to eq(false)
+    it 'does not allow xp to be set' do
+      expect(described_class.new.respond_to?('xp=')).to be(false)
     end
 
-    it 'should receive xp' do
+    it 'receives xp' do
       user.add_xp(10)
       expect(user.xp).to eq(10)
     end
 
-    it 'should not allow xp_multiplier to be set' do
-      expect(User.new.respond_to?('xp_multiplier=')).to eq(false)
+    it 'does not allow xp_multiplier to be set' do
+      expect(described_class.new.respond_to?('xp_multiplier=')).to be(false)
     end
 
-    it 'should increment the xp multiplier' do
+    it 'increments the xp multiplier' do
       old_multiplier = user.xp_multiplier
       user.increment_xp_multiplier!
       expect(user.reload.xp_multiplier).to be > old_multiplier
     end
 
-    it 'should decrement the xp multiplier' do
+    it 'decrements the xp multiplier' do
       user.increment_xp_multiplier!
       old_multiplier = user.xp_multiplier
       user.decrement_xp_multiplier!
       expect(user.reload.xp_multiplier).to be < old_multiplier
     end
 
-    it 'should not decrement xp_multiplier below 1' do
+    it 'does not decrement xp_multiplier below 1' do
       user.decrement_xp_multiplier!
       expect(user.reload.xp_multiplier).to eq(1)
     end
 
-    it 'should reset the xp_multiplier' do
+    it 'resets the xp_multiplier' do
       user.increment_xp_multiplier!
       user.reset_xp_multiplier!
       expect(user.reload.xp_multiplier).to eq(1)
     end
 
-    it 'should use the xp multiplier' do
+    it 'uses the xp multiplier' do
       user.increment_xp_multiplier!
       user.add_xp(10)
       expect(user.xp).to be > 10
     end
 
-    it 'should level up' do
+    it 'levels up' do
       user.add_xp(User::XP_PER_LEVEL + 1)
       expect(user.level).to eq(2)
     end
 
-    it 'should not level down' do
+    it 'does not level down' do
       user.add_xp(User::XP_PER_LEVEL + 1)
       user.remove_xp(10)
       user.add_xp(1)
@@ -143,19 +143,19 @@ RSpec.describe User, type: :model do
       expect(user.xp).to eq(User::XP_PER_LEVEL + 2)
     end
 
-    it 'should get current xp this level' do
+    it 'gets current xp this level' do
       user.add_xp(User::XP_PER_LEVEL * 1.75)
       expect(user.xp_this_level).to eq(User::XP_PER_LEVEL * 0.75)
     end
 
-    it 'should get progress to next level' do
+    it 'gets progress to next level' do
       user.add_xp(User::XP_PER_LEVEL * 1.75)
       expect(user.progress_to_level).to eq(0.75)
     end
   end
 
   describe 'rewards' do
-    let(:user) { FactoryBot.create(:user_with_tasks) }
+    let(:user) { create(:user_with_tasks) }
 
     it 'has rewards' do
       expect(user.rewards.first).to be_a(Reward)
@@ -184,12 +184,12 @@ RSpec.describe User, type: :model do
   end
 
   describe 'data privacy' do
-    let(:user) { FactoryBot.create(:user_with_tasks) }
+    let(:user) { create(:user_with_tasks) }
 
     it 'does not cascade delete roles' do
       role_id = user.role.id
       user.destroy
-      expect(Role.find_by(id: role_id)).to_not be_nil
+      expect(Role.find_by(id: role_id)).not_to be_nil
     end
 
     it 'cascade deletes tasks' do

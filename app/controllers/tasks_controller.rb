@@ -44,6 +44,6 @@ class TasksController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:name, :frequency, :size)
+    params.expect(task: [:name, :frequency, :size])
   end
 end

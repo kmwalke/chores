@@ -1,19 +1,20 @@
 require 'rails_helper'
 
 RSpec.feature 'Sessions', type: :feature do
-  let(:user) { FactoryBot.create(:user) }
+  let(:user) { create(:user) }
+
   scenario 'redirects to requested admin page', skip: 'not implemented' do
     visit users_path
-    expect(current_path).to eq(login_path)
+    expect(page).to have_current_path(login_path, ignore_query: true)
     login(user)
-    expect(current_path).to eq(users_path)
+    expect(page).to have_current_path(users_path, ignore_query: true)
   end
 
   describe 'logged out' do
     scenario 'login link' do
       visit root_path
       click_link 'Log In'
-      expect(current_path).to eq(login_path)
+      expect(page).to have_current_path(login_path, ignore_query: true)
     end
   end
 
@@ -24,7 +25,7 @@ RSpec.feature 'Sessions', type: :feature do
       fill_in 'Password', with: user.password
       click_button 'Log In'
       expect(page).to have_content('Log Out')
-      expect(current_path).to eq(root_path)
+      expect(page).to have_current_path(root_path, ignore_query: true)
     end
 
     scenario 'email with spaces' do
@@ -33,7 +34,7 @@ RSpec.feature 'Sessions', type: :feature do
       fill_in 'Password', with: user.password
       click_button 'Log In'
       expect(page).to have_content('Log Out')
-      expect(current_path).to eq(root_path)
+      expect(page).to have_current_path(root_path, ignore_query: true)
     end
 
     scenario 'Wrong Password' do
@@ -42,7 +43,7 @@ RSpec.feature 'Sessions', type: :feature do
       fill_in 'Password', with: 'Wrong Password'
       click_button 'Log In'
       expect(page).to have_content('Email or password is invalid')
-      expect(current_path).to eq(sessions_path)
+      expect(page).to have_current_path(sessions_path, ignore_query: true)
     end
 
     scenario 'Wrong Email' do
@@ -51,23 +52,23 @@ RSpec.feature 'Sessions', type: :feature do
       fill_in 'Password', with: user.password
       click_button 'Log In'
       expect(page).to have_content('Email or password is invalid')
-      expect(current_path).to eq(sessions_path)
+      expect(page).to have_current_path(sessions_path, ignore_query: true)
     end
   end
 
   describe 'logged in' do
-    before :each do
+    before do
       login(user)
     end
 
     scenario 'logs in' do
       expect(page).to have_content('Log Out')
-      expect(current_path).to eq(root_path)
+      expect(page).to have_current_path(root_path, ignore_query: true)
     end
 
     scenario 'logs out' do
       logout
-      expect(current_path).to eq(root_path)
+      expect(page).to have_current_path(root_path, ignore_query: true)
       expect(page).to have_content('Log In')
     end
   end

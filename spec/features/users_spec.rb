@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.feature 'Users', type: :feature do
-  let!(:user) { FactoryBot.create(:user) }
-  let(:admin) { FactoryBot.create(:user, role: FactoryBot.create(:role_admin)) }
+  let!(:user) { create(:user) }
+  let(:admin) { create(:user, role: create(:role_admin)) }
 
-  before :each do
+  before do
     login(admin)
   end
 
@@ -15,14 +15,14 @@ RSpec.feature 'Users', type: :feature do
   end
 
   scenario 'create a user' do
-    user2 = FactoryBot.build(:user, role: user.role)
+    user2 = build(:user, role: user.role)
     visit users_path
 
     click_link 'New User'
     fill_in_form(user2)
     click_button 'Create User'
 
-    expect(current_path).to eq(users_path)
+    expect(page).to have_current_path(users_path, ignore_query: true)
     expect(page).to have_content(user2.name)
   end
 
@@ -34,18 +34,18 @@ RSpec.feature 'Users', type: :feature do
     fill_in_form(user)
     click_button 'Update User'
 
-    expect(current_path).to eq(users_path)
+    expect(page).to have_current_path(users_path, ignore_query: true)
     expect(page).to have_content(user.name)
   end
 
   scenario 'delete a user' do
-    user2    = FactoryBot.create(:user)
+    user2    = create(:user)
     user2_id = user2.id
     visit users_path
 
     click_link "delete_#{user2.id}"
-    expect(current_path).to eq(users_path)
-    expect(User.find_by_id(user2_id)).to be_nil
+    expect(page).to have_current_path(users_path, ignore_query: true)
+    expect(User.find_by(id: user2_id)).to be_nil
   end
 
   def fill_in_form(user)

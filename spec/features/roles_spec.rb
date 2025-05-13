@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.feature 'Roles', type: :feature do
-  let!(:role) { FactoryBot.create(:role) }
-  let(:admin) { FactoryBot.create(:user, role: FactoryBot.create(:role_admin)) }
+  let!(:role) { create(:role) }
+  let(:admin) { create(:user, role: create(:role_admin)) }
 
-  before :each do
+  before do
     login(admin)
   end
 
@@ -14,8 +14,8 @@ RSpec.feature 'Roles', type: :feature do
   end
 
   scenario 'show a role' do
-    role.permissions << FactoryBot.create(:permission)
-    role.permissions << FactoryBot.create(:permission)
+    role.permissions << create(:permission)
+    role.permissions << create(:permission)
 
     visit role_path(role)
     expect(page).to have_content(role.name)
@@ -25,14 +25,14 @@ RSpec.feature 'Roles', type: :feature do
   end
 
   scenario 'create a role' do
-    role2 = FactoryBot.build(:role, permissions: role.permissions)
+    role2 = build(:role, permissions: role.permissions)
     visit roles_path
 
     click_link 'New Role'
     fill_in_form(role2)
     click_button 'Create Role'
 
-    expect(current_path).to eq(roles_path)
+    expect(page).to have_current_path(roles_path, ignore_query: true)
     expect(page).to have_content(role2.name)
   end
 
@@ -44,7 +44,7 @@ RSpec.feature 'Roles', type: :feature do
     fill_in_form(role)
     click_button 'Update Role'
 
-    expect(current_path).to eq(roles_path)
+    expect(page).to have_current_path(roles_path, ignore_query: true)
     expect(page).to have_content(role.name)
   end
 
@@ -53,8 +53,8 @@ RSpec.feature 'Roles', type: :feature do
     visit roles_path
 
     click_link "delete_#{role.id}"
-    expect(current_path).to eq(roles_path)
-    expect(Role.find_by_id(role_id)).to be_nil
+    expect(page).to have_current_path(roles_path, ignore_query: true)
+    expect(Role.find_by(id: role_id)).to be_nil
   end
 
   def fill_in_form(role)

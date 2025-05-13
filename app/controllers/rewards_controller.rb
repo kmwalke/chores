@@ -44,6 +44,6 @@ class RewardsController < ApplicationController
   end
 
   def reward_params
-    params.require(:reward).permit(:name)
+    params.expect(reward: [:name])
   end
 end

@@ -6,6 +6,6 @@ class Role < ApplicationRecord
 
   def feature?(name)
     feature = Feature.find_by(name: name.downcase)
-    permissions.select { |p| p.feature_id == feature.id }.any? unless feature.nil?
+    permissions.any? { |p| p.feature_id == feature.id } unless feature.nil?
   end
 end

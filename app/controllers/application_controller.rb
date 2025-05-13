@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
 
   def current_user
     if session[:user_id]
-      @current_user ||= User.find_by_id(session[:user_id])
+      @current_user ||= User.find_by(id: session[:user_id])
     else
       @current_user = nil
     end
@@ -39,7 +39,7 @@ class ApplicationController < ActionController::Base
   end
 
   def permission?
-    permission&.actions&.select { |a| a.name == action_name }&.any? || false
+    permission&.actions&.any? { |a| a.name == action_name } || false
   end
 
   def permission

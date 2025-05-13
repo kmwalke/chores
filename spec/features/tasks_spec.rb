@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 RSpec.feature 'Tasks', type: :feature do
-  let(:admin) { FactoryBot.create(:user, role: FactoryBot.create(:role_admin)) }
-  let!(:task) { FactoryBot.create(:task, user: admin) }
-  let(:user) { FactoryBot.create(:user) }
-  let!(:user_task) { FactoryBot.create(:task, user: user) }
+  let(:admin) { create(:user, role: create(:role_admin)) }
+  let!(:task) { create(:task, user: admin) }
+  let(:user) { create(:user) }
+  let!(:user_task) { create(:task, user: user) }
 
-  before :each do
+  before do
     login(admin)
   end
 
@@ -17,7 +17,7 @@ RSpec.feature 'Tasks', type: :feature do
 
   scenario 'not list other\'s tasks' do
     visit tasks_path
-    expect(page).not_to have_content(user_task.name)
+    expect(page).to have_no_content(user_task.name)
   end
 
   scenario 'show a task' do
@@ -27,18 +27,18 @@ RSpec.feature 'Tasks', type: :feature do
 
   scenario 'not show another\'s task' do
     visit task_path(user_task)
-    expect(current_path).to eq(tasks_path)
+    expect(page).to have_current_path(tasks_path, ignore_query: true)
   end
 
   scenario 'create a task' do
-    task2 = FactoryBot.build(:task)
+    task2 = build(:task)
     visit tasks_path
 
     click_link 'New Task'
     fill_in_form(task2)
     click_button 'Create Task'
 
-    expect(current_path).to eq(tasks_path)
+    expect(page).to have_current_path(tasks_path, ignore_query: true)
     expect(page).to have_content(task2.name)
     expect(Task.find_by(name: task2.name).user).to eq(admin)
   end
@@ -51,13 +51,13 @@ RSpec.feature 'Tasks', type: :feature do
     fill_in_form(task)
     click_button 'Update Task'
 
-    expect(current_path).to eq(tasks_path)
+    expect(page).to have_current_path(tasks_path, ignore_query: true)
     expect(page).to have_content(task.name)
   end
 
   scenario 'not edit another\'s task' do
     visit edit_task_path(user_task)
-    expect(current_path).to eq(tasks_path)
+    expect(page).to have_current_path(tasks_path, ignore_query: true)
   end
 
   scenario 'delete a task' do
@@ -65,8 +65,8 @@ RSpec.feature 'Tasks', type: :feature do
     visit tasks_path
 
     click_link "delete_#{task.id}"
-    expect(current_path).to eq(tasks_path)
-    expect(Task.find_by_id(task_id)).to be_nil
+    expect(page).to have_current_path(tasks_path, ignore_query: true)
+    expect(Task.find_by(id: task_id)).to be_nil
   end
 
   def fill_in_form(task)

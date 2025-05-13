@@ -2,7 +2,7 @@ class RolesController < ApplicationController
   before_action :set_role, only: [:show, :edit, :update, :destroy]
 
   def index
-    @roles = Role.all.order(:name)
+    @roles = Role.order(:name)
   end
 
   def show; end
@@ -49,6 +49,6 @@ class RolesController < ApplicationController
   end
 
   def role_params
-    params.require(:role).permit(:name, :description, permission_ids: [])
+    params.expect(role: [:name, :description, { permission_ids: [] }])
   end
 end
