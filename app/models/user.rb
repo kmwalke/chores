@@ -119,4 +119,12 @@ class User < ApplicationRecord
       instance.completed_at.nil?
     end
   end
+
+  def xp=(value)
+    super(value)
+  end
+
+  def xp_multiplier=(value)
+    super(value)
+  end
 end

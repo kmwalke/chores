@@ -20,4 +20,10 @@ class Task < ApplicationRecord
   def bonus_xp
     (xp * (user.xp_multiplier - 1)).to_i
   end
+
+  private
+
+  def xp=(value)
+    super(value)
+  end
 end
