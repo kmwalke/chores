@@ -1,7 +1,5 @@
-version: '3.4'
-
-x-chores-common:
-  &chores-common
+x-smc-common:
+  &smc-common
   build:
     context: .
     args:
@@ -10,43 +8,53 @@ x-chores-common:
       GID: ${GROUP_ID:-0}
   volumes:
     - .:/app
-    - chores-gems:/gems
+    - smc-gems:/gems
     - /app/node_modules
   stdin_open: true # docker run -i
   tty: true        # docker run -t
-  #    user: $USER
-  links:
-    - db
   environment:
-    DB_DEV: chores-development
+    DB_DEV: smc-development
     DB_HOST: db
-    DB_TEST: chores-test
+    DB_TEST: smc-test
     DB_USERNAME: postgres
+    GOOGLE_API_KEY: ${GOOGLE_API_KEY}
     REDIS_URL: redis://redis:6379
+    XERO_ID: ${XERO_ID}
+    XERO_SECRET: ${XERO_SECRET}
+
 
 services:
   web:
-    << : *chores-common
+    << : *smc-common
     command: "./script/start-dev.sh"
     ports:
       - "3000:3000"
-
-  worker:
-    << : *chores-common
-    command: bundle exec sidekiq -r . -C config/sidekiq.yml
+    depends_on:
+      - db
+      - redis
 
   db:
     image: postgres:11.5
     volumes:
-      - chores-data:/var/lib/postgresql/data
+      - smc-data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+
   redis:
-    image: redis:latest
+    image: redis:7-alpine
     ports:
       - "6379:6379"
+    volumes:
+      - ./tmp/redis_data:/var/lib/redis/data
 
+  sidekiq:
+    << : *smc-common
+    command: bundle exec sidekiq -r . -C config/sidekiq.yml
+    depends_on:
+      - db
+      - redis
+      - web
 
 volumes:
-  chores-data:
-  chores-gems:
+  smc-data:
+  smc-gems:
