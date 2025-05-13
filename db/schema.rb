@@ -10,10 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_26_233548) do
-
+ActiveRecord::Schema[8.0].define(version: 2021_01_26_233548) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension "pg_catalog.plpgsql"
 
   create_table "actions", force: :cascade do |t|
     t.string "name", null: false
@@ -29,8 +28,8 @@ ActiveRecord::Schema.define(version: 2021_01_26_233548) do
 
   create_table "features", force: :cascade do |t|
     t.string "name", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "permissions", force: :cascade do |t|
@@ -48,8 +47,8 @@ ActiveRecord::Schema.define(version: 2021_01_26_233548) do
   create_table "rewards", force: :cascade do |t|
     t.string "name", null: false
     t.integer "user_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.datetime "deleted_at"
   end
 
@@ -79,8 +78,8 @@ ActiveRecord::Schema.define(version: 2021_01_26_233548) do
     t.integer "frequency", null: false
     t.integer "size", null: false
     t.integer "xp", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.datetime "deleted_at"
   end
 
@@ -92,8 +91,8 @@ ActiveRecord::Schema.define(version: 2021_01_26_233548) do
     t.integer "xp", default: 0, null: false
     t.decimal "xp_multiplier", default: "1.0", null: false
     t.integer "role_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "next_reward_id"
     t.string "time_zone", default: "UTC", null: false
   end
