@@ -121,10 +121,10 @@ class User < ApplicationRecord
   end
 
   def xp=(value)
-    super(value)
+    super
   end
 
   def xp_multiplier=(value)
-    super(value)
+    super
   end
 end

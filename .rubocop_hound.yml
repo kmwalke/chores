@@ -47,6 +47,11 @@ Lint/RaiseException:
 Lint/StructNewOverride:
   Enabled: true
 
+Lint/UselessMethodDefinition:
+  Exclude:
+    - 'app/models/task.rb'
+    - 'app/models/user.rb'
+
 Metrics/AbcSize:
   Max: 25
 
@@ -74,6 +79,9 @@ Rails/CreateTableWithTimestamps:
   Enabled: false
 
 Rails/BulkChangeTable:
+  Enabled: false
+
+Rails/HasAndBelongsToMany:
   Enabled: false
 
 Rails/HasManyOrHasOneDependent:
