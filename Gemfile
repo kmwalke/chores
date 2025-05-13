@@ -5,7 +5,7 @@ ruby '3.4.3'
 
 gem 'bcrypt'
 gem 'bootsnap'
-# gem 'image_processing'
+gem 'image_processing'
 # gem 'pg'
 # gem 'puma'
 gem 'rails'
