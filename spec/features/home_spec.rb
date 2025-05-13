@@ -2,9 +2,15 @@ require 'rails_helper'
 
 RSpec.feature 'Home', type: :feature do
   describe 'logged out' do
-    scenario 'displays the homepage' do
+    before do
       visit root_path
+    end
+
+    scenario 'displays the log in link' do
       expect(page).to have_content('Log In')
+    end
+
+    scenario 'doesnt show tasks' do
       expect(page).to have_no_content('Tasks')
     end
   end
@@ -12,10 +18,16 @@ RSpec.feature 'Home', type: :feature do
   describe 'logged in with no tasks' do
     let(:user) { create(:user) }
 
-    scenario 'displays the homepage' do
+    before do
       login(user)
       visit root_path
+    end
+
+    scenario 'displays the user avatar' do
       expect(page).to have_content(user.avatar)
+    end
+
+    scenario 'displays the task link' do
       expect(page).to have_content('Tasks')
     end
   end
@@ -30,18 +42,25 @@ RSpec.feature 'Home', type: :feature do
       login(user)
     end
 
-    scenario 'displays the homepage' do
-      visit root_path
-      expect(page).to have_content(user.avatar)
-      expect(page).to have_content('Tasks')
-      expect(page).to have_content(user.next_reward.abbreviation)
-
-      user.task_list.each do |item|
-        expect(page).to have_content(item.task.name)
+    describe 'displays the homepage' do
+      before do
+        visit root_path
       end
 
-      user.earned_rewards.each do |reward|
-        expect(page).to have_content(reward.name)
+      scenario 'shows next reward' do
+        expect(page).to have_content(user.next_reward.abbreviation)
+      end
+
+      scenario 'lists tasks' do
+        user.task_list.each do |item|
+          expect(page).to have_content(item.task.name)
+        end
+      end
+
+      scenario 'lists rewards' do
+        user.earned_rewards.each do |reward|
+          expect(page).to have_content(reward.name)
+        end
       end
     end
 
@@ -57,21 +76,39 @@ RSpec.feature 'Home', type: :feature do
       expect(page).to have_content("x#{user.xp_multiplier}")
     end
 
-    scenario 'completes a task' do
-      instance = user.task_list.first
-      visit root_path
-      click_link instance.task.name
-      expect(page).to have_current_path(root_path, ignore_query: true)
-      expect(instance.reload.completed?).to be(true)
+    describe 'completes a task' do
+      let!(:instance) { user.task_list.first }
+
+      before do
+        visit root_path
+        click_link instance.task.name
+      end
+
+      scenario 'redirects to root' do
+        expect(page).to have_current_path(root_path, ignore_query: true)
+      end
+
+      scenario 'completes task' do
+        expect(instance.reload.completed?).to be(true)
+      end
     end
 
-    scenario 'uncompletes a task' do
-      instance = user.task_list.first
-      instance.complete!
-      visit root_path
-      click_link instance.task.name
-      expect(page).to have_current_path(root_path, ignore_query: true)
-      expect(instance.reload.completed?).to be(false)
+    describe 'uncompletes a task' do
+      let!(:instance) { user.task_list.first }
+
+      before do
+        instance.complete!
+        visit root_path
+        click_link instance.task.name
+      end
+
+      scenario 'redirects to root' do
+        expect(page).to have_current_path(root_path, ignore_query: true)
+      end
+
+      scenario 'uncompletes the task' do
+        expect(instance.reload.completed?).to be(false)
+      end
     end
 
     scenario 'add xp on task completion' do
@@ -82,13 +119,16 @@ RSpec.feature 'Home', type: :feature do
       expect(user.reload.xp).to be > old_xp
     end
 
-    scenario 'remove xp on task uncompletion' do
-      instance = user.task_list.first
-      instance.complete!
-      old_xp   = user.reload.xp
-      visit root_path
-      click_link instance.task.name
-      expect(user.reload.xp).to be < old_xp
+    describe 'remove xp on task uncompletion' do
+      let!(:instance) { user.task_list.first }
+
+      scenario 'recalculates xp' do
+        instance.complete!
+        old_xp = user.reload.xp
+        visit root_path
+        click_link instance.task.name
+        expect(user.reload.xp).to be < old_xp
+      end
     end
   end
 end
