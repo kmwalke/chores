@@ -1,4 +1,4 @@
-version: 2
+version: 3
 
 references:
   default_docker_ruby_executor: &default_docker_ruby_executor
@@ -11,10 +11,10 @@ references:
       PGUSER: postgres
       PGPASSWORD: ""
       RAILS_ENV: test
-      REDIS_URL: redis://redis:6379
       NODE_ENV: test
+      NODE_OPTIONS: --openssl-legacy-provider
   postgres: &postgres
-    image: circleci/postgres:9.5-alpine
+    image: cimg/postgres:13.8
     environment:
       POSTGRES_USER: postgres
       POSTGRES_DB: scraps-test
@@ -24,7 +24,6 @@ jobs:
   build:
     docker:
       - *default_docker_ruby_executor
-      - image: redis:3.2.9
     steps:
       - checkout
       - run:
@@ -47,28 +46,11 @@ jobs:
           key: chores-bundle-v2-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
-      # Only necessary if app uses webpacker or yarn in some other way
-      - restore_cache:
-          keys:
-            - chores-yarn-{{ checksum "yarn.lock" }}
-            - chores-yarn-
-      - run:
-          name: Yarn Install
-          command: yarn install --cache-folder ~/.cache/yarn
-      - run:
-          name: Webpacker Compile
-          command: bundle exec rails webpacker:compile
-      # Store yarn / webpacker cache
-      - save_cache:
-          key: chores-yarn-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
   test:
     parallelism: 1
     docker:
       - *default_docker_ruby_executor
       - *postgres
-      - image: redis:3.2.9
     steps:
       - checkout
       - restore_cache:
@@ -78,22 +60,12 @@ jobs:
       - run:
           name: Bundle Install
           command: bundle check || bundle install
-      - restore_cache:
-          keys:
-            - chores-yarn-{{ checksum "yarn.lock" }}
-            - chores-yarn-
-      - run:
-          name: Yarn Install
-          command: yarn install --cache-folder ~/.cache/yarn
       - run:
           name: Wait for DB
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
       - run:
           name: Database setup
           command: bundle exec rails db:schema:load --trace
-      - run:
-          name: Webpacker Compile
-          command: bundle exec rails webpacker:compile
       # Run rspec in parallel
       - run:
           name: Run Tests
