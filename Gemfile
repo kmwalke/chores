@@ -13,7 +13,6 @@ gem 'sass-rails'
 gem 'sidekiq'
 gem 'sidekiq-cron'
 gem 'turbolinks'
-gem 'webpacker'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

@@ -2,7 +2,7 @@ version: 2
 
 references:
   default_docker_ruby_executor: &default_docker_ruby_executor
-    image: circleci/ruby:3.4.3
+    image: cimg/ruby:3.4.3
     environment:
       BUNDLE_JOBS: 3
       BUNDLE_RETRY: 3
