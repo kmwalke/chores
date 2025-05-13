@@ -149,6 +149,9 @@ Style/RedundantRegexpCharacterClass:
 Style/RedundantRegexpEscape:
   Enabled: true
 
+Style/SafeNavigationChainLength:
+  Enabled: false
+
 Style/SlicingWithRange:
   Enabled: true
 
