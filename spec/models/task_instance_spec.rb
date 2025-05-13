@@ -9,29 +9,66 @@ RSpec.describe TaskInstance, type: :model do
 
   it 'defaults to not completed' do
     expect(instance.completed?).to be(false)
+  end
+
+  it 'defaults completed_at to nil' do
     expect(instance.completed_at).to be_nil
   end
 
-  it 'is completed' do
-    instance.complete!
-    expect(instance.reload.completed?).to be(true)
-    expect(instance.completed_at.class).to eq(ActiveSupport::TimeWithZone)
+  describe 'completed' do
+    before do
+      instance.complete!
+    end
+
+    it 'is completed' do
+      expect(instance.reload.completed?).to be(true)
+    end
+
+    it 'sets completed_at' do
+      expect(instance.completed_at.class).to eq(ActiveSupport::TimeWithZone)
+    end
   end
 
-  it 'is uncompleted' do
-    instance.uncomplete!
-    expect(instance.reload.completed?).to be(false)
-    expect(instance.completed_at).to be_nil
+  describe 'uncompleted' do
+    before do
+      instance.uncomplete!
+    end
+
+    it 'is uncompleted' do
+      expect(instance.reload.completed?).to be(false)
+    end
+
+    it 'sets completed_at to nil' do
+      expect(instance.completed_at).to be_nil
+    end
   end
 
-  it 'toggles completion' do
-    instance.toggle_complete!
-    expect(instance.reload.completed?).to be(true)
-    expect(instance.completed_at.class).to eq(ActiveSupport::TimeWithZone)
+  describe 'toggling completion' do
+    before do
+      instance.toggle_complete!
+    end
 
-    instance.toggle_complete!
-    expect(instance.reload.completed?).to be(false)
-    expect(instance.completed_at).to be_nil
+    it 'toggles completion on' do
+      expect(instance.reload.completed?).to be(true)
+    end
+
+    it 'sets completed_at' do
+      expect(instance.completed_at.class).to eq(ActiveSupport::TimeWithZone)
+    end
+
+    describe 'toggling again' do
+      before do
+        instance.toggle_complete!
+      end
+
+      it 'toggles completion off' do
+        expect(instance.reload.completed?).to be(false)
+      end
+
+      it 'sets completed_at to nil' do
+        expect(instance.completed_at).to be_nil
+      end
+    end
   end
 
   it 'adds xp when completed' do

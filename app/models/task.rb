@@ -1,6 +1,7 @@
 class Task < ApplicationRecord
   include SoftDeletable
 
+  # @TODO: extract this and other constants to a settings object?
   XP_FACTOR = 10
 
   belongs_to :user
@@ -24,6 +25,6 @@ class Task < ApplicationRecord
   private
 
   def xp=(value)
-    super(value)
+    super
   end
 end

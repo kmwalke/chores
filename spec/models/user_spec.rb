@@ -36,7 +36,6 @@ RSpec.describe User, type: :model do
     it 'uses an algorithm to build a list', skip: 'not implemented' do
       # Replace the Random select in user.instantiate_tasks with an algorithm.
       # Select a mix of large and small tasks to give a set amount of xp/day
-      expect(true).to be(false)
     end
 
     it 'does not instantiate twice' do

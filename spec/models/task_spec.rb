@@ -40,8 +40,9 @@ RSpec.describe Task, type: :model do
   end
 
   it 'updates the xp value' do
-    old_xp = task.xp
-    task.update_attribute(:size, task.size + 1)
+    old_xp     = task.xp
+    task.size += 1
+    task.save
     expect(task.xp > old_xp).to be(true)
   end
 
