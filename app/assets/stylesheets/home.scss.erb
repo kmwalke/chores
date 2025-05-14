@@ -124,29 +124,53 @@ body.home {
     }
 
     ul.task-list {
+      border: 1px solid black;
+      padding: 0;
+      li.checked {
+        a {
+          background: $blue;
+          border: 3px inset $black;
+
+          label {
+            color: $grey;
+          }
+        }
+      }
+
       li {
         list-style: none;
+        display: inline-block;
+        width: 30%;
+        margin-bottom: 1em;
+        margin-right: 1.5em;
 
         a {
+          display: inline-block;
           text-decoration: none;
           font-size: x-large;
           line-height: 1em;
+          width: 100%;
+          background: lighten($blue, 10%);
+          padding: .25em;
+          border: 3px outset $black;
+          vertical-align: top;
 
           * {
             pointer-events: none
           }
+
           input {
-            display: inline-block;
+            display: none;
           }
 
           label {
             display: inline-block;
-            color: $black;
+            color: $white;
           }
 
           span {
             font-size: medium;
-            color: lighten($black, 50%);
+            color: $grey;
           }
 
           input:checked + label {
