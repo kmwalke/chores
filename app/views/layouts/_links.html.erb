@@ -1,0 +1,14 @@
+<div class="links">
+  <div class="hamburger">
+    <span>_</span>
+    <span>_</span>
+    <span>_</span>
+  </div>
+  <div class="links-list">
+    <% if current_user %>
+      <%= render partial: 'layouts/user_links' %>
+    <% else %>
+      <%= render partial: 'layouts/guest_links' %>
+    <% end %>
+  </div>
+</div>

@@ -9,6 +9,8 @@ $red: #bb1515;
 $tan: #f3f1df;
 $white: white;
 
+$phone-width: 1000px;
+
 @mixin rounded-corners($radius) {
   border-radius: $radius;
   -moz-border-radius: $radius;

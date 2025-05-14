@@ -10,11 +10,7 @@
 
   <body class="<%= controller.controller_name%>">
 
-    <% if current_user %>
-      <%= render partial: 'layouts/user_links' %>
-    <% else %>
-      <%= render partial: 'layouts/guest_links' %>
-    <% end %>
+    <%= render partial: 'layouts/links' %>
     <p class=”notice”><%= notice %></p>
 
     <div class="content">
