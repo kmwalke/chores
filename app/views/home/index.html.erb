@@ -20,7 +20,7 @@
   <h1>Tasks</h1>
   <ul class="task-list">
     <% @task_list.each do |instance| %>
-      <li>
+      <li<%= ' class=checked' if instance.completed? %>>
         <a href="<%= complete_task_instance_path(instance) %>">
         <input type="checkbox" id="task_<%= instance.id %>" <% if instance.completed? %>checked<% end %>/>
         <label for="task_<%= instance.id %>">
