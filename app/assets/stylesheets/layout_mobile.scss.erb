@@ -1,17 +1,19 @@
 @import 'variables';
 
+$menu-border: 5px solid darken($brown, 20%);
+
 @media screen and (max-width: $phone-width) {
   html {
     body {
 
       div.links {
-        z-index: 100;
 
         div.hamburger, div.links-list {
           transition: opacity .35s, visibility .35s, width .35s;
         }
 
         div.hamburger {
+          border: 1px solid black;
           display: inline-block;
 
           span {
@@ -31,13 +33,15 @@
           left: 0;
           width: 20%;
           height: 100%;
-          background: lighten($black, 30%);
-          border-right: 5px solid darken($brown, 20%);
+          background: lighten($black, 20%);
+          border-right: $menu-border;
 
           a {
             display: block;
             color: $white;
             font-size: xx-large;
+            text-decoration: none;
+            border-bottom: $menu-border;
           }
 
           a:visited {
@@ -50,7 +54,7 @@
         }
       }
 
-      div.links:focus, div.links:focus-within {
+      div.links:hover, div.links:focus-within {
         div.links-list {
           visibility: visible;
           opacity: 1;
