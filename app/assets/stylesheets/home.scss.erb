@@ -2,7 +2,8 @@
 
 body.home {
   div.content {
-    width: 40em;
+    width: 100%;
+    max-width: $phone-width;
     border: 1px solid black;
 
     a {
@@ -127,6 +128,10 @@ body.home {
         list-style: none;
 
         a {
+          text-decoration: none;
+          font-size: x-large;
+          line-height: 1em;
+
           * {
             pointer-events: none
           }
@@ -140,7 +145,7 @@ body.home {
           }
 
           span {
-            font-size: smaller;
+            font-size: medium;
             color: lighten($black, 50%);
           }
 
@@ -150,7 +155,11 @@ body.home {
         }
 
         a:hover {
-          background-color: $white;
+          background-color: $black;
+
+          label, span {
+            color: $white;
+          }
         }
       }
     }
